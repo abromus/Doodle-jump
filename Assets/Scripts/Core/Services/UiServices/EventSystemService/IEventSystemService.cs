@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace DoodleJump.Core.Services
 {
-    internal interface IEventSystemService : IService
+    public interface IEventSystemService : IService
     {
         public bool AddTo(Scene scene);
 

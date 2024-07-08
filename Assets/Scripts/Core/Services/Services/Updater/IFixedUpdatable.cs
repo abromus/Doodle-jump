@@ -1,7 +1,7 @@
 namespace DoodleJump.Core.Services
 {
-    internal interface IFixedUpdatable
+    public interface IFixedUpdatable
     {
-        internal void FixedTick(float deltaTime);
+        public void FixedTick(float deltaTime);
     }
 }

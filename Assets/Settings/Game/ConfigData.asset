@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c499ad70ce67e40a18d6b68dc69dd3, type: 3}
   m_Name: ConfigData
   m_EditorClassIdentifier: 
+  _cameraConfig: {fileID: 11400000, guid: c2ffb6e407801604594f27550b337957, type: 2}
+  _doodlerConfig: {fileID: 11400000, guid: 3499118bf17427e4698307ae9ad12f36, type: 2}

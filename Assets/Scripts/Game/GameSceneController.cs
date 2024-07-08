@@ -20,11 +20,9 @@ namespace DoodleJump.Game
             _game = new Game(gameData);
 
             InitializeConfigs();
-
             InitializeServices();
-
             InitializeFactories();
-            CreateMST();
+
             _game.Run();
         }
 

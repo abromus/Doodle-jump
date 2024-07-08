@@ -1,4 +1,4 @@
 namespace DoodleJump.Core.Services
 {
-    internal interface IState { }
+    public interface IState { }
 }

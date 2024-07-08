@@ -21,6 +21,9 @@ namespace DoodleJump.Game.Initializers
         private void InitConfigs()
         {
             var storage = _game.GameData.ConfigStorage;
+
+            storage.AddConfig(_configData.CameraConfig);
+            storage.AddConfig(_configData.DoodlerConfig);
         }
     }
 }

@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace DoodleJump.Core
 {
-    internal static class UnityUtils
+    public static class UnityUtils
     {
-        internal static void RemoveCloneSuffix(this GameObject value)
+        public static void RemoveCloneSuffix(this GameObject value)
         {
             if (value == null)
                 return;

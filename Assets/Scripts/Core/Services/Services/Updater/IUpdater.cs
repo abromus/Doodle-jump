@@ -1,6 +1,6 @@
 namespace DoodleJump.Core.Services
 {
-    internal interface IUpdater : IService
+    public interface IUpdater : IService
     {
         public void AddUpdatable(IUpdatable updatable);
 

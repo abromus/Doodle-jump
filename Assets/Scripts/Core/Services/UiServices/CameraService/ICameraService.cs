@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DoodleJump.Core.Services
 {
-    internal interface ICameraService : IService
+    public interface ICameraService : IService
     {
         public Camera Camera { get; }
 

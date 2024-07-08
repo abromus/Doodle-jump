@@ -1,7 +1,7 @@
 namespace DoodleJump.Core
 {
-    internal interface IPoolable
+    public interface IPoolable
     {
-        internal void Clear();
+        public void Clear();
     }
 }
