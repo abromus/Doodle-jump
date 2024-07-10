@@ -14,8 +14,6 @@ namespace DoodleJump.Core.Services
 
         public Camera Camera => _camera;
 
-        public bool IsAttached => _camera.transform.parent != _container;
-
         public event Action<Transform> Attached;
 
         public void Init(Transform container)
@@ -34,6 +32,9 @@ namespace DoodleJump.Core.Services
 
         public void Detach()
         {
+            if (_camera == null)
+                return;
+
             _camera.transform.SetParent(_container);
 
             Attached.SafeInvoke(_container);

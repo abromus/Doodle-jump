@@ -6,6 +6,7 @@ namespace DoodleJump.Core.Services
     {
         private readonly List<IUpdatable> _updatables = new(256);
         private readonly List<IFixedUpdatable> _fixedUpdatables = new(256);
+        private readonly List<ILateUpdatable> _lateUpdatables = new(256);
 
         public void AddUpdatable(IUpdatable updatable)
         {
@@ -31,6 +32,18 @@ namespace DoodleJump.Core.Services
                 _fixedUpdatables.Remove(updatable);
         }
 
+        public void AddLateUpdatable(ILateUpdatable updatable)
+        {
+            if (_lateUpdatables.Contains(updatable) == false)
+                _lateUpdatables.Add(updatable);
+        }
+
+        public void RemoveLateUpdatable(ILateUpdatable updatable)
+        {
+            if (_lateUpdatables.Contains(updatable))
+                _lateUpdatables.Remove(updatable);
+        }
+
         public void Tick(float deltaTime)
         {
             for (int i = 0; i < _updatables.Count; i++)
@@ -43,10 +56,17 @@ namespace DoodleJump.Core.Services
                 _fixedUpdatables[i].FixedTick(deltaTime);
         }
 
+        public void LateTick(float deltaTime)
+        {
+            for (int i = 0; i < _lateUpdatables.Count; i++)
+                _lateUpdatables[i].LateTick(deltaTime);
+        }
+
         public void Destroy()
         {
             _updatables.Clear();
             _fixedUpdatables.Clear();
+            _lateUpdatables.Clear();
         }
     }
 }

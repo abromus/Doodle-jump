@@ -41,6 +41,11 @@ namespace DoodleJump.Core
             _updater.FixedTick(Time.fixedDeltaTime);
         }
 
+        private void LateUpdate()
+        {
+            _updater.LateTick(Time.deltaTime);
+        }
+
         private void EnterInitState()
         {
             _gameData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();

@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Entities
         private IDoodlerInput _doodlerInput;
         private ICameraService _cameraService;
         private IDoodlerMovement _movement;
+        private IDoodlerCameraFollower _cameraFollower;
         //private IDoodlerAnimator _animator;
 
         public GameObject GameObject => gameObject;
@@ -22,7 +23,7 @@ namespace DoodleJump.Game.Entities
             _updater = args.Updater;
             _cameraService = args.CameraService;
 
-            _cameraService.AttachTo(transform);
+            _cameraService.AttachTo(transform.parent);
 
             InitCamera(args.CameraConfig);
             InitServices(args);
@@ -44,6 +45,11 @@ namespace DoodleJump.Game.Entities
         {
             _movement.FixedTick(deltaTime);
             //_animator.FixedTick(deltaTime);
+        }
+
+        public void LateTick(float deltaTime)
+        {
+            _cameraFollower.LateTick(deltaTime);
         }
 
         public void Destroy()
@@ -74,6 +80,7 @@ namespace DoodleJump.Game.Entities
                 doodlerConfig);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
+            _cameraFollower = new DoodlerCameraFollower(transform, _cameraService.Camera.transform);
             //_animator = new DoodlerAnimator(_doodlerAnimator, _movement);
         }
 
@@ -81,12 +88,14 @@ namespace DoodleJump.Game.Entities
         {
             _updater.AddUpdatable(this);
             _updater.AddFixedUpdatable(this);
+            _updater.AddLateUpdatable(this);
         }
 
         private void Unsubscribe()
         {
             _updater.RemoveUpdatable(this);
             _updater.RemoveFixedUpdatable(this);
+            _updater.RemoveLateUpdatable(this);
         }
     }
 }

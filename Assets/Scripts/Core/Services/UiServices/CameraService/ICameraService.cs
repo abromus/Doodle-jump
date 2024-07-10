@@ -7,8 +7,6 @@ namespace DoodleJump.Core.Services
     {
         public Camera Camera { get; }
 
-        public bool IsAttached { get; }
-
         public event Action<Transform> Attached;
 
         public void Init(Transform container);
