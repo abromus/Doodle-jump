@@ -40,7 +40,7 @@ namespace DoodleJump.Game.Worlds
             _highestPlatformY = _doodlerTransform.position.y - _screenRect.height / 2f;
             _pool = new ObjectPool<IPlatform>(CreatePlatform, _generatorConfig.PlatformCount);
 
-            GeneratePlatform();
+            TryGeneratePlatform();
 
             GeneratePlatforms();
         }
@@ -63,26 +63,52 @@ namespace DoodleJump.Game.Worlds
             return platform;
         }
 
+        private void TryGeneratePlatform()
+        {
+            GenerateNextPosition();
+
+            var positionY = _currentPlatformPosition.y;
+
+            if (IsIntersectedPlatforms(_currentPlatformPosition))
+                return;
+
+            GeneratePlatform();
+            CheckHighestPosition(positionY);
+        }
+
         private void GeneratePlatform()
         {
-            var positionY = _highestPlatformY + Random.Range(_minY, _maxY);
-
-            _currentPlatformPosition.y = positionY;
-            _currentPlatformPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
-
             var platform = _pool.Get();
             platform.Init(_currentPlatformPosition);
 
-            if (_highestPlatformY < positionY)
-                _highestPlatformY = positionY;
-
             _platforms.Add(platform);
+        }
+
+        private void GenerateNextPosition()
+        {
+            _currentPlatformPosition.y = _highestPlatformY + Random.Range(_minY, _maxY);
+            _currentPlatformPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
+        }
+
+        private void CheckHighestPosition(float y)
+        {
+            if (_highestPlatformY < y)
+                _highestPlatformY = y;
+        }
+
+        private bool IsIntersectedPlatforms(Vector3 currentPlatformPosition)
+        {
+            foreach (var platform in _platforms)
+                if (platform.IsIntersectedArea(currentPlatformPosition, _generatorConfig.PlatformPrefab.Size))
+                    return true;
+
+            return false;
         }
 
         private void GeneratePlatforms()
         {
             for (int i = 0; i < _generatorConfig.PlatformCount; i++)
-                GeneratePlatform();
+                TryGeneratePlatform();
         }
 
         private void CheckDoodlerPosition()
@@ -118,11 +144,7 @@ namespace DoodleJump.Game.Worlds
             var yMin = bottomLeft.y;
             var yMax = topRight.y;
 
-            return Rect.MinMaxRect(
-                xMin < 0f ? xMin : -xMin,
-                yMin < 0f ? yMin : -yMin,
-                0f < xMax ? xMax : -xMax,
-                0f < yMax ? yMax : -yMax);
+            return Rect.MinMaxRect(xMin, yMin, xMax, yMax);
         }
     }
 }

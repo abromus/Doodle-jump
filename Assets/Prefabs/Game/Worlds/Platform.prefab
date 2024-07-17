@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab68b2a3fbb5e5241b09e9eb1ece1151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _size: {x: 1.36, y: 0.25}
   _jumpForce: 8
 --- !u!212 &792228342339114408
 SpriteRenderer:
@@ -137,7 +138,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
+  m_SurfaceArc: 359
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
