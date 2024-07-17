@@ -4,5 +4,6 @@ namespace DoodleJump.Core.Factories
     {
         GameSceneControllerFactory,
         DoodlerFactory,
+        WorldFactory,
     }
 }

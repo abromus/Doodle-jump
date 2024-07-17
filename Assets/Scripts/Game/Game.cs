@@ -1,11 +1,13 @@
 using DoodleJump.Core;
-using DoodleJump.Game.Entities;
+using DoodleJump.Game.Worlds.Entities;
 using DoodleJump.Game.Factories;
+using DoodleJump.Game.Worlds;
 
 namespace DoodleJump.Game
 {
     internal sealed class Game : IGame
     {
+        private IWorld _world;
         private IDoodler _doodler;
 
         private readonly IGameData _gameData;
@@ -19,8 +21,8 @@ namespace DoodleJump.Game
 
         public void Run()
         {
-            CreateWorld();
             CreateDoodler();
+            CreateWorld();
         }
 
         public void Destroy()
@@ -31,6 +33,9 @@ namespace DoodleJump.Game
 
         private void CreateWorld()
         {
+            var factory = _gameData.FactoryStorage.GetWorldFactory();
+
+            _world = factory.CreateWorld(_doodler);
         }
 
         private void CreateDoodler()
@@ -42,6 +47,8 @@ namespace DoodleJump.Game
 
         private void DestroyWorld()
         {
+            _world?.Destroy();
+            _world = null;
         }
 
         private void DestroyDoodler()

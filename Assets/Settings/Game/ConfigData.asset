@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraConfig: {fileID: 11400000, guid: c2ffb6e407801604594f27550b337957, type: 2}
   _doodlerConfig: {fileID: 11400000, guid: 3499118bf17427e4698307ae9ad12f36, type: 2}
+  _generatorConfig: {fileID: 11400000, guid: 07a6e6ad90aa60f4885bf4ec0bdad24a, type: 2}

@@ -5,5 +5,7 @@ namespace DoodleJump.Game.Settings
         public ICameraConfig CameraConfig { get; }
 
         public IDoodlerConfig DoodlerConfig { get; }
+
+        public IGeneratorConfig GeneratorConfig { get; }
     }
 }

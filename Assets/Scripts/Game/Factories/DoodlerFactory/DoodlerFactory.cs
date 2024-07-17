@@ -1,7 +1,6 @@
 using DoodleJump.Core;
 using DoodleJump.Core.Factories;
-using DoodleJump.Core.Services;
-using DoodleJump.Game.Entities;
+using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
 namespace DoodleJump.Game.Factories

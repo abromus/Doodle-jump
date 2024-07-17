@@ -3,26 +3,16 @@ using System.Collections.Generic;
 
 namespace DoodleJump.Core
 {
-    internal sealed class ObjectPool<T> : IDisposable, IObjectPool<T> where T : class
+    public sealed class ObjectPool<T> : IObjectPool<T> where T : class
     {
         private readonly List<T> _objects;
         private readonly Func<T> _createFunc;
 
-        internal ObjectPool(Func<T> createFunc, int capacity = 10)
+        public ObjectPool(Func<T> createFunc, int capacity = 10)
         {
             _createFunc = createFunc ?? throw new ArgumentNullException(nameof(createFunc));
 
             _objects = new List<T>(capacity);
-        }
-
-        public void Clear()
-        {
-            _objects.Clear();
-        }
-
-        public void Dispose()
-        {
-            Clear();
         }
 
         public T Get()
@@ -47,6 +37,11 @@ namespace DoodleJump.Core
         public void Release(T pooledObject)
         {
             _objects.Add(pooledObject);
+        }
+
+        public void Destroy()
+        {
+            _objects.Clear();
         }
     }
 }

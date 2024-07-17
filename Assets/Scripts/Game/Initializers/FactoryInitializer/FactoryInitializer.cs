@@ -3,7 +3,6 @@ using DoodleJump.Core.Factories;
 using DoodleJump.Core.Services;
 using DoodleJump.Core.Settings;
 using DoodleJump.Game.Factories;
-using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Initializers
@@ -33,6 +32,7 @@ namespace DoodleJump.Game.Initializers
             var uiFactories = configStorage.GetUiFactoryConfig().UiFactories;
 
             InitDoodlerFactory(configStorage, serviceStorage, uiFactories);
+            InitWorldFactory(configStorage, serviceStorage, uiFactories);
         }
 
         private void InitDoodlerFactory(IConfigStorage configStorage, IServiceStorage serviceStorage, IReadOnlyList<IUiFactory> uiFactories)
@@ -42,7 +42,7 @@ namespace DoodleJump.Game.Initializers
             var cameraService = serviceStorage.GetCameraService();
             var cameraConfig = configStorage.GetCameraConfig();
             var doodlerConfig = configStorage.GetDoodlerConfig();
-            var args = new Entities.DoodlerArgs(
+            var args = new Worlds.Entities.DoodlerArgs(
                 updater,
                 inputService,
                 cameraService,
@@ -51,6 +51,17 @@ namespace DoodleJump.Game.Initializers
 
             var factory = uiFactories.GetDoodlerFactory();
             factory.Init(args);
+
+            _factoryStorage.AddFactory(factory);
+        }
+
+        private void InitWorldFactory(IConfigStorage configStorage, IServiceStorage serviceStorage, IReadOnlyList<IUiFactory> uiFactories)
+        {
+            var updater = serviceStorage.GetUpdater();
+            var cameraService = serviceStorage.GetCameraService();
+            var factory = uiFactories.GetWorldFactory();
+            var generatorConfig = configStorage.GetGeneratorConfig();
+            factory.Init(updater, cameraService, generatorConfig);
 
             _factoryStorage.AddFactory(factory);
         }
