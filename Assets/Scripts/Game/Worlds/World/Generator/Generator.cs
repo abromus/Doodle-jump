@@ -9,7 +9,7 @@ namespace DoodleJump.Game.Worlds
         private readonly IPlatformStorage _platformStorage;
         private readonly ITriggerExecutor _triggerExecutor;
 
-        internal Generator(WorldArgs args)
+        internal Generator(WorldArgs args, Transform platformsContainer)
         {
             _screenRect = args.CameraService.GetScreenRect();
 
@@ -17,7 +17,7 @@ namespace DoodleJump.Game.Worlds
 
             var platformsConfig = args.PlatformsConfig;
 
-            _platformStorage = new PlatformStorage(args.WorldFactory, args.GeneratorConfig, platformsConfig, _doodlerTransform, _screenRect);
+            _platformStorage = new PlatformStorage(args.WorldFactory, args.GeneratorConfig, platformsConfig, platformsContainer, _doodlerTransform, _screenRect);
             _platformStorage.Collided += OnCollided;
 
             _triggerExecutor = new TriggerExecutor(args.TriggerFactory, platformsConfig);

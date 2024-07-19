@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Worlds
 
         private readonly IWorldFactory _worldFactory;
         private readonly IPlatformsConfig _platformsConfig;
+        private readonly Transform _platformsContainer;
         private readonly Rect _screenRect;
 
         private readonly int _platformCount;
@@ -30,14 +31,15 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IPlatform> Collided;
 
-        public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform doodlerTransform, Rect screenRect)
+        public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Transform doodlerTransform, Rect screenRect)
         {
             _worldFactory = worldFactory;
             _platformsConfig = platformsConfig;
+            _platformsContainer = platformsContainer;
+            _doodlerTransform = doodlerTransform;
             _screenRect = screenRect;
 
             _platformCount = generatorConfig.PlatformCount;
-            _doodlerTransform = doodlerTransform;
             _highestPlatformY = _doodlerTransform.position.y - _screenRect.height / 2f;
             _minY = generatorConfig.MinY;
             _maxY = generatorConfig.MaxY;
@@ -115,7 +117,7 @@ namespace DoodleJump.Game.Worlds
 
         private IPlatform CreatePlatform(Platform platformPrefab)
         {
-            var platform = _worldFactory.CreatePlatform(platformPrefab);
+            var platform = _worldFactory.CreatePlatform(platformPrefab, _platformsContainer);
 
             return platform;
         }

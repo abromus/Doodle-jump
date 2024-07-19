@@ -4,6 +4,8 @@ namespace DoodleJump.Game.Worlds
 {
     internal class World : MonoBehaviour, IWorld
     {
+        [SerializeField] private Transform _platformsContainer;
+
         private WorldArgs _args;
         private IGenerator _generator;
 
@@ -33,7 +35,7 @@ namespace DoodleJump.Game.Worlds
 
         private void InitGenerator()
         {
-            _generator = new Generator(_args);
+            _generator = new Generator(_args, _platformsContainer);
         }
 
         private void Subscribe()

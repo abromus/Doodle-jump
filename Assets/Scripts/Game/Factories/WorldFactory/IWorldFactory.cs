@@ -3,6 +3,7 @@ using DoodleJump.Core.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds;
 using DoodleJump.Game.Worlds.Entities;
+using UnityEngine;
 
 namespace DoodleJump.Game.Factories
 {
@@ -12,6 +13,6 @@ namespace DoodleJump.Game.Factories
 
         public IWorld CreateWorld(IDoodler doodler);
 
-        public IPlatform CreatePlatform(Platform platformPrefab);
+        public IPlatform CreatePlatform(Platform prefab, Transform container);
     }
 }

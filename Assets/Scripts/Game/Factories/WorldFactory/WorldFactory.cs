@@ -39,9 +39,9 @@ namespace DoodleJump.Game.Factories
             return world;
         }
 
-        public IPlatform CreatePlatform(Platform platformPrefab)
+        public IPlatform CreatePlatform(Platform prefab, Transform container)
         {
-            var platform = Instantiate(platformPrefab);
+            var platform = Instantiate(prefab, container);
             platform.gameObject.RemoveCloneSuffix();
 
             return platform;
