@@ -14,21 +14,26 @@ namespace DoodleJump.Game.Factories
 
         private IUpdater _updater;
         private ICameraService _cameraService;
+        private ITriggerFactory _triggerFactory;
         private IGeneratorConfig _generatorConfig;
+        private IPlatformsConfig _platformsConfig;
 
         public override UiFactoryType UiFactoryType => UiFactoryType.WorldFactory;
 
-        public void Init(IUpdater updater, ICameraService cameraService, IGeneratorConfig generatorConfig)
+        public void Init(IUpdater updater, ICameraService cameraService, ITriggerFactory triggerFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig)
         {
             _updater = updater;
             _cameraService = cameraService;
+            _triggerFactory = triggerFactory;
             _generatorConfig = generatorConfig;
+            _platformsConfig = platformsConfig;
         }
 
         public IWorld CreateWorld(IDoodler doodler)
         {
+            var args = new WorldArgs(_updater, _cameraService, this, _triggerFactory, doodler, _generatorConfig, _platformsConfig);
             var world = Instantiate(_world);
-            world.Init(_updater, _cameraService, this, doodler, _generatorConfig);
+            world.Init(args);
             world.gameObject.RemoveCloneSuffix();
 
             return world;

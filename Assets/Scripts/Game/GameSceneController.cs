@@ -53,9 +53,5 @@ namespace DoodleJump.Game
             _factoryInitializer = new FactoryInitializer(_game);
             _factoryInitializer.Initialize();
         }
-
-        private void CreateMST()
-        {
-        }
     }
 }

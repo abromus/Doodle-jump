@@ -14,6 +14,12 @@ namespace DoodleJump.Game.Factories
         {
             return uiFactories.GetFactory<IDoodlerFactory>(UiFactoryType.DoodlerFactory);
         }
+
+        internal static ITriggerFactory GetTriggerFactory(this IFactoryStorage factoryStorage)
+        {
+            return factoryStorage.GetFactory<ITriggerFactory>();
+        }
+
         internal static IWorldFactory GetWorldFactory(this IFactoryStorage factoryStorage)
         {
             return factoryStorage.GetFactory<IWorldFactory>();

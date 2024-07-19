@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -9,9 +10,17 @@ namespace DoodleJump.Game.Worlds
         private float _yMin;
         private float _yMax;
 
+        private readonly float _half = 0.5f;
+
+        public abstract int Id { get; }
+
         public abstract Vector2 Size { get; }
 
         public Vector3 Position => transform.position;
+
+        public abstract event Action<IPlatform> Collided;
+
+        public abstract event Action<IPlatform> Destroyed;
 
         public void Init(Vector3 position)
         {
@@ -19,8 +28,8 @@ namespace DoodleJump.Game.Worlds
 
             var xCenter = position.x;
             var yCenter = position.y;
-            var xOffset = Size.x / 2f;
-            var yOffset = Size.y / 2f;
+            var xOffset = Size.x * _half;
+            var yOffset = Size.y * _half;
 
             _xMin = xCenter - xOffset;
             _xMax = xCenter + xOffset;
@@ -34,8 +43,8 @@ namespace DoodleJump.Game.Worlds
         {
             var xCenter = center.x;
             var yCenter = center.y;
-            var xOffset = size.x / 2f;
-            var yOffset = size.y / 2f;
+            var xOffset = size.x * _half;
+            var yOffset = size.y * _half;
 
             var xMin = Mathf.Max(_xMin, xCenter - xOffset);
             var xMax = Mathf.Min(_xMax, xCenter + xOffset);
@@ -50,10 +59,14 @@ namespace DoodleJump.Game.Worlds
             gameObject.SetActive(false);
         }
 
+        public abstract void Destroy();
+
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(Position, Size);
         }
+#endif
     }
 }

@@ -23,7 +23,7 @@ namespace DoodleJump.Core
 
             _factoryStorage = new FactoryStorage(configStorage);
 
-            _serviceStorage = new ServiceStorage(this, configStorage, _factoryStorage, updater, uiServicesContainer);
+            _serviceStorage = new ServiceStorage(this, configStorage, updater, uiServicesContainer);
         }
 
         public void Destroy()

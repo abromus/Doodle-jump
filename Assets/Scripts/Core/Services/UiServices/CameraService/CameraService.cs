@@ -40,6 +40,14 @@ namespace DoodleJump.Core.Services
             Attached.SafeInvoke(_container);
         }
 
+        public Rect GetScreenRect()
+        {
+            var bottomLeft = _camera.ScreenToWorldPoint(Vector2.zero);
+            var topRight = _camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
+            return Rect.MinMaxRect(bottomLeft.x, bottomLeft.y, topRight.x, topRight.y);
+        }
+
         public void Destroy()
         {
             if (_camera != null)

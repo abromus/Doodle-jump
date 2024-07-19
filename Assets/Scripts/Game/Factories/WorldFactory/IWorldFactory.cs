@@ -8,7 +8,7 @@ namespace DoodleJump.Game.Factories
 {
     internal interface IWorldFactory : IFactory
     {
-        public void Init(IUpdater updater, ICameraService cameraService, IGeneratorConfig generatorConfig);
+        public void Init(IUpdater updater, ICameraService cameraService, ITriggerFactory triggerFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig);
 
         public IWorld CreateWorld(IDoodler doodler);
 

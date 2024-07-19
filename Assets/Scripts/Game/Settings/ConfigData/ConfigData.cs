@@ -8,11 +8,14 @@ namespace DoodleJump.Game.Settings
         [SerializeField] private CameraConfig _cameraConfig;
         [SerializeField] private DoodlerConfig _doodlerConfig;
         [SerializeField] private GeneratorConfig _generatorConfig;
+        [SerializeField] private PlatformsConfig _platformsConfig;
 
         public ICameraConfig CameraConfig => _cameraConfig;
 
         public IDoodlerConfig DoodlerConfig => _doodlerConfig;
 
         public IGeneratorConfig GeneratorConfig => _generatorConfig;
+
+        public IPlatformsConfig PlatformsConfig => _platformsConfig;
     }
 }

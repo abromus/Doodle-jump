@@ -32,6 +32,7 @@ namespace DoodleJump.Game.Initializers
             var uiFactories = configStorage.GetUiFactoryConfig().UiFactories;
 
             InitDoodlerFactory(configStorage, serviceStorage, uiFactories);
+            InitTriggerFactory(configStorage, serviceStorage);
             InitWorldFactory(configStorage, serviceStorage, uiFactories);
         }
 
@@ -55,13 +56,22 @@ namespace DoodleJump.Game.Initializers
             _factoryStorage.AddFactory(factory);
         }
 
+        private void InitTriggerFactory(IConfigStorage configStorage, IServiceStorage serviceStorage)
+        {
+            var factory = new TriggerFactory();
+
+            _factoryStorage.AddFactory(factory as ITriggerFactory);
+        }
+
         private void InitWorldFactory(IConfigStorage configStorage, IServiceStorage serviceStorage, IReadOnlyList<IUiFactory> uiFactories)
         {
             var updater = serviceStorage.GetUpdater();
             var cameraService = serviceStorage.GetCameraService();
             var factory = uiFactories.GetWorldFactory();
+            var triggerFactory = _factoryStorage.GetTriggerFactory();
             var generatorConfig = configStorage.GetGeneratorConfig();
-            factory.Init(updater, cameraService, generatorConfig);
+            var platformsConfig = configStorage.GetPlatformsConfig();
+            factory.Init(updater, cameraService, triggerFactory, generatorConfig, platformsConfig);
 
             _factoryStorage.AddFactory(factory);
         }

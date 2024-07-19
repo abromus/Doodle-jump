@@ -1,28 +1,17 @@
-using DoodleJump.Core.Services;
-using DoodleJump.Game.Factories;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
 {
     internal class World : MonoBehaviour, IWorld
     {
-        private IUpdater _updater;
-        private ICameraService _cameraService;
-        private IWorldFactory _worldFactory;
-        private IDoodler _doodler;
-        private IGeneratorConfig _generatorConfig;
+        private WorldArgs _args;
         private IGenerator _generator;
 
-        public void Init(IUpdater updater, ICameraService cameraService, IWorldFactory worldFactory, IDoodler doodler, IGeneratorConfig generatorConfig)
+        public void Init(WorldArgs args)
         {
-            _updater = updater;
-            _cameraService = cameraService;
-            _worldFactory = worldFactory;
-            _doodler = doodler;
-            _generatorConfig = generatorConfig;
+            _args = args;
 
+            InitTriggerFactory();
             InitGenerator();
             Subscribe();
         }
@@ -37,19 +26,24 @@ namespace DoodleJump.Game.Worlds
             Unsubscribe();
         }
 
+        private void InitTriggerFactory()
+        {
+            _args.TriggerFactory.Init(_args.Doodler);
+        }
+
         private void InitGenerator()
         {
-            _generator = new Generator(_worldFactory, _doodler, _cameraService.Camera, _generatorConfig);
+            _generator = new Generator(_args);
         }
 
         private void Subscribe()
         {
-            _updater.AddUpdatable(this);
+            _args.Updater.AddUpdatable(this);
         }
 
         private void Unsubscribe()
         {
-            _updater.RemoveUpdatable(this);
+            _args.Updater.RemoveUpdatable(this);
         }
     }
 }

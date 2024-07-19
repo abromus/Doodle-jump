@@ -25,6 +25,7 @@ namespace DoodleJump.Game.Initializers
             storage.AddConfig(_configData.CameraConfig);
             storage.AddConfig(_configData.DoodlerConfig);
             storage.AddConfig(_configData.GeneratorConfig);
+            storage.AddConfig(_configData.PlatformsConfig);
         }
     }
 }

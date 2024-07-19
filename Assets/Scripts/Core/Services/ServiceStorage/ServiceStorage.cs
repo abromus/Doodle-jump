@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DoodleJump.Core.Factories;
 using DoodleJump.Core.Settings;
 using DoodleJump.Core.States;
 using UnityEngine;
@@ -12,16 +11,13 @@ namespace DoodleJump.Core.Services
         private Dictionary<Type, IService> _services;
 
         private readonly IConfigStorage _configStorage;
-        private readonly IFactoryStorage _factoryStorage;
         private readonly Transform _uiServicesContainer;
 
         public Transform UiServiceContainer => _uiServicesContainer;
 
-        internal ServiceStorage(IGameData gameData, IConfigStorage configStorage, IFactoryStorage factoryStorage, IUpdater updater, Transform uiServicesContainer)
+        internal ServiceStorage(IGameData gameData, IConfigStorage configStorage, IUpdater updater, Transform uiServicesContainer)
         {
             _configStorage = configStorage;
-            _factoryStorage = factoryStorage;
-
             _uiServicesContainer = uiServicesContainer;
 
             UnityEngine.Object.DontDestroyOnLoad(_uiServicesContainer);

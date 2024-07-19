@@ -7,5 +7,7 @@ namespace DoodleJump.Game.Settings
         public IDoodlerConfig DoodlerConfig { get; }
 
         public IGeneratorConfig GeneratorConfig { get; }
+
+        public IPlatformsConfig PlatformsConfig { get; }
     }
 }

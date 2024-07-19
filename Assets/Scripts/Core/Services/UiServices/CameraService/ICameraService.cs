@@ -14,5 +14,7 @@ namespace DoodleJump.Core.Services
         public void AttachTo(Transform parent);
 
         public void Detach();
+
+        public Rect GetScreenRect();
     }
 }
