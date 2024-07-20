@@ -9,6 +9,8 @@ namespace DoodleJump.Game.Worlds
         private readonly IPlatformStorage _platformStorage;
         private readonly ITriggerExecutor _triggerExecutor;
 
+        private readonly float _half = 0.5f;
+
         internal Generator(WorldArgs args, Transform platformsContainer)
         {
             _screenRect = args.CameraService.GetScreenRect();
@@ -21,7 +23,11 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.Collided += OnCollided;
 
             _triggerExecutor = new TriggerExecutor(args.TriggerFactory, platformsConfig);
+        }
 
+        public void Restart()
+        {
+            _platformStorage.Clear();
             _platformStorage.TryGeneratePlatform();
             _platformStorage.GeneratePlatforms();
         }
@@ -39,7 +45,10 @@ namespace DoodleJump.Game.Worlds
 
         private void CheckDoodlerPosition()
         {
-            if (_doodlerTransform.position.y + _screenRect.height / 2f < _platformStorage.HighestPlatformY)
+            var doodlerPosition = _doodlerTransform.position.y;
+            var halfheight = _screenRect.height * _half;
+
+            if (doodlerPosition + halfheight < _platformStorage.HighestPlatformY)
                 return;
 
             var platforms = _platformStorage.Platforms;
@@ -49,7 +58,7 @@ namespace DoodleJump.Game.Worlds
             {
                 var platform = platforms[i];
 
-                if (platform.Position.y < _doodlerTransform.position.y - _screenRect.height / 2f)
+                if (platform.Position.y < doodlerPosition - halfheight)
                     _platformStorage.DestroyPlatform(platform);
             }
 

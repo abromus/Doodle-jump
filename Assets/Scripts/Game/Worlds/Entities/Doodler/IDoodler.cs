@@ -5,5 +5,7 @@ namespace DoodleJump.Game.Worlds.Entities
         public void Init(DoodlerArgs args);
 
         public void Jump(float height);
+
+        public void Restart();
     }
 }

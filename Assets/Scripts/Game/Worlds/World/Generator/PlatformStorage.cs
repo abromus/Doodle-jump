@@ -18,6 +18,7 @@ namespace DoodleJump.Game.Worlds
 
         private readonly int _platformCount;
         private readonly Transform _doodlerTransform;
+        private readonly float _startPlatformY;
         private readonly float _minY;
         private readonly float _maxY;
 
@@ -40,12 +41,23 @@ namespace DoodleJump.Game.Worlds
             _screenRect = screenRect;
 
             _platformCount = generatorConfig.PlatformCount;
-            _highestPlatformY = _doodlerTransform.position.y - _screenRect.height / 2f;
+
+            var half = 0.5f;
+            _startPlatformY = _doodlerTransform.position.y - _screenRect.height * half;
+            _highestPlatformY = _startPlatformY;
             _minY = generatorConfig.MinY;
             _maxY = generatorConfig.MaxY;
 
             InitPlatformConfigs();
             InitPools();
+        }
+
+        public void Clear()
+        {
+            Destroy();
+
+            _currentPlatformPosition = Vector3.zero;
+            _highestPlatformY = _startPlatformY;
         }
 
         public void TryGeneratePlatform()

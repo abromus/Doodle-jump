@@ -12,6 +12,8 @@ namespace DoodleJump.Game.Worlds
 
         public event Action<IPlatform> Collided;
 
+        public void Clear();
+
         public void TryGeneratePlatform();
 
         public void GeneratePlatforms();
