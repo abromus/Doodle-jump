@@ -14,6 +14,8 @@ namespace DoodleJump.Game.Worlds
 
         public void Clear();
 
+        public void GenerateStartPlatform();
+
         public void TryGeneratePlatform();
 
         public void GeneratePlatforms();

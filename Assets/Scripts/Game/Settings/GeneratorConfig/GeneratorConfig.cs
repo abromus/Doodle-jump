@@ -5,11 +5,17 @@ namespace DoodleJump.Game.Settings
     [CreateAssetMenu(fileName = nameof(GeneratorConfig), menuName = ConfigKeys.GamePathKey + nameof(GeneratorConfig))]
     internal sealed class GeneratorConfig : ScriptableObject, IGeneratorConfig
     {
-        [SerializeField] private int _platformCount;
+        [SerializeField] private Vector3 _startPosition;
+        [SerializeField] private int _platformStartCount;
+        [SerializeField] private int _platformMaxCount;
         [SerializeField] private float _minY;
         [SerializeField] private float _maxY;
 
-        public int PlatformCount => _platformCount;
+        public Vector3 StartPosition => _startPosition;
+
+        public int PlatformStartCount => _platformStartCount;
+
+        public int PlatformMaxCount => _platformMaxCount;
 
         public float MinY => _minY;
 

@@ -23,12 +23,14 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.Collided += OnCollided;
 
             _triggerExecutor = new TriggerExecutor(args.TriggerFactory, platformsConfig);
+
+            Restart();
         }
 
         public void Restart()
         {
             _platformStorage.Clear();
-            _platformStorage.TryGeneratePlatform();
+            _platformStorage.GenerateStartPlatform();
             _platformStorage.GeneratePlatforms();
         }
 

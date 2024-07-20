@@ -16,9 +16,9 @@ namespace DoodleJump.Game.Worlds
         private readonly Transform _platformsContainer;
         private readonly Rect _screenRect;
 
-        private readonly int _platformCount;
-        private readonly Transform _doodlerTransform;
-        private readonly float _startPlatformY;
+        private readonly Vector3 _startPosition;
+        private readonly int _platformStartCount;
+        private readonly int _platformMaxCount;
         private readonly float _minY;
         private readonly float _maxY;
 
@@ -37,14 +37,14 @@ namespace DoodleJump.Game.Worlds
             _worldFactory = worldFactory;
             _platformsConfig = platformsConfig;
             _platformsContainer = platformsContainer;
-            _doodlerTransform = doodlerTransform;
             _screenRect = screenRect;
 
-            _platformCount = generatorConfig.PlatformCount;
+            _startPosition = generatorConfig.StartPosition;
+            _platformStartCount = generatorConfig.PlatformStartCount;
+            _platformMaxCount = generatorConfig.PlatformMaxCount;
 
-            var half = 0.5f;
-            _startPlatformY = _doodlerTransform.position.y - _screenRect.height * half;
-            _highestPlatformY = _startPlatformY;
+            _currentPlatformPosition = _startPosition;
+            _highestPlatformY = _startPosition.y;
             _minY = generatorConfig.MinY;
             _maxY = generatorConfig.MaxY;
 
@@ -56,27 +56,41 @@ namespace DoodleJump.Game.Worlds
         {
             Destroy();
 
-            _currentPlatformPosition = Vector3.zero;
-            _highestPlatformY = _startPlatformY;
+            _currentPlatformPosition = _startPosition;
+            _highestPlatformY = _startPosition.y;
+        }
+
+        public void GenerateStartPlatform()
+        {
+            for (int i = 0; i < _platformStartCount; i++)
+            {
+                var platformPrefab = GetPlatformPrefab();
+
+                if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
+                    return;
+
+                GeneratePlatform(platformPrefab);
+                GenerateNextPosition();
+                CheckHighestPosition(_currentPlatformPosition.y);
+            }
         }
 
         public void TryGeneratePlatform()
         {
             GenerateNextPosition();
 
-            var positionY = _currentPlatformPosition.y;
             var platformPrefab = GetPlatformPrefab();
 
             if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
                 return;
 
             GeneratePlatform(platformPrefab);
-            CheckHighestPosition(positionY);
+            CheckHighestPosition(_currentPlatformPosition.y);
         }
 
         public void GeneratePlatforms()
         {
-            for (int i = 0; i < _platformCount; i++)
+            for (int i = 0; i < _platformMaxCount; i++)
                 TryGeneratePlatform();
         }
 
@@ -117,13 +131,12 @@ namespace DoodleJump.Game.Worlds
         private void InitPools()
         {
             var configs = _platformsConfig.Configs;
-            var capacity = _platformCount;
 
             foreach (var config in configs)
             {
                 var prefab = config.PlatformPrefab;
 
-                _pools.Add(prefab.Id, new ObjectPool<IPlatform>(() => CreatePlatform(prefab), capacity));
+                _pools.Add(prefab.Id, new ObjectPool<IPlatform>(() => CreatePlatform(prefab), _platformMaxCount));
             }
         }
 

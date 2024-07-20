@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6e2ba569cbd9645b0e6ed9ad4442e2, type: 3}
   m_Name: GeneratorConfig
   m_EditorClassIdentifier: 
-  _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-  _platformCount: 20
+  _startPosition: {x: 0, y: -7, z: 0}
+  _platformStartCount: 3
+  _platformMaxCount: 20
   _minY: -2.5
   _maxY: 2.5
