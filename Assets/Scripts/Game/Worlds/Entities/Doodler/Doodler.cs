@@ -7,7 +7,7 @@ namespace DoodleJump.Game.Worlds.Entities
     internal sealed class Doodler : MonoBehaviour, IDoodler
     {
         [SerializeField] private Rigidbody2D _rigidbody;
-        //[SerializeField] private Animator _doodlerAnimator;
+        [SerializeField] private Animator _doodlerAnimator;
         [SerializeField] private BoxCollider2D _collider;
 
         private IUpdater _updater;
@@ -16,7 +16,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private ICameraConfig _cameraConfig;
         private IDoodlerMovement _movement;
         private IDoodlerCameraFollower _cameraFollower;
-        //private IDoodlerAnimator _animator;
+        private IDoodlerAnimator _animator;
 
         public GameObject GameObject => gameObject;
 
@@ -47,7 +47,7 @@ namespace DoodleJump.Game.Worlds.Entities
         public void FixedTick(float deltaTime)
         {
             _movement.FixedTick(deltaTime);
-            //_animator.FixedTick(deltaTime);
+            _animator.FixedTick(deltaTime);
         }
 
         public void LateTick(float deltaTime)
@@ -93,7 +93,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _cameraFollower = new DoodlerCameraFollower(transform, _cameraService.Camera.transform);
-            //_animator = new DoodlerAnimator(_doodlerAnimator, _movement);
+            _animator = new DoodlerAnimator(_doodlerAnimator, _movement);
         }
 
         private void Subscribe()

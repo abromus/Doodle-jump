@@ -5,6 +5,8 @@
         private readonly IDoodlerVelocity _velocity;
         private readonly IDoodlerJump _jump;
 
+        public UnityEngine.Vector2 Velocity => _velocity.Velocity;
+
         internal DoodlerMovement(in DoodlerMovementArgs args)
         {
             _velocity = new DoodlerVelocity(in args);

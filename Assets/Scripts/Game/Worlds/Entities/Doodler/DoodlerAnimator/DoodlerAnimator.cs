@@ -4,6 +4,9 @@ namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerAnimator : IDoodlerAnimator
     {
+        private float _previousVelocity;
+        private float _currentVelocity;
+
         private readonly Animator _animator;
         private readonly IDoodlerMovement _movement;
 
@@ -15,17 +18,15 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void FixedTick(float deltaTime)
         {
-            /*var magnitude = _movement.GetHorizontalVelocity().magnitude;
+            _previousVelocity = _currentVelocity;
+            _currentVelocity = _movement.Velocity.y;
 
-            if (magnitude < 0.01f)
-                magnitude = 0f;
-
-            SetGrounded(magnitude);*/
+            SetGrounded(_previousVelocity < 0f && 0f < _currentVelocity);
         }
 
-        private void SetGrounded(bool isGrounded)
+        private void SetGrounded(bool isCollided)
         {
-            ChangeTrigger(AnimationKeys.TriggerKeys.IsGrounded, isGrounded);
+            ChangeTrigger(AnimationKeys.TriggerKeys.Collided, isCollided);
         }
 
         private void ChangeTrigger(string triggerKey, bool value)
@@ -40,7 +41,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             internal sealed class TriggerKeys
             {
-                internal const string IsGrounded = "IsGrounded";
+                internal const string Collided = "Collided";
             }
         }
     }

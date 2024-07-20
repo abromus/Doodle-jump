@@ -10,6 +10,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly float _movementVelocity;
         private readonly IDoodlerInput _doodlerInput;
 
+        public Vector2 Velocity => _rigidbody.velocity;
+
         internal DoodlerVelocity(in DoodlerMovementArgs args)
         {
             _rigidbody = args.Rigidbody;
