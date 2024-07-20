@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace DoodleJump.Core.Editor
@@ -22,3 +23,4 @@ namespace DoodleJump.Core.Editor
         }
     }
 }
+#endif

@@ -6,8 +6,10 @@ namespace DoodleJump.Game.Settings
     [CreateAssetMenu(fileName = nameof(PlatformsConfig), menuName = ConfigKeys.GamePathKey + nameof(PlatformsConfig))]
     internal sealed class PlatformsConfig : ScriptableObject, IPlatformsConfig
     {
-        [SerializeReference]
+#if UNITY_EDITOR
         [Core.Label(nameof(GetTitles))]
+#endif
+        [SerializeReference]
         private List<IPlatformConfig> _configs = new(16);
 
         public IReadOnlyList<IPlatformConfig> Configs => _configs;
