@@ -6,14 +6,19 @@ namespace DoodleJump.Game.Worlds.Entities
     {
         private float _previousVelocity;
         private float _currentVelocity;
+        private float _previousDirection;
 
+        private readonly Transform _doodler;
         private readonly Animator _animator;
         private readonly IDoodlerMovement _movement;
+        private readonly IDoodlerInput _doodlerInput;
 
-        public DoodlerAnimator(Animator animator, IDoodlerMovement movement)
+        public DoodlerAnimator(Transform doodler, Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
         {
+            _doodler = doodler;
             _animator = animator;
             _movement = movement;
+            _doodlerInput = doodlerInput;
         }
 
         public void FixedTick(float deltaTime)
@@ -22,6 +27,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _currentVelocity = _movement.Velocity.y;
 
             SetGrounded(_previousVelocity < 0f && 0f < _currentVelocity);
+            CheckDirection();
         }
 
         private void SetGrounded(bool isCollided)
@@ -37,8 +43,37 @@ namespace DoodleJump.Game.Worlds.Entities
                 _animator.ResetTrigger(triggerKey);
         }
 
+        private void CheckDirection()
+        {
+            var input = _doodlerInput.Direction.x;
+
+            if (input == AnimationKeys.DirectionKeys.Neutral)
+                return;
+
+            if (input == AnimationKeys.DirectionKeys.Positive && _previousDirection == AnimationKeys.DirectionKeys.Negative)
+                SetDirection(AnimationKeys.DirectionKeys.Positive);
+            else if (input == AnimationKeys.DirectionKeys.Negative && (_previousDirection == AnimationKeys.DirectionKeys.Positive || _previousDirection == AnimationKeys.DirectionKeys.Neutral))
+                SetDirection(AnimationKeys.DirectionKeys.Negative);
+        }
+
+        private void SetDirection(float direction)
+        {
+            _previousDirection = direction;
+
+            var localScale = _doodler.localScale;
+            localScale.x = direction;
+            _doodler.localScale = localScale;
+        }
+
         private sealed class AnimationKeys
         {
+            internal sealed class DirectionKeys
+            {
+                internal const float Positive = 1f;
+                internal const float Neutral = 0f;
+                internal const float Negative = -1f;
+            }
+
             internal sealed class TriggerKeys
             {
                 internal const string Collided = "Collided";

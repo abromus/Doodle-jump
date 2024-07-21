@@ -79,7 +79,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _cameraFollower = new DoodlerCameraFollower(transform, _cameraService.Camera.transform);
-            _animator = new DoodlerAnimator(_doodlerAnimator, _movement);
+            _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
         }
 
         private void Subscribe()
