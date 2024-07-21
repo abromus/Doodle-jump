@@ -12,7 +12,7 @@ namespace DoodleJump.Core.Editor
 
         private void OnEnable()
         {
-            _buttonsDrawer = new ButtonsDrawer(target);
+            _buttonsDrawer = new(target);
         }
 
         public override void OnInspectorGUI()

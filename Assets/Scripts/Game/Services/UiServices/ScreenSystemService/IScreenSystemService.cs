@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Services
 {
-    public interface IScreenSystemService : IService
+    internal interface IScreenSystemService : IService
     {
-        public void Init(ICameraService cameraService);
+        public void Init(ICameraService cameraService, Data.IPersistentDataStorage persistentDataStorage);
 
         public bool ShowScreen(ScreenType screenType);
 

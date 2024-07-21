@@ -17,7 +17,7 @@ namespace DoodleJump.Core.Factories
             var uiFactories = _uiFactoryConfig.UiFactories;
             var gameSceneControllerFactory = uiFactories.GetGameSceneControllerFactory();
 
-            _factories = new Dictionary<Type, IFactory>(4)
+            _factories = new(4)
             {
                 [typeof(IGameSceneControllerFactory)] = gameSceneControllerFactory,
             };

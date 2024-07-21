@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.UI;
 using UnityEngine;
 
@@ -11,12 +12,16 @@ namespace DoodleJump.Game.Services
         [SerializeField] private RectTransform _screenContainer;
         [SerializeField] private ScreenInfo[] _screenInfos;
 
+        private IPersistentDataStorage _persistentDataStorage;
+
         private readonly Dictionary<ScreenType, ScreenBase> _screens = new(8);
 
         public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
 
-        public void Init(ICameraService cameraService)
+        public void Init(ICameraService cameraService, IPersistentDataStorage persistentDataStorage)
         {
+            _persistentDataStorage = persistentDataStorage;
+
             var camera = cameraService.Camera;
 
             _canvas.worldCamera = camera;
@@ -27,7 +32,7 @@ namespace DoodleJump.Game.Services
         {
             if (_screens.ContainsKey(screenType))
             {
-                _screens[screenType].Show();
+                _screens[screenType].Show(_persistentDataStorage);
 
                 return true;
             }
@@ -38,7 +43,7 @@ namespace DoodleJump.Game.Services
                     continue;
 
                 var screen = Instantiate(info.ScreenPrefab, _screenContainer);
-                screen.Show();
+                screen.Show(_persistentDataStorage);
 
                 _screens.Add(screenType, screen);
 

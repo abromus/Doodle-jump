@@ -31,7 +31,7 @@ namespace DoodleJump.Core.Services
             var cameraService = InitCameraService(uiServices, _uiServicesContainer);
             var eventSystemService = InitEventSystemService(uiServices, _uiServicesContainer);
 
-            _services = new Dictionary<Type, IService>(8)
+            _services = new(8)
             {
                 [typeof(IUpdater)] = updater,
                 [typeof(IStateMachine)] = stateMachine,

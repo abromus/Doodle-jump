@@ -12,7 +12,7 @@ namespace DoodleJump.Core
         {
             _createFunc = createFunc ?? throw new ArgumentNullException(nameof(createFunc));
 
-            _objects = new List<T>(capacity);
+            _objects = new(capacity);
         }
 
         public T Get()

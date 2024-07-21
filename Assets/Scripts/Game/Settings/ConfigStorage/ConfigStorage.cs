@@ -19,7 +19,7 @@ namespace DoodleJump.Game.Settings
 
         public void Init()
         {
-            _configs = new Dictionary<Type, IConfig>(8)
+            _configs = new(8)
             {
                 [typeof(IUiFactoryConfig)] = _uiFactoryConfig,
                 [typeof(IUiServiceConfig)] = _uiServiceConfig,

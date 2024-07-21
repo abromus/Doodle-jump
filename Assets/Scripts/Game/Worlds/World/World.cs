@@ -1,4 +1,5 @@
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds.Entities;
@@ -16,6 +17,7 @@ namespace DoodleJump.Game.Worlds
         private IDoodler _doodler;
         private ICameraService _cameraService;
         private ICameraConfig _cameraConfig;
+        private IPersistentDataStorage _persistentDataStorage;
         private IDoodlerChecker _doodlerChecker;
         private IGenerator _generator;
 
@@ -27,6 +29,7 @@ namespace DoodleJump.Game.Worlds
             _doodler = _args.Doodler;
             _cameraService = _args.CameraService;
             _cameraConfig = args.CameraConfig;
+            _persistentDataStorage = _args.PersistentDataStorage;
 
             var doodlerTransform = _doodler.GameObject.transform;
 
@@ -67,7 +70,7 @@ namespace DoodleJump.Game.Worlds
             var cameraTransform = _cameraService.Camera.transform;
             var screenRect = _cameraService.GetScreenRect();
 
-            _doodlerChecker = new DoodlerChecker(doodlerTransform, cameraTransform, screenRect);
+            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, cameraTransform, screenRect);
         }
 
         private void InitGenerator()
@@ -96,6 +99,7 @@ namespace DoodleJump.Game.Worlds
 
             _doodler.Restart();
             _generator.Restart();
+            _doodlerChecker.Restart();
         }
 
         private void ResetCamera()

@@ -4,6 +4,7 @@ using DoodleJump.Core.Data;
 using DoodleJump.Core.Factories;
 using DoodleJump.Core.Services;
 using DoodleJump.Core.Settings;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 
@@ -13,12 +14,14 @@ namespace DoodleJump.Game.Factories
     {
         private Dictionary<Type, IFactory> _factories;
 
+        private readonly IPersistentDataStorage _persistentDataStorage;
         private readonly IConfigStorage _configStorage;
         private readonly IServiceStorage _serviceStorage;
         private readonly IUiFactoryConfig _uiFactoryConfig;
 
-        internal FactoryStorage(ICoreData coreData, IConfigStorage configStorage, IServiceStorage serviceStorage)
+        internal FactoryStorage(ICoreData coreData, IPersistentDataStorage persistentDataStorage, IConfigStorage configStorage, IServiceStorage serviceStorage)
         {
+            _persistentDataStorage = persistentDataStorage;
             _configStorage = configStorage;
             _serviceStorage = serviceStorage;
 
@@ -61,7 +64,7 @@ namespace DoodleJump.Game.Factories
             var triggerFactory = InitTriggerFactory();
             var worldFactory = InitWorldFactory(coreServiceStorage, updater, cameraService, uiFactories, triggerFactory);
 
-            _factories = new Dictionary<Type, IFactory>(8)
+            _factories = new(8)
             {
                 [typeof(IDoodlerFactory)] = doodlerFactory,
                 [typeof(ITriggerFactory)] = triggerFactory,
@@ -113,7 +116,8 @@ namespace DoodleJump.Game.Factories
                 triggerFactory,
                 cameraConfig,
                 generatorConfig,
-                platformsConfig);
+                platformsConfig,
+                _persistentDataStorage);
             factory.Init(args);
 
             return factory;

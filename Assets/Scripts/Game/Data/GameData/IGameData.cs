@@ -14,6 +14,8 @@ namespace DoodleJump.Game.Data
 
         public IFactoryStorage FactoryStorage { get; }
 
+        public IPersistentDataStorage PersistentDataStorage { get; }
+
         public IServiceStorage ServiceStorage { get; }
     }
 }

@@ -7,5 +7,7 @@ namespace DoodleJump.Game
         public event Action GameOver;
 
         public void Tick();
+
+        public void Restart();
     }
 }

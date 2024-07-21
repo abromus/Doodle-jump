@@ -1,4 +1,5 @@
 ﻿using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Factories;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
@@ -18,6 +19,7 @@ namespace DoodleJump.Game.Worlds
         private readonly ICameraConfig _cameraConfig;
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPlatformsConfig _platformsConfig;
+        private readonly IPersistentDataStorage _persistentDataStorage;
 
         internal IUpdater Updater => _updater;
 
@@ -39,6 +41,8 @@ namespace DoodleJump.Game.Worlds
 
         internal IPlatformsConfig PlatformsConfig => _platformsConfig;
 
+        internal IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
+
         internal WorldArgs(
             IUpdater updater,
             ICameraService cameraService,
@@ -49,7 +53,8 @@ namespace DoodleJump.Game.Worlds
             IDoodler doodler,
             ICameraConfig cameraConfig,
             IGeneratorConfig generatorConfig,
-            IPlatformsConfig platformsConfig)
+            IPlatformsConfig platformsConfig,
+            IPersistentDataStorage persistentDataStorage)
         {
             _updater = updater;
             _cameraService = cameraService;
@@ -61,6 +66,7 @@ namespace DoodleJump.Game.Worlds
             _cameraConfig = cameraConfig;
             _generatorConfig = generatorConfig;
             _platformsConfig = platformsConfig;
+            _persistentDataStorage = persistentDataStorage;
         }
     }
 }

@@ -7,12 +7,7 @@ namespace DoodleJump.Core.Services
     {
         private IExitState _currentState;
 
-        private Dictionary<Type, IState> _states = new();
-
-        internal StateMachine()
-        {
-            _states = new Dictionary<Type, IState>();
-        }
+        private readonly Dictionary<Type, IState> _states = new(8);
 
         public void Enter<TState>() where TState : class, IEnterState
         {
@@ -42,7 +37,6 @@ namespace DoodleJump.Core.Services
             _currentState = null;
 
             _states.Clear();
-            _states = null;
         }
 
         private TState ChangeState<TState>() where TState : class, IExitState

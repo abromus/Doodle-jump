@@ -1,10 +1,12 @@
 ﻿using System;
+using DoodleJump.Game.Data;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
 {
     internal sealed class DoodlerChecker : IDoodlerChecker
     {
+        private readonly IPlayerData _playerData;
         private readonly Transform _doodlerTransform;
         private readonly Transform _cameraTransform;
         private readonly Rect _screenRect;
@@ -14,8 +16,9 @@ namespace DoodleJump.Game.Worlds
 
         public event Action GameOver;
 
-        internal DoodlerChecker(Transform doodlerTransform, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IPersistentDataStorage _persistentDataStorage, Transform doodlerTransform, Transform cameraTransform, Rect screenRect)
         {
+            _playerData = _persistentDataStorage.GetPlayerData();
             _doodlerTransform = doodlerTransform;
             _cameraTransform = cameraTransform;
             _screenRect = screenRect;
@@ -25,6 +28,12 @@ namespace DoodleJump.Game.Worlds
         public void Tick()
         {
             CheckDoodlerPosition();
+            UpdateScore();
+        }
+
+        public void Restart()
+        {
+            _playerData.SetCurrentScore(0);
         }
 
         private void CheckDoodlerPosition()
@@ -42,6 +51,14 @@ namespace DoodleJump.Game.Worlds
                 return;
 
             GameOver?.Invoke();
+        }
+
+        private void UpdateScore()
+        {
+            var cameraPosition = _cameraTransform.position.y;
+
+            if (_playerData.CurrentScore < cameraPosition)
+                _playerData.SetCurrentScore(Mathf.FloorToInt(cameraPosition));
         }
 
         private void ChangeXPosition(Transform transform, float offset)

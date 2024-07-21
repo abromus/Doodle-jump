@@ -23,11 +23,12 @@ namespace DoodleJump.Game.Services
             _configStorage = configStorage;
             _uiServicesContainer = uiServicesContainer;
 
-            var uiServices = _configStorage.GetGameUiServiceConfig().UiServices;
             var cameraService = gameData.CoreData.ServiceStorage.GetCameraService();
-            var screenSystemService = InitScreenSystemService(cameraService, uiServices, _uiServicesContainer);
+            var uiServices = _configStorage.GetGameUiServiceConfig().UiServices;
+            var persistentDataStorage = gameData.PersistentDataStorage;
+            var screenSystemService = InitScreenSystemService(cameraService, uiServices, persistentDataStorage, _uiServicesContainer);
 
-            _services = new Dictionary<Type, IService>(8)
+            _services = new(8)
             {
                 [typeof(IScreenSystemService)] = screenSystemService,
             };
@@ -57,13 +58,13 @@ namespace DoodleJump.Game.Services
             _services = null;
         }
 
-        private IScreenSystemService InitScreenSystemService(ICameraService cameraService, IReadOnlyList<IUiService> uiServices, Transform container)
+        private IScreenSystemService InitScreenSystemService(ICameraService cameraService, IReadOnlyList<IUiService> uiServices, IPersistentDataStorage persistentDataStorage, Transform container)
         {
             var screenSystemServicePrefab = uiServices.GetScreenSystemService();
             var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as UiService, container);
 
             var screenSystemService = screenSystemServiceObject as IScreenSystemService;
-            screenSystemService.Init(cameraService);
+            screenSystemService.Init(cameraService, persistentDataStorage);
 
             return screenSystemService;
         }

@@ -9,7 +9,7 @@ namespace DoodleJump.Game.UI
 
         public ScreenType ScreenType => _screenType;
 
-        public void Show()
+        public virtual void Show(Data.IPersistentDataStorage persistentDataStorage)
         {
             gameObject.SetActive(true);
         }

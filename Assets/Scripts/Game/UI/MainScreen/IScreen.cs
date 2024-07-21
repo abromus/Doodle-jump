@@ -4,7 +4,7 @@
     {
         public ScreenType ScreenType { get; }
 
-        public void Show();
+        public void Show(Data.IPersistentDataStorage persistentDataStorage);
 
         public void Hide();
     }

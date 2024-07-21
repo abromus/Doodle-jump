@@ -1,6 +1,7 @@
 using DoodleJump.Core;
 using DoodleJump.Core.Factories;
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds;
@@ -21,6 +22,7 @@ namespace DoodleJump.Game.Factories
         private ICameraConfig _cameraConfig;
         private IGeneratorConfig _generatorConfig;
         private IPlatformsConfig _platformsConfig;
+        private IPersistentDataStorage _persistentDataStorage;
 
         public override UiFactoryType UiFactoryType => UiFactoryType.WorldFactory;
 
@@ -34,6 +36,7 @@ namespace DoodleJump.Game.Factories
             _cameraConfig = args.CameraConfig;
             _generatorConfig = args.GeneratorConfig;
             _platformsConfig = args.PlatformsConfig;
+            _persistentDataStorage = args.PersistentDataStorage;
         }
 
         public IWorld CreateWorld(IDoodler doodler)
@@ -48,7 +51,8 @@ namespace DoodleJump.Game.Factories
                 doodler,
                 _cameraConfig,
                 _generatorConfig,
-                _platformsConfig);
+                _platformsConfig,
+                _persistentDataStorage);
             var world = Instantiate(_world);
             world.Init(args);
             world.gameObject.RemoveCloneSuffix();
