@@ -5,5 +5,7 @@
         public TriggerType TriggerType { get; }
 
         public void Execute();
+
+        public void UpdateInfo(IPlatformCollisionInfo info);
     }
 }

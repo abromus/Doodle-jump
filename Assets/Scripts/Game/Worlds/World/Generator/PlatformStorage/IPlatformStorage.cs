@@ -10,7 +10,7 @@ namespace DoodleJump.Game.Worlds
 
         public IReadOnlyList<IPlatform> Platforms { get; }
 
-        public event Action<IPlatform> Collided;
+        public event Action<IPlatformCollisionInfo> Collided;
 
         public void Clear();
 

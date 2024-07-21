@@ -2,6 +2,6 @@
 {
     internal interface ITriggerExecutor
     {
-        public void Execute(IPlatform platform);
+        public void Execute(IPlatformCollisionInfo info);
     }
 }

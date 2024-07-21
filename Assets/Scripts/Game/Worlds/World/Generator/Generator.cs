@@ -67,9 +67,9 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.GeneratePlatforms();
         }
 
-        private void OnCollided(IPlatform platform)
+        private void OnCollided(IPlatformCollisionInfo info)
         {
-            _triggerExecutor.Execute(platform);
+            _triggerExecutor.Execute(info);
         }
     }
 }

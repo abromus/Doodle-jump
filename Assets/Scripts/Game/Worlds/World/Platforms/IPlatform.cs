@@ -12,7 +12,7 @@ namespace DoodleJump.Game.Worlds
 
         public Vector3 Position { get; }
 
-        public abstract event Action<IPlatform> Collided;
+        public abstract event Action<IPlatformCollisionInfo> Collided;
 
         public abstract event Action<IPlatform> Destroyed;
 

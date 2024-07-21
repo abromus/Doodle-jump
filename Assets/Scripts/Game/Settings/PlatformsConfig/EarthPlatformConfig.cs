@@ -20,5 +20,12 @@ namespace DoodleJump.Game.Settings
         public readonly TriggerType TriggerType => _triggerType;
 
         public readonly float JumpForce => _jumpForce;
+
+#if UNITY_EDITOR
+        public void ChangeSpawnChance(float factor)
+        {
+            _spawnChance *= factor;
+        }
+#endif
     }
 }

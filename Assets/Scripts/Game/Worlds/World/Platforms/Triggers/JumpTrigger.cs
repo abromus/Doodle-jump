@@ -19,5 +19,7 @@ namespace DoodleJump.Game.Worlds
         {
             _doodler.Jump(_jumpForce);
         }
+
+        public void UpdateInfo(IPlatformCollisionInfo info) { }
     }
 }

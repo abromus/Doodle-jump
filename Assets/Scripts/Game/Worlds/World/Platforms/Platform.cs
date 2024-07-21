@@ -18,11 +18,11 @@ namespace DoodleJump.Game.Worlds
 
         public Vector3 Position => transform.position;
 
-        public abstract event Action<IPlatform> Collided;
+        public abstract event Action<IPlatformCollisionInfo> Collided;
 
         public abstract event Action<IPlatform> Destroyed;
 
-        public void Init(Vector3 position)
+        public virtual void Init(Vector3 position)
         {
             transform.position = position;
 
@@ -39,7 +39,7 @@ namespace DoodleJump.Game.Worlds
             gameObject.SetActive(true);
         }
 
-        public bool IsIntersectedArea(Vector2 center, Vector2 size)
+        public virtual bool IsIntersectedArea(Vector2 center, Vector2 size)
         {
             var xCenter = center.x;
             var yCenter = center.y;

@@ -8,6 +8,7 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private Animator _doodlerAnimator;
         [SerializeField] private BoxCollider2D _collider;
+        [SerializeField] private Vector2 _size;
 
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
@@ -17,6 +18,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private IDoodlerAnimator _animator;
 
         public GameObject GameObject => gameObject;
+
+        public Vector2 Size => _size;
 
         public void Init(DoodlerArgs args)
         {

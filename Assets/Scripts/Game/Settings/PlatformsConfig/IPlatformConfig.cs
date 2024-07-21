@@ -11,5 +11,9 @@ namespace DoodleJump.Game.Settings
         public float SpawnChance { get; }
 
         public TriggerType TriggerType { get; }
+
+#if UNITY_EDITOR
+        public void ChangeSpawnChance(float factor);
+#endif
     }
 }

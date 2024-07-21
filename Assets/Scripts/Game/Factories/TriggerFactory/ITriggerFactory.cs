@@ -9,6 +9,6 @@ namespace DoodleJump.Game.Factories
     {
         public void Init(IDoodler doodler);
 
-        public ITrigger Create(IPlatform platform, IPlatformConfig platformConfig);
+        public ITrigger Create(IPlatformCollisionInfo info, IPlatform platform, IPlatformConfig platformConfig);
     }
 }

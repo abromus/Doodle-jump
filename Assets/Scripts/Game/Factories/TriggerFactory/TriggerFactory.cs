@@ -13,7 +13,7 @@ namespace DoodleJump.Game.Factories
             _doodler = doodler;
         }
 
-        public ITrigger Create(IPlatform platform, IPlatformConfig platformConfig)
+        public ITrigger Create(IPlatformCollisionInfo info, IPlatform platform, IPlatformConfig platformConfig)
         {
             var triggerType = platformConfig.TriggerType;
 
@@ -21,6 +21,8 @@ namespace DoodleJump.Game.Factories
             {
                 case TriggerType.Jump:
                     return CreateJumpTrigger(platformConfig);
+                case TriggerType.SpringJump:
+                    return CreateSpringJumpTrigger(info, platformConfig);
                 case TriggerType.Destroy:
                     return CreateDestroyTrigger(platform);
                 default:
@@ -38,6 +40,16 @@ namespace DoodleJump.Game.Factories
                 return null;
 
             var trigger = new JumpTrigger(_doodler, jumpConfig.JumpForce);
+
+            return trigger;
+        }
+
+        private ITrigger CreateSpringJumpTrigger(IPlatformCollisionInfo info, IPlatformConfig platformConfig)
+        {
+            if (platformConfig is not ISpringJumpConfig springJumpConfig)
+                return null;
+
+            var trigger = new SpringJumpTrigger(info, _doodler, springJumpConfig.JumpForce, springJumpConfig.SpringJumpForce);
 
             return trigger;
         }

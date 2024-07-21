@@ -16,6 +16,7 @@ MonoBehaviour:
   - rid: 3427830180456431617
   - rid: 3427830180456431618
   - rid: 3427830201746980864
+  - rid: 3427830245331828736
   references:
     version: 2
     RefIds:
@@ -23,14 +24,14 @@ MonoBehaviour:
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-        _spawnChance: 0.8
+        _spawnChance: 0.7
         _triggerType: 1
         _jumpForce: 10
     - rid: 3427830180456431618
       type: {class: WoodPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: 2218ba24f9ea23347a9dae09023a42f1, type: 3}
-        _spawnChance: 0.15
+        _spawnChance: 0.1
         _triggerType: 2
     - rid: 3427830201746980864
       type: {class: StonePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
@@ -39,3 +40,11 @@ MonoBehaviour:
         _spawnChance: 0.05
         _triggerType: 1
         _jumpForce: 5
+    - rid: 3427830245331828736
+      type: {class: EarthSpringPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 8245406481292810278, guid: 3c8883dae6ee1e64fb6a7786c7509553, type: 3}
+        _spawnChance: 0.15
+        _triggerType: 3
+        _defaultJumpForce: 5
+        _springJumpForce: 20

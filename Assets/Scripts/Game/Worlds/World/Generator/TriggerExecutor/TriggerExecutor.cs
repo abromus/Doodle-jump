@@ -17,24 +17,31 @@ namespace DoodleJump.Game.Worlds
             _platformsConfig = platformsConfig;
         }
 
-        public void Execute(IPlatform platform)
+        public void Execute(IPlatformCollisionInfo info)
         {
-            var trigger = GetTrigger(platform);
+            var trigger = GetTrigger(info);
 
             trigger.Execute();
         }
 
-        private ITrigger GetTrigger(IPlatform platform)
+        private ITrigger GetTrigger(IPlatformCollisionInfo info)
         {
-            if (_triggers.ContainsKey(platform))
-                return _triggers[platform];
+            var platform = info.Platform;
 
-            var trigger = CreateTrigger(platform);
+            if (_triggers.ContainsKey(platform) == false)
+            {
+                var newTrigger = CreateTrigger(info, platform);
+
+                return newTrigger;
+            }
+
+            var trigger = _triggers[platform];
+            trigger.UpdateInfo(info);
 
             return trigger;
         }
 
-        private ITrigger CreateTrigger(IPlatform platform)
+        private ITrigger CreateTrigger(IPlatformCollisionInfo info, IPlatform platform)
         {
             var platformId = platform.Id;
             var configs = _platformsConfig.Configs;
@@ -44,7 +51,7 @@ namespace DoodleJump.Game.Worlds
                 if (config.PlatformPrefab.Id.Equals(platformId) == false)
                     continue;
 
-                var trigger = _factory.Create(platform, config);
+                var trigger = _factory.Create(info, platform, config);
 
                 _triggers.Add(platform, trigger);
 

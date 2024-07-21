@@ -10,6 +10,7 @@ namespace DoodleJump.Game.Worlds
     {
         private Vector3 _currentPlatformPosition;
         private float _highestPlatformY;
+        private float _spawnChanceFactor = 0f;
 
         private readonly IWorldFactory _worldFactory;
         private readonly IPlatformsConfig _platformsConfig;
@@ -30,7 +31,7 @@ namespace DoodleJump.Game.Worlds
 
         public IReadOnlyList<IPlatform> Platforms => _platforms;
 
-        public event System.Action<IPlatform> Collided;
+        public event System.Action<IPlatformCollisionInfo> Collided;
 
         public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
         {
@@ -115,10 +116,16 @@ namespace DoodleJump.Game.Worlds
         private void InitPlatformConfigs()
         {
             var configs = _platformsConfig.Configs;
+            var spawnChanceSum = 0f;
 
             foreach (var config in configs)
-                _platformConfigs.Add(config);
+            {
+                spawnChanceSum += config.SpawnChance;
 
+                _platformConfigs.Add(config);
+            }
+
+            _spawnChanceFactor = 1f / spawnChanceSum;
             _platformConfigs.Sort(SortByChance);
 
             [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -153,7 +160,7 @@ namespace DoodleJump.Game.Worlds
 
             foreach (var config in _platformConfigs)
             {
-                if (config.SpawnChance < spawnChance)
+                if (config.SpawnChance * _spawnChanceFactor < spawnChance)
                     continue;
 
                 return config.PlatformPrefab;
@@ -194,9 +201,9 @@ namespace DoodleJump.Game.Worlds
                 _highestPlatformY = y;
         }
 
-        private void OnCollided(IPlatform platform)
+        private void OnCollided(IPlatformCollisionInfo info)
         {
-            Collided.SafeInvoke(platform);
+            Collided.SafeInvoke(info);
         }
 
         private void OnDestroyed(IPlatform platform)

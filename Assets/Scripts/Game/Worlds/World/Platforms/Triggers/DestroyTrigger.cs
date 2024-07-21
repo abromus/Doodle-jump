@@ -15,5 +15,10 @@
         {
             _platform.Destroy();
         }
+
+        public void UpdateInfo(IPlatformCollisionInfo info)
+        {
+
+        }
     }
 }

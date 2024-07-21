@@ -15,7 +15,7 @@ namespace DoodleJump.Game.Settings
         public IReadOnlyList<IPlatformConfig> Configs => _configs;
 
 #if UNITY_EDITOR
-        [Core.Button()]
+        [Core.Button]
         private void AddPlatformConfig()
         {
             var menu = new UnityEditor.GenericMenu();
@@ -79,6 +79,20 @@ namespace DoodleJump.Game.Settings
                 titles.Add(config.Title);
 
             return titles;
+        }
+
+        [Core.Button]
+        private void NormalizeSpawnChances()
+        {
+            var spawnChanceSum = 0f;
+
+            foreach (var config in _configs)
+                spawnChanceSum += config.SpawnChance;
+
+            var spawnChanceFactor = 1f / spawnChanceSum;
+
+            foreach (var config in _configs)
+                config.ChangeSpawnChance(spawnChanceFactor);
         }
 #endif
     }
