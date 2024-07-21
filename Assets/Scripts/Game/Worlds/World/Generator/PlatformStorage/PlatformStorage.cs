@@ -32,7 +32,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IPlatform> Collided;
 
-        public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Transform doodlerTransform, Rect screenRect)
+        public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
         {
             _worldFactory = worldFactory;
             _platformsConfig = platformsConfig;

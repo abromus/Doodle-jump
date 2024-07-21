@@ -19,7 +19,7 @@ namespace DoodleJump.Game.Worlds
 
             var platformsConfig = args.PlatformsConfig;
 
-            _platformStorage = new PlatformStorage(args.WorldFactory, args.GeneratorConfig, platformsConfig, platformsContainer, _doodlerTransform, _screenRect);
+            _platformStorage = new PlatformStorage(args.WorldFactory, args.GeneratorConfig, platformsConfig, platformsContainer, _screenRect);
             _platformStorage.Collided += OnCollided;
 
             _triggerExecutor = new TriggerExecutor(args.TriggerFactory, platformsConfig);
