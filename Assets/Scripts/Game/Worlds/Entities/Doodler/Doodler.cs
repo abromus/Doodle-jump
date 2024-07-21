@@ -1,5 +1,4 @@
 using DoodleJump.Core.Services;
-using DoodleJump.Game.Settings;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
@@ -13,7 +12,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
         private ICameraService _cameraService;
-        private ICameraConfig _cameraConfig;
         private IDoodlerMovement _movement;
         private IDoodlerCameraFollower _cameraFollower;
         private IDoodlerAnimator _animator;
@@ -24,11 +22,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _updater = args.Updater;
             _cameraService = args.CameraService;
-            _cameraConfig = args.CameraConfig;
 
-            _cameraService.AttachTo(transform.parent);
-
-            InitCamera();
             InitServices(args);
             Subscribe();
         }
@@ -60,22 +54,11 @@ namespace DoodleJump.Game.Worlds.Entities
             _rigidbody.velocity = Vector3.zero;
 
             transform.position = Vector3.zero;
-
-            InitCamera();
         }
 
         public void Destroy()
         {
-            _cameraService?.Detach();
-
             Unsubscribe();
-        }
-
-        private void InitCamera()
-        {
-            var cameraTransform = _cameraService.Camera.transform;
-            cameraTransform.localScale = Vector3.one;
-            cameraTransform.position = _cameraConfig.Offset;
         }
 
         private void InitServices(DoodlerArgs args)

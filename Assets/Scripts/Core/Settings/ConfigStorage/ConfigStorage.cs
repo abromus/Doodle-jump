@@ -14,7 +14,7 @@ namespace DoodleJump.Core.Settings
 
         public void Init()
         {
-            _configs = new Dictionary<Type, IConfig>()
+            _configs = new Dictionary<Type, IConfig>(4)
             {
                 [typeof(IUiFactoryConfig)] = _uiFactoryConfig,
                 [typeof(IUiServiceConfig)] = _uiServiceConfig,

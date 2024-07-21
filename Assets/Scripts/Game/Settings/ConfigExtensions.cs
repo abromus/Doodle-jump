@@ -14,6 +14,16 @@ namespace DoodleJump.Game.Settings
             return configStorage.GetConfig<IDoodlerConfig>();
         }
 
+        internal static IUiFactoryConfig GetGameUiFactoryConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IUiFactoryConfig>();
+        }
+
+        public static IUiServiceConfig GetGameUiServiceConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IUiServiceConfig>();
+        }
+
         internal static IGeneratorConfig GetGeneratorConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<IGeneratorConfig>();

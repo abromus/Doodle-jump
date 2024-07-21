@@ -1,3 +1,4 @@
+using DoodleJump.Core.Data;
 using DoodleJump.Core.Services;
 using DoodleJump.Core.Settings;
 using DoodleJump.Core.States;
@@ -11,19 +12,19 @@ namespace DoodleJump.Core
         [SerializeField] private Transform _uiServicesContainer;
 
         private IUpdater _updater;
-        private IGameData _gameData;
+        private ICoreData _coreData;
 
-        internal void CreateGameData()
+        internal void CreateCoreData()
         {
             _updater = new Updater();
-            _gameData = new GameData(_configStorage, _updater, _uiServicesContainer);
+            _coreData = new CoreData(_configStorage, _updater, _uiServicesContainer);
 
             EnterInitState();
         }
 
         internal void Destroy()
         {
-            _gameData.Destroy();
+            _coreData.Destroy();
         }
 
         private void Awake()
@@ -48,7 +49,7 @@ namespace DoodleJump.Core
 
         private void EnterInitState()
         {
-            _gameData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();
+            _coreData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();
         }
 
         private void OnDestroy()

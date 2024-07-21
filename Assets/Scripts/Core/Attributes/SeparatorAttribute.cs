@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace DoodleJump.Core
 {
@@ -8,17 +7,19 @@ namespace DoodleJump.Core
     {
         private readonly float _height;
         private readonly float _spacing;
-        private readonly Color _color;
+        private readonly CustomColor _color;
 
         public float Height => _height;
 
         public float Spacing => _spacing;
 
-        public Color Color => _color;
+        public CustomColor Color => _color;
 
-        public SeparatorAttribute() : this(1f, 5f, Color.white) { }
+        public SeparatorAttribute() : this(CustomColor.Lime) { }
 
-        public SeparatorAttribute(float height, float width, Color color)
+        public SeparatorAttribute(CustomColor color) : this(1f, 5f, color) { }
+
+        public SeparatorAttribute(float height, float width, CustomColor color)
         {
             _height = height;
             _spacing = width;

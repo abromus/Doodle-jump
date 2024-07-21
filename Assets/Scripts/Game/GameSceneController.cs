@@ -1,5 +1,5 @@
 using DoodleJump.Core;
-using DoodleJump.Game.Initializers;
+using DoodleJump.Core.Data;
 using DoodleJump.Game.Settings;
 using UnityEngine;
 
@@ -7,22 +7,14 @@ namespace DoodleJump.Game
 {
     internal sealed class GameSceneController : SceneController
     {
-        [SerializeField] private ConfigData _configData;
+        [SerializeField] private ConfigStorage _configStorage;
+        [SerializeField] private Transform _uiServicesContainer;
 
         private IGame _game;
 
-        private IConfigInitializer _configInitializer;
-        private IServiceInitializer _serviceInitializer;
-        private IFactoryInitializer _factoryInitializer;
-
-        public override void Run(IGameData gameData)
+        public override void Run(ICoreData coreData)
         {
-            _game = new Game(gameData);
-
-            InitializeConfigs();
-            InitializeServices();
-            InitializeFactories();
-
+            _game = new Game(coreData, _configStorage, _uiServicesContainer);
             _game.Run();
         }
 
@@ -31,27 +23,14 @@ namespace DoodleJump.Game
             _game.Destroy();
         }
 
+        private void Awake()
+        {
+            _configStorage.Init();
+        }
+
         private void OnDestroy()
         {
             Destroy();
-        }
-
-        private void InitializeConfigs()
-        {
-            _configInitializer = new ConfigInitializer(_game, _configData);
-            _configInitializer.Initialize();
-        }
-
-        private void InitializeServices()
-        {
-            _serviceInitializer = new ServiceInitializer(_game);
-            _serviceInitializer.Initialize();
-        }
-
-        private void InitializeFactories()
-        {
-            _factoryInitializer = new FactoryInitializer(_game);
-            _factoryInitializer.Initialize();
         }
     }
 }

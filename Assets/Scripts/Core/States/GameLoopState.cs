@@ -1,3 +1,4 @@
+using DoodleJump.Core.Data;
 using DoodleJump.Core.Factories;
 using DoodleJump.Core.Services;
 
@@ -5,19 +6,19 @@ namespace DoodleJump.Core.States
 {
     internal sealed class GameLoopState : IEnterState
     {
-        private readonly IGameData _gameData;
+        private readonly ICoreData _coreData;
 
-        internal GameLoopState(IGameData gameData)
+        internal GameLoopState(ICoreData coreData)
         {
-            _gameData = gameData;
+            _coreData = coreData;
         }
 
         public void Enter()
         {
-            var gameSceneControllerFactory = _gameData.FactoryStorage.GetGameSceneControllerFactory();
+            var gameSceneControllerFactory = _coreData.FactoryStorage.GetGameSceneControllerFactory();
 
             var gameSceneController = gameSceneControllerFactory.Create();
-            gameSceneController.Run(_gameData);
+            gameSceneController.Run(_coreData);
         }
 
         public void Exit() { }

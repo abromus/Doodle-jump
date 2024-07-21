@@ -2,7 +2,8 @@ namespace DoodleJump.Core.Services
 {
     public enum UiServiceType
     {
-        CameraService,
-        EventSystemService,
+        None = 0,
+        CameraService = 1,
+        EventSystemService = 2,
     }
 }

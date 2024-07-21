@@ -1,4 +1,6 @@
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Services;
+using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -9,19 +11,29 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private Transform _platformsContainer;
 
         private WorldArgs _args;
+        private IEventSystemService _eventSystemService;
+        private IScreenSystemService _screenSystemService;
         private IDoodler _doodler;
         private ICameraService _cameraService;
+        private ICameraConfig _cameraConfig;
         private IDoodlerChecker _doodlerChecker;
         private IGenerator _generator;
 
         public void Init(WorldArgs args)
         {
             _args = args;
+            _eventSystemService = args.EventSystemService;
+            _screenSystemService = args.ScreenSystemService;
             _doodler = _args.Doodler;
             _cameraService = _args.CameraService;
+            _cameraConfig = args.CameraConfig;
 
+            var doodlerTransform = _doodler.GameObject.transform;
+
+            InitUi();
             InitTriggerFactory();
-            InitDoodlerChecker();
+            InitDoodler(doodlerTransform);
+            InitDoodlerChecker(doodlerTransform);
             InitGenerator();
             Subscribe();
         }
@@ -35,6 +47,8 @@ namespace DoodleJump.Game.Worlds
         public void Destroy()
         {
             Unsubscribe();
+
+            _cameraService?.Detach();
         }
 
         private void InitTriggerFactory()
@@ -42,9 +56,14 @@ namespace DoodleJump.Game.Worlds
             _args.TriggerFactory.Init(_doodler);
         }
 
-        private void InitDoodlerChecker()
+        private void InitDoodler(Transform doodlerTransform)
         {
-            var doodlerTransform = _doodler.GameObject.transform;
+            doodlerTransform.SetParent(transform);
+            doodlerTransform.position = Vector3.zero;
+        }
+
+        private void InitDoodlerChecker(Transform doodlerTransform)
+        {
             var cameraTransform = _cameraService.Camera.transform;
             var screenRect = _cameraService.GetScreenRect();
 
@@ -56,10 +75,34 @@ namespace DoodleJump.Game.Worlds
             _generator = new Generator(_args, _platformsContainer);
         }
 
+        private void InitUi()
+        {
+            InitCamera();
+
+            _eventSystemService.AddTo(gameObject.scene);
+            _screenSystemService.AttachTo(transform);
+        }
+
+        private void InitCamera()
+        {
+            _cameraService.AttachTo(transform);
+
+            ResetCamera();
+        }
+
         private void RestartGame()
         {
+            ResetCamera();
+
             _doodler.Restart();
             _generator.Restart();
+        }
+
+        private void ResetCamera()
+        {
+            var cameraTransform = _cameraService.Camera.transform;
+            cameraTransform.localScale = Vector3.one;
+            cameraTransform.position = _cameraConfig.Offset;
         }
 
         private void Subscribe()

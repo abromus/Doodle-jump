@@ -13,8 +13,9 @@ namespace DoodleJump.Core.Editor
 
             var separatorAttribute = attribute as SeparatorAttribute;
             var rect = new Rect(position.xMin, position.yMin + separatorAttribute.Spacing, position.width, separatorAttribute.Height);
+            var color = separatorAttribute.Color.GetColor();
 
-            EditorGUI.DrawRect(rect, separatorAttribute.Color);
+            EditorGUI.DrawRect(rect, color);
         }
 
         public override float GetHeight()

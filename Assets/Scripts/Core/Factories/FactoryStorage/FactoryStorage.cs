@@ -12,13 +12,12 @@ namespace DoodleJump.Core.Factories
 
         internal FactoryStorage(IConfigStorage configStorage)
         {
-            _uiFactoryConfig = configStorage.GetUiFactoryConfig();
+            _uiFactoryConfig = configStorage.GetCoreUiFactoryConfig();
 
             var uiFactories = _uiFactoryConfig.UiFactories;
-
             var gameSceneControllerFactory = uiFactories.GetGameSceneControllerFactory();
 
-            _factories = new Dictionary<Type, IFactory>()
+            _factories = new Dictionary<Type, IFactory>(4)
             {
                 [typeof(IGameSceneControllerFactory)] = gameSceneControllerFactory,
             };

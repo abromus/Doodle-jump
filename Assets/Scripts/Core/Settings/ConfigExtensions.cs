@@ -1,13 +1,13 @@
 namespace DoodleJump.Core.Settings
 {
-    public static class ConfigExtensions
+    internal static class ConfigExtensions
     {
-        public static IUiFactoryConfig GetUiFactoryConfig(this IConfigStorage configStorage)
+        internal static IUiFactoryConfig GetCoreUiFactoryConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<IUiFactoryConfig>();
         }
 
-        public static IUiServiceConfig GetUiServiceConfig(this IConfigStorage configStorage)
+        internal static IUiServiceConfig GetCoreUiServiceConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<IUiServiceConfig>();
         }

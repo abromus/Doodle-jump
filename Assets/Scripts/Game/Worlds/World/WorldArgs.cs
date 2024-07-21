@@ -1,5 +1,6 @@
 ﻿using DoodleJump.Core.Services;
 using DoodleJump.Game.Factories;
+using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds.Entities;
 
@@ -9,9 +10,12 @@ namespace DoodleJump.Game.Worlds
     {
         private readonly IUpdater _updater;
         private readonly ICameraService _cameraService;
+        private readonly IEventSystemService _eventSystemService;
+        private readonly IScreenSystemService _screenSystemService;
         private readonly IWorldFactory _worldFactory;
         private readonly ITriggerFactory _triggerFactory;
         private readonly IDoodler _doodler;
+        private readonly ICameraConfig _cameraConfig;
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPlatformsConfig _platformsConfig;
 
@@ -19,11 +23,17 @@ namespace DoodleJump.Game.Worlds
 
         internal ICameraService CameraService => _cameraService;
 
+        internal IEventSystemService EventSystemService => _eventSystemService;
+
+        internal IScreenSystemService ScreenSystemService => _screenSystemService;
+
         internal IWorldFactory WorldFactory => _worldFactory;
 
         internal ITriggerFactory TriggerFactory => _triggerFactory;
 
         internal IDoodler Doodler => _doodler;
+
+        internal ICameraConfig CameraConfig => _cameraConfig;
 
         internal IGeneratorConfig GeneratorConfig => _generatorConfig;
 
@@ -32,17 +42,23 @@ namespace DoodleJump.Game.Worlds
         internal WorldArgs(
             IUpdater updater,
             ICameraService cameraService,
+            IEventSystemService eventSystemService,
+            IScreenSystemService screenSystemService,
             IWorldFactory worldFactory,
             ITriggerFactory triggerFactory,
             IDoodler doodler,
+            ICameraConfig cameraConfig,
             IGeneratorConfig generatorConfig,
             IPlatformsConfig platformsConfig)
         {
             _updater = updater;
             _cameraService = cameraService;
+            _eventSystemService = eventSystemService;
+            _screenSystemService = screenSystemService;
             _worldFactory = worldFactory;
             _triggerFactory = triggerFactory;
             _doodler = doodler;
+            _cameraConfig = cameraConfig;
             _generatorConfig = generatorConfig;
             _platformsConfig = platformsConfig;
         }

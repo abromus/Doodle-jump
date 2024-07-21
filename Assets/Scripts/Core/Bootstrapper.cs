@@ -8,7 +8,7 @@ namespace DoodleJump.Core
 
         private void Awake()
         {
-            _coreSceneController.CreateGameData();
+            _coreSceneController.CreateCoreData();
         }
     }
 }

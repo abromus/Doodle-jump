@@ -1,6 +1,7 @@
 using DoodleJump.Core;
 using DoodleJump.Core.Factories;
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds;
 using DoodleJump.Game.Worlds.Entities;
@@ -14,24 +15,40 @@ namespace DoodleJump.Game.Factories
 
         private IUpdater _updater;
         private ICameraService _cameraService;
+        private IEventSystemService _eventSystemService;
+        private IScreenSystemService _screenSystemService;
         private ITriggerFactory _triggerFactory;
+        private ICameraConfig _cameraConfig;
         private IGeneratorConfig _generatorConfig;
         private IPlatformsConfig _platformsConfig;
 
         public override UiFactoryType UiFactoryType => UiFactoryType.WorldFactory;
 
-        public void Init(IUpdater updater, ICameraService cameraService, ITriggerFactory triggerFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig)
+        public void Init(WorldFactoryArgs args)
         {
-            _updater = updater;
-            _cameraService = cameraService;
-            _triggerFactory = triggerFactory;
-            _generatorConfig = generatorConfig;
-            _platformsConfig = platformsConfig;
+            _updater = args.Updater;
+            _cameraService = args.CameraService;
+            _eventSystemService = args.EventSystemService;
+            _screenSystemService = args.ScreenSystemService;
+            _triggerFactory = args.TriggerFactory;
+            _cameraConfig = args.CameraConfig;
+            _generatorConfig = args.GeneratorConfig;
+            _platformsConfig = args.PlatformsConfig;
         }
 
         public IWorld CreateWorld(IDoodler doodler)
         {
-            var args = new WorldArgs(_updater, _cameraService, this, _triggerFactory, doodler, _generatorConfig, _platformsConfig);
+            var args = new WorldArgs(
+                _updater,
+                _cameraService,
+                _eventSystemService,
+                _screenSystemService,
+                this,
+                _triggerFactory,
+                doodler,
+                _cameraConfig,
+                _generatorConfig,
+                _platformsConfig);
             var world = Instantiate(_world);
             world.Init(args);
             world.gameObject.RemoveCloneSuffix();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DoodleJump.Core.Data;
 using DoodleJump.Core.Settings;
 using DoodleJump.Core.States;
 using UnityEngine;
@@ -15,22 +16,22 @@ namespace DoodleJump.Core.Services
 
         public Transform UiServiceContainer => _uiServicesContainer;
 
-        internal ServiceStorage(IGameData gameData, IConfigStorage configStorage, IUpdater updater, Transform uiServicesContainer)
+        internal ServiceStorage(ICoreData coreData, IConfigStorage configStorage, IUpdater updater, Transform uiServicesContainer)
         {
             _configStorage = configStorage;
             _uiServicesContainer = uiServicesContainer;
 
             UnityEngine.Object.DontDestroyOnLoad(_uiServicesContainer);
 
-            var uiServices = _configStorage.GetUiServiceConfig().UiServices;
+            var uiServices = _configStorage.GetCoreUiServiceConfig().UiServices;
 
-            var stateMachine = InitStateMachine(gameData);
+            var stateMachine = InitStateMachine(coreData);
             var inputService = InitInputService();
 
             var cameraService = InitCameraService(uiServices, _uiServicesContainer);
             var eventSystemService = InitEventSystemService(uiServices, _uiServicesContainer);
 
-            _services = new Dictionary<Type, IService>(64)
+            _services = new Dictionary<Type, IService>(8)
             {
                 [typeof(IUpdater)] = updater,
                 [typeof(IStateMachine)] = stateMachine,
@@ -71,14 +72,14 @@ namespace DoodleJump.Core.Services
             return inputService;
         }
 
-        private IStateMachine InitStateMachine(IGameData gameData)
+        private IStateMachine InitStateMachine(ICoreData coreData)
         {
             var stateMachine = new StateMachine();
 
             stateMachine.Add(new BootstrapState(stateMachine));
             stateMachine.Add(new GameState(stateMachine));
             stateMachine.Add(new SceneLoaderState(new SceneLoader()));
-            stateMachine.Add(new GameLoopState(gameData));
+            stateMachine.Add(new GameLoopState(coreData));
 
             return stateMachine;
         }
