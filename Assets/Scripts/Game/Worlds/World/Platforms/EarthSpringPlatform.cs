@@ -12,6 +12,7 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private Transform _spring;
         [SerializeField] private float _springSize;
         [SerializeField] private float _springOffset;
+        [SerializeField] private Animator _animator;
 
         private SpringJumpPlatformCollisionInfo _info;
         private float _springPosition;
@@ -57,6 +58,9 @@ namespace DoodleJump.Game.Worlds
             var isSpringCollided = doodlerPosition - doodlerSize < _springPosition + _springSize && _springPosition - _springSize < doodlerPosition + doodlerSize;
             _info.SetIsSpringCollided(isSpringCollided);
 
+            if (isSpringCollided)
+                _animator.SetTrigger(AnimationKeys.TriggerKeys.Collided);
+
             Collided.SafeInvoke(_info);
         }
 
@@ -69,6 +73,14 @@ namespace DoodleJump.Game.Worlds
             _spring.localPosition = position;
 
             _springPosition = _spring.position.x + localPosition;
+        }
+
+        private sealed class AnimationKeys
+        {
+            internal sealed class TriggerKeys
+            {
+                internal const string Collided = "Collided";
+            }
         }
     }
 }
