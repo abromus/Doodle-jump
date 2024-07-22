@@ -8,6 +8,7 @@ namespace DoodleJump.Game.Worlds
     {
         private readonly IPlayerData _playerData;
         private readonly Transform _doodlerTransform;
+        private readonly float _doodlerSize;
         private readonly Transform _cameraTransform;
         private readonly Rect _screenRect;
         private readonly float _offset;
@@ -16,10 +17,11 @@ namespace DoodleJump.Game.Worlds
 
         public event Action GameOver;
 
-        internal DoodlerChecker(IPersistentDataStorage _persistentDataStorage, Transform doodlerTransform, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IPersistentDataStorage _persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
         {
             _playerData = _persistentDataStorage.GetPlayerData();
             _doodlerTransform = doodlerTransform;
+            _doodlerSize = doodlerSize;
             _cameraTransform = cameraTransform;
             _screenRect = screenRect;
             _offset = _screenRect.height * _half;
@@ -47,7 +49,7 @@ namespace DoodleJump.Game.Worlds
             else if (_screenRect.xMax < doodlerXPosition)
                 ChangeXPosition(_doodlerTransform, -width);
 
-            if (_cameraTransform.position.y < doodlerPosition.y + _offset)
+            if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerSize)
                 return;
 
             GameOver?.Invoke();

@@ -70,7 +70,7 @@ namespace DoodleJump.Game.Worlds
             var cameraTransform = _cameraService.Camera.transform;
             var screenRect = _cameraService.GetScreenRect();
 
-            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, cameraTransform, screenRect);
+            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, screenRect);
         }
 
         private void InitGenerator()

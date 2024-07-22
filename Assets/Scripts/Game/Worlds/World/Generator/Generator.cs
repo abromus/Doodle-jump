@@ -48,9 +48,9 @@ namespace DoodleJump.Game.Worlds
         private void CheckDoodlerPosition()
         {
             var doodlerPosition = _doodlerTransform.position.y;
-            var halfheight = _screenRect.height * _half;
+            var screenHeight = _screenRect.height;
 
-            if (doodlerPosition + halfheight < _platformStorage.HighestPlatformY)
+            if (doodlerPosition + screenHeight < _platformStorage.HighestPlatformY)
                 return;
 
             var platforms = _platformStorage.Platforms;
@@ -60,7 +60,7 @@ namespace DoodleJump.Game.Worlds
             {
                 var platform = platforms[i];
 
-                if (platform.Position.y < doodlerPosition - halfheight)
+                if (platform.Position.y < doodlerPosition - screenHeight)
                     _platformStorage.DestroyPlatform(platform);
             }
 
