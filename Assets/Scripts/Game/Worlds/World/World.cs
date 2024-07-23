@@ -10,6 +10,7 @@ namespace DoodleJump.Game.Worlds
     internal class World : MonoBehaviour, IWorld
     {
         [SerializeField] private Transform _platformsContainer;
+        [SerializeField] private SpriteRenderer[] _backgrounds;
 
         private WorldArgs _args;
         private IEventSystemService _eventSystemService;
@@ -20,6 +21,8 @@ namespace DoodleJump.Game.Worlds
         private IPersistentDataStorage _persistentDataStorage;
         private IDoodlerChecker _doodlerChecker;
         private IGenerator _generator;
+        private IBackgroundChecker _backgroundChecker;
+        private Rect _screenRect;
 
         public void Init(WorldArgs args)
         {
@@ -32,12 +35,14 @@ namespace DoodleJump.Game.Worlds
             _persistentDataStorage = _args.PersistentDataStorage;
 
             var doodlerTransform = _doodler.GameObject.transform;
+            var cameraTransform = _cameraService.Camera.transform;
 
+            InitDoodler(doodlerTransform);
             InitUi();
             InitTriggerFactory();
-            InitDoodler(doodlerTransform);
-            InitDoodlerChecker(doodlerTransform);
+            InitDoodlerChecker(doodlerTransform, cameraTransform);
             InitGenerator();
+            InitBackgroundChecker(cameraTransform);
             Subscribe();
         }
 
@@ -45,6 +50,7 @@ namespace DoodleJump.Game.Worlds
         {
             _doodlerChecker.Tick();
             _generator.Tick();
+            _backgroundChecker.Tick();
         }
 
         public void Destroy()
@@ -62,20 +68,17 @@ namespace DoodleJump.Game.Worlds
         private void InitDoodler(Transform doodlerTransform)
         {
             doodlerTransform.SetParent(transform);
-            doodlerTransform.position = Vector3.zero;
+            doodlerTransform.localPosition = Vector3.zero;
         }
 
-        private void InitDoodlerChecker(Transform doodlerTransform)
+        private void InitDoodlerChecker(Transform doodlerTransform, Transform cameraTransform)
         {
-            var cameraTransform = _cameraService.Camera.transform;
-            var screenRect = _cameraService.GetScreenRect();
-
-            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, screenRect);
+            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, _screenRect);
         }
 
         private void InitGenerator()
         {
-            _generator = new Generator(_args, _platformsContainer);
+            _generator = new Generator(_args, _screenRect, _platformsContainer);
         }
 
         private void InitUi()
@@ -84,6 +87,8 @@ namespace DoodleJump.Game.Worlds
 
             _eventSystemService.AddTo(gameObject.scene);
             _screenSystemService.AttachTo(transform);
+
+            _screenRect = _cameraService.GetScreenRect();
         }
 
         private void InitCamera()
@@ -93,6 +98,11 @@ namespace DoodleJump.Game.Worlds
             ResetCamera();
         }
 
+        private void InitBackgroundChecker(Transform cameraTransform)
+        {
+            _backgroundChecker = new BackgroundChecker(cameraTransform, _screenRect, _backgrounds);
+        }
+
         private void RestartGame()
         {
             ResetCamera();
@@ -100,6 +110,7 @@ namespace DoodleJump.Game.Worlds
             _doodler.Restart();
             _generator.Restart();
             _doodlerChecker.Restart();
+            _backgroundChecker.Restart();
         }
 
         private void ResetCamera()

@@ -9,11 +9,9 @@ namespace DoodleJump.Game.Worlds
         private readonly IPlatformStorage _platformStorage;
         private readonly ITriggerExecutor _triggerExecutor;
 
-        private readonly float _half = 0.5f;
-
-        internal Generator(WorldArgs args, Transform platformsContainer)
+        internal Generator(WorldArgs args, Rect screenRect, Transform platformsContainer)
         {
-            _screenRect = args.CameraService.GetScreenRect();
+            _screenRect = screenRect;
 
             _doodlerTransform = args.Doodler.GameObject.transform;
 

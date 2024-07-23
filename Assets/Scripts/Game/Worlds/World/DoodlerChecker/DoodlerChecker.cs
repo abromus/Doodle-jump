@@ -17,9 +17,9 @@ namespace DoodleJump.Game.Worlds
 
         public event Action GameOver;
 
-        internal DoodlerChecker(IPersistentDataStorage _persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
         {
-            _playerData = _persistentDataStorage.GetPlayerData();
+            _playerData = persistentDataStorage.GetPlayerData();
             _doodlerTransform = doodlerTransform;
             _doodlerSize = doodlerSize;
             _cameraTransform = cameraTransform;
