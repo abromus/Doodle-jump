@@ -1,5 +1,6 @@
 ﻿using System;
 using DoodleJump.Core;
+using DoodleJump.Game.Services;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -16,7 +17,9 @@ namespace DoodleJump.Game.Worlds
 
         public abstract event Action<IPlatform> Destroyed;
 
-        public void Init(Vector3 position);
+        public void Init(IAudioService audioService);
+
+        public void InitPosition(Vector3 position);
 
         public bool IsIntersectedArea(Vector2 center, Vector2 size);
 

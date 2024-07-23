@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Worlds
         private readonly ICameraService _cameraService;
         private readonly IEventSystemService _eventSystemService;
         private readonly IScreenSystemService _screenSystemService;
+        private readonly IAudioService _audioService;
         private readonly IWorldFactory _worldFactory;
         private readonly ITriggerFactory _triggerFactory;
         private readonly IDoodler _doodler;
@@ -28,6 +29,8 @@ namespace DoodleJump.Game.Worlds
         internal IEventSystemService EventSystemService => _eventSystemService;
 
         internal IScreenSystemService ScreenSystemService => _screenSystemService;
+
+        internal IAudioService AudioService => _audioService;
 
         internal IWorldFactory WorldFactory => _worldFactory;
 
@@ -48,6 +51,7 @@ namespace DoodleJump.Game.Worlds
             ICameraService cameraService,
             IEventSystemService eventSystemService,
             IScreenSystemService screenSystemService,
+            IAudioService audioService,
             IWorldFactory worldFactory,
             ITriggerFactory triggerFactory,
             IDoodler doodler,
@@ -60,6 +64,7 @@ namespace DoodleJump.Game.Worlds
             _cameraService = cameraService;
             _eventSystemService = eventSystemService;
             _screenSystemService = screenSystemService;
+            _audioService = audioService;
             _worldFactory = worldFactory;
             _triggerFactory = triggerFactory;
             _doodler = doodler;

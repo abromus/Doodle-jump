@@ -26,10 +26,12 @@ namespace DoodleJump.Game.Services
             var cameraService = gameData.CoreData.ServiceStorage.GetCameraService();
             var uiServices = _configStorage.GetGameUiServiceConfig().UiServices;
             var persistentDataStorage = gameData.PersistentDataStorage;
+            var audioService = InitAudioService(uiServices, _uiServicesContainer);
             var screenSystemService = InitScreenSystemService(cameraService, uiServices, persistentDataStorage, _uiServicesContainer);
 
             _services = new(8)
             {
+                [typeof(IAudioService)] = audioService,
                 [typeof(IScreenSystemService)] = screenSystemService,
             };
         }
@@ -56,6 +58,16 @@ namespace DoodleJump.Game.Services
 
             _services.Clear();
             _services = null;
+        }
+
+        private IAudioService InitAudioService(IReadOnlyList<IUiService> uiServices, Transform container)
+        {
+            var audioServicePrefab = uiServices.GetAudioService();
+            var audioServiceObject = InstantiateUiService(audioServicePrefab as UiService, container);
+
+            var audioServiceService = audioServiceObject as IAudioService;
+
+            return audioServiceService;
         }
 
         private IScreenSystemService InitScreenSystemService(ICameraService cameraService, IReadOnlyList<IUiService> uiServices, IPersistentDataStorage persistentDataStorage, Transform container)

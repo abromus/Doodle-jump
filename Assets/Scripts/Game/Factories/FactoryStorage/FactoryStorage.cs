@@ -104,6 +104,7 @@ namespace DoodleJump.Game.Factories
         {
             var eventSystemService = coreServiceStorage.GetEventSystemService();
             var screenSystemService = _serviceStorage.GetScreenSystemService();
+            var audioService = _serviceStorage.GetAudioService();
             var factory = uiFactories.GetWorldFactory();
             var cameraConfig = _configStorage.GetCameraConfig();
             var generatorConfig = _configStorage.GetGeneratorConfig();
@@ -113,6 +114,7 @@ namespace DoodleJump.Game.Factories
                 cameraService,
                 eventSystemService,
                 screenSystemService,
+                audioService,
                 triggerFactory,
                 cameraConfig,
                 generatorConfig,

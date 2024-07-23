@@ -18,6 +18,7 @@ namespace DoodleJump.Game.Factories
         private ICameraService _cameraService;
         private IEventSystemService _eventSystemService;
         private IScreenSystemService _screenSystemService;
+        private IAudioService _audioService;
         private ITriggerFactory _triggerFactory;
         private ICameraConfig _cameraConfig;
         private IGeneratorConfig _generatorConfig;
@@ -32,6 +33,7 @@ namespace DoodleJump.Game.Factories
             _cameraService = args.CameraService;
             _eventSystemService = args.EventSystemService;
             _screenSystemService = args.ScreenSystemService;
+            _audioService = args.AudioService;
             _triggerFactory = args.TriggerFactory;
             _cameraConfig = args.CameraConfig;
             _generatorConfig = args.GeneratorConfig;
@@ -46,6 +48,7 @@ namespace DoodleJump.Game.Factories
                 _cameraService,
                 _eventSystemService,
                 _screenSystemService,
+                _audioService,
                 this,
                 _triggerFactory,
                 doodler,

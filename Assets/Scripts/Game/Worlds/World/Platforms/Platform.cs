@@ -1,4 +1,5 @@
 using System;
+using DoodleJump.Game.Services;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -9,6 +10,8 @@ namespace DoodleJump.Game.Worlds
         private float _xMax;
         private float _yMin;
         private float _yMax;
+
+        private IAudioService _audioService;
 
         private readonly float _half = 0.5f;
 
@@ -22,7 +25,12 @@ namespace DoodleJump.Game.Worlds
 
         public abstract event Action<IPlatform> Destroyed;
 
-        public virtual void Init(Vector3 position)
+        public void Init(IAudioService audioService)
+        {
+            _audioService = audioService;
+        }
+
+        public virtual void InitPosition(Vector3 position)
         {
             transform.position = position;
 
@@ -60,6 +68,11 @@ namespace DoodleJump.Game.Worlds
         }
 
         public abstract void Destroy();
+
+        protected void PlaySound(ClipType type)
+        {
+            _audioService.Play(type);
+        }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

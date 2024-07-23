@@ -4,5 +4,6 @@ namespace DoodleJump.Game.Services
     {
         None = 0,
         ScreenSystemService = 1,
+        AudioService = 2,
     }
 }

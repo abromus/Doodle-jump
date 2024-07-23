@@ -1,7 +1,7 @@
 ﻿namespace DoodleJump.Game.UI
 {
     [System.Serializable]
-    public enum ScreenType
+    internal enum ScreenType
     {
         None = 0,
         Main = 1,

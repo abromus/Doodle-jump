@@ -1,5 +1,6 @@
 ﻿using System;
 using DoodleJump.Core;
+using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private float _springSize;
         [SerializeField] private float _springOffset;
         [SerializeField] private Animator _animator;
+        [SerializeField] private ClipType _clipType;
+        [SerializeField] private ClipType _springClipType;
 
         private SpringJumpPlatformCollisionInfo _info;
         private float _springPosition;
@@ -28,9 +31,9 @@ namespace DoodleJump.Game.Worlds
 
         public override event Action<IPlatform> Destroyed;
 
-        public override void Init(Vector3 position)
+        public override void InitPosition(Vector3 position)
         {
-            base.Init(position);
+            base.InitPosition(position);
 
             UpdateSpringPosition();
         }
@@ -60,6 +63,10 @@ namespace DoodleJump.Game.Worlds
 
             if (isSpringCollided)
                 _animator.SetTrigger(AnimationKeys.TriggerKeys.Collided);
+
+            var clipType = isSpringCollided ? _springClipType : _clipType;
+
+            PlaySound(clipType);
 
             Collided.SafeInvoke(_info);
         }

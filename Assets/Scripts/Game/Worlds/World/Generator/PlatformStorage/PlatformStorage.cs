@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DoodleJump.Core;
 using DoodleJump.Game.Factories;
+using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace DoodleJump.Game.Worlds
         private Vector3 _currentPlatformPosition;
         private float _highestPlatformY;
         private float _spawnChanceFactor = 0f;
-
+        private readonly IAudioService _audioService;
         private readonly IWorldFactory _worldFactory;
         private readonly IPlatformsConfig _platformsConfig;
         private readonly Transform _platformsContainer;
@@ -33,8 +34,9 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IPlatformCollisionInfo> Collided;
 
-        public PlatformStorage(IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
+        public PlatformStorage(IAudioService audioService, IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
         {
+            _audioService = audioService;
             _worldFactory = worldFactory;
             _platformsConfig = platformsConfig;
             _platformsContainer = platformsContainer;
@@ -150,6 +152,7 @@ namespace DoodleJump.Game.Worlds
         private IPlatform CreatePlatform(Platform platformPrefab)
         {
             var platform = _worldFactory.CreatePlatform(platformPrefab, _platformsContainer);
+            platform.Init(_audioService);
 
             return platform;
         }
@@ -187,7 +190,7 @@ namespace DoodleJump.Game.Worlds
         private void GeneratePlatform(Platform platformPrefab)
         {
             var platform = _pools[platformPrefab.Id].Get();
-            platform.Init(_currentPlatformPosition);
+            platform.InitPosition(_currentPlatformPosition);
             platform.Collided += OnCollided;
             platform.Destroyed += OnDestroyed;
 

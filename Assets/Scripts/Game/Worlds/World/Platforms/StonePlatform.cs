@@ -1,5 +1,6 @@
 ﻿using System;
 using DoodleJump.Core;
+using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace DoodleJump.Game.Worlds
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;
+        [SerializeField] private ClipType _clipType;
 
         private IPlatformCollisionInfo _info;
 
@@ -32,8 +34,12 @@ namespace DoodleJump.Game.Worlds
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.relativeVelocity.y <= 0f && collision.transform.TryGetComponent<IDoodler>(out var doodler))
-                Collided.SafeInvoke(_info);
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+                return;
+
+            Collided.SafeInvoke(_info);
+
+            PlaySound(_clipType);
         }
     }
 }

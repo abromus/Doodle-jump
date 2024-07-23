@@ -15,6 +15,7 @@ namespace DoodleJump.Game.Worlds
         private WorldArgs _args;
         private IEventSystemService _eventSystemService;
         private IScreenSystemService _screenSystemService;
+        private IAudioService _audioService;
         private IDoodler _doodler;
         private ICameraService _cameraService;
         private ICameraConfig _cameraConfig;
@@ -29,6 +30,7 @@ namespace DoodleJump.Game.Worlds
             _args = args;
             _eventSystemService = args.EventSystemService;
             _screenSystemService = args.ScreenSystemService;
+            _audioService = args.AudioService;
             _doodler = _args.Doodler;
             _cameraService = _args.CameraService;
             _cameraConfig = args.CameraConfig;
