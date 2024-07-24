@@ -91,6 +91,8 @@ namespace DoodleJump.Game.Worlds
             _screenSystemService.AttachTo(transform);
 
             _screenRect = _cameraService.GetScreenRect();
+
+            _audioService.PlayBackground(BackgroundType.World);
         }
 
         private void InitCamera()

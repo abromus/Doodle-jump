@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 1149333594548098415}
+  _backgroundInfos:
+  - _backgroundType: 1
+    _audioClip: {fileID: 8300000, guid: a630a1c2530e266439997c4d129f6cd8, type: 3}
   _clipInfos:
   - _clipType: 1
     _audioClip: {fileID: 8300000, guid: 71894d4f63fe95d40ba91e4dfaafc0c7, type: 3}
