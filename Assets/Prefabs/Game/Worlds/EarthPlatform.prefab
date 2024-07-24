@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 1
-  _size: {x: 1.36, y: 0.25}
+  _size: {x: 1.36, y: 0.35}
   _clipType: 1
 --- !u!212 &792228342339114408
 SpriteRenderer:

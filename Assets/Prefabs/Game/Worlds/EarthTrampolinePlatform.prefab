@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 5
-  _platformSize: {x: 1.36, y: 0.45}
+  _platformSize: {x: 1.36, y: 0.85}
   _spring: {fileID: 3091946048760727041}
   _springSize: 0.8
   _springOffset: 0.1
