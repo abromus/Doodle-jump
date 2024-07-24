@@ -1,11 +1,11 @@
-﻿using System;
-using DoodleJump.Game.Data;
+﻿using DoodleJump.Game.Data;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
 {
     internal sealed class DoodlerChecker : IDoodlerChecker
     {
+        private readonly IWorldData _worldData;
         private readonly IPlayerData _playerData;
         private readonly Transform _doodlerTransform;
         private readonly float _doodlerSize;
@@ -15,10 +15,9 @@ namespace DoodleJump.Game.Worlds
 
         private readonly float _half = 0.5f;
 
-        public event Action GameOver;
-
-        internal DoodlerChecker(IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
         {
+            _worldData = worldData;
             _playerData = persistentDataStorage.GetPlayerData();
             _doodlerTransform = doodlerTransform;
             _doodlerSize = doodlerSize;
@@ -52,7 +51,7 @@ namespace DoodleJump.Game.Worlds
             if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerSize)
                 return;
 
-            GameOver?.Invoke();
+            _worldData.Restart();
         }
 
         private void UpdateScore()

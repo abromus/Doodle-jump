@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DoodleJump.Game.Services;
+using UnityEngine;
 
 namespace DoodleJump.Game.UI
 {
@@ -9,12 +10,14 @@ namespace DoodleJump.Game.UI
 
         public ScreenType ScreenType => _screenType;
 
-        public virtual void Show(Data.IPersistentDataStorage persistentDataStorage)
+        public abstract void Init(Data.IGameData gameData, Worlds.IWorldData worldData, IScreenSystemService screenSystemService);
+
+        public virtual void Show()
         {
             gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             if (this != null && gameObject != null)
                 gameObject.SetActive(false);

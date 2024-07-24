@@ -8,6 +8,7 @@ namespace DoodleJump.Game.Worlds
 {
     internal readonly struct WorldFactoryArgs
     {
+        private readonly IGameData _gameData;
         private readonly IUpdater _updater;
         private readonly ICameraService _cameraService;
         private readonly IEventSystemService _eventSystemService;
@@ -18,6 +19,8 @@ namespace DoodleJump.Game.Worlds
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPlatformsConfig _platformsConfig;
         private readonly IPersistentDataStorage _persistentDataStorage;
+
+        internal IGameData GameData => _gameData;
 
         internal IUpdater Updater => _updater;
 
@@ -40,6 +43,7 @@ namespace DoodleJump.Game.Worlds
         internal IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
 
         internal WorldFactoryArgs(
+            IGameData gameData,
             IUpdater updater,
             ICameraService cameraService,
             IEventSystemService eventSystemService,
@@ -51,6 +55,7 @@ namespace DoodleJump.Game.Worlds
             IPlatformsConfig platformsConfig,
             IPersistentDataStorage persistentDataStorage)
         {
+            _gameData = gameData;
             _updater = updater;
             _cameraService = cameraService;
             _eventSystemService = eventSystemService;

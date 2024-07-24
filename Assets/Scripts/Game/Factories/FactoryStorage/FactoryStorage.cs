@@ -19,7 +19,7 @@ namespace DoodleJump.Game.Factories
         private readonly IServiceStorage _serviceStorage;
         private readonly IUiFactoryConfig _uiFactoryConfig;
 
-        internal FactoryStorage(ICoreData coreData, IPersistentDataStorage persistentDataStorage, IConfigStorage configStorage, IServiceStorage serviceStorage)
+        internal FactoryStorage(IGameData gameData, ICoreData coreData, IPersistentDataStorage persistentDataStorage, IConfigStorage configStorage, IServiceStorage serviceStorage)
         {
             _persistentDataStorage = persistentDataStorage;
             _configStorage = configStorage;
@@ -27,7 +27,7 @@ namespace DoodleJump.Game.Factories
 
             _uiFactoryConfig = configStorage.GetGameUiFactoryConfig();
 
-            InitFactories(coreData);
+            InitFactories(gameData, coreData);
         }
 
         public void AddFactory<TFactory>(TFactory factory) where TFactory : class, IFactory
@@ -54,7 +54,7 @@ namespace DoodleJump.Game.Factories
             _factories = null;
         }
 
-        private void InitFactories(ICoreData coreData)
+        private void InitFactories(IGameData gameData, ICoreData coreData)
         {
             var uiFactories = _uiFactoryConfig.UiFactories;
             var coreServiceStorage = coreData.ServiceStorage;
@@ -62,7 +62,7 @@ namespace DoodleJump.Game.Factories
             var cameraService = coreServiceStorage.GetCameraService();
             var doodlerFactory = InitDoodlerFactory(coreServiceStorage, updater, cameraService, uiFactories);
             var triggerFactory = InitTriggerFactory();
-            var worldFactory = InitWorldFactory(coreServiceStorage, updater, cameraService, uiFactories, triggerFactory);
+            var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, triggerFactory);
 
             _factories = new(8)
             {
@@ -96,6 +96,7 @@ namespace DoodleJump.Game.Factories
         }
 
         private IWorldFactory InitWorldFactory(
+            IGameData gameData,
             IServiceStorage coreServiceStorage,
             IUpdater updater,
             ICameraService cameraService,
@@ -110,6 +111,7 @@ namespace DoodleJump.Game.Factories
             var generatorConfig = _configStorage.GetGeneratorConfig();
             var platformsConfig = _configStorage.GetPlatformsConfig();
             var args = new Worlds.WorldFactoryArgs(
+                gameData,
                 updater,
                 cameraService,
                 eventSystemService,

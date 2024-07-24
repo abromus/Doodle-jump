@@ -14,10 +14,16 @@ namespace DoodleJump.Core.Services
 
         public void RemoveLateUpdatable(ILateUpdatable updatable);
 
+        public void AddPausable(IPausable pausable);
+
+        public void RemovePausable(IPausable pausable);
+
         public void Tick(float deltaTime);
 
         public void FixedTick(float deltaTime);
 
         public void LateTick(float deltaTime);
+
+        public void SetPause(bool isPaused);
     }
 }

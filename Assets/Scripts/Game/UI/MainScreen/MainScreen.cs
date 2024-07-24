@@ -1,4 +1,7 @@
+using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
+using DoodleJump.Game.Services;
+using DoodleJump.Game.Worlds;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,19 +12,19 @@ namespace DoodleJump.Game.UI
     internal sealed class MainScreen : ScreenBase
     {
         [Core.Separator(Core.CustomColor.Lime)]
-        [SerializeField] private Button _settings;
+        [SerializeField] private Button _buttonPause;
         [SerializeField] private TMP_Text _currentScore;
         [SerializeField] private TMP_Text _maxScore;
 
         private IPlayerData _playerData;
+        private IScreenSystemService _screenSystemService;
+        private IUpdater _updater;
 
-        public override void Show(IPersistentDataStorage persistentDataStorage)
+        public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
-            base.Show(persistentDataStorage);
-
-            _playerData = persistentDataStorage.GetPlayerData();
-
-            Subscribe();
+            _playerData = gameData.PersistentDataStorage.GetPlayerData();
+            _screenSystemService = screenSystemService;
+            _updater = gameData.CoreData.ServiceStorage.GetUpdater();
         }
 
         private void OnEnable()
@@ -36,7 +39,7 @@ namespace DoodleJump.Game.UI
 
         private void Subscribe()
         {
-            _settings.onClick.AddListener(OnSettingsClicked);
+            _buttonPause.onClick.AddListener(OnButtonPauseClicked);
 
             if (_playerData != null)
                 _playerData.ScoreChanged += OnScoreChanged;
@@ -44,15 +47,16 @@ namespace DoodleJump.Game.UI
 
         private void Unsubscribe()
         {
-            _settings.onClick.RemoveListener(OnSettingsClicked);
+            _buttonPause.onClick.RemoveListener(OnButtonPauseClicked);
 
             if (_playerData != null)
                 _playerData.ScoreChanged -= OnScoreChanged;
         }
 
-        private void OnSettingsClicked()
+        private void OnButtonPauseClicked()
         {
-            Debug.Log("Settings clicked");
+            _updater.SetPause(true);
+            _screenSystemService.ShowScreen(ScreenType.Settings);
         }
 
         private void OnScoreChanged()

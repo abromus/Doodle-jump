@@ -47,14 +47,24 @@ namespace DoodleJump.Core
             _updater.LateTick(Time.deltaTime);
         }
 
-        private void EnterInitState()
+        private void OnApplicationFocus(bool focus)
         {
-            _coreData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();
+            _updater.SetPause(focus == false);
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            _updater.SetPause(pause);
         }
 
         private void OnDestroy()
         {
             Destroy();
+        }
+
+        private void EnterInitState()
+        {
+            _coreData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();
         }
     }
 }

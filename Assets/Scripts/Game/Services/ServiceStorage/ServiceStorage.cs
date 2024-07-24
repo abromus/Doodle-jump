@@ -64,7 +64,6 @@ namespace DoodleJump.Game.Services
         {
             var audioServicePrefab = uiServices.GetAudioService();
             var audioServiceObject = InstantiateUiService(audioServicePrefab as UiService, container);
-
             var audioServiceService = audioServiceObject as IAudioService;
 
             return audioServiceService;
@@ -74,9 +73,7 @@ namespace DoodleJump.Game.Services
         {
             var screenSystemServicePrefab = uiServices.GetScreenSystemService();
             var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as UiService, container);
-
             var screenSystemService = screenSystemServiceObject as IScreenSystemService;
-            screenSystemService.Init(cameraService, persistentDataStorage);
 
             return screenSystemService;
         }

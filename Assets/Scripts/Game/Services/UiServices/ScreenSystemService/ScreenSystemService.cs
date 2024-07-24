@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.UI;
+using DoodleJump.Game.Worlds;
 using UnityEngine;
 
 namespace DoodleJump.Game.Services
@@ -12,27 +13,30 @@ namespace DoodleJump.Game.Services
         [SerializeField] private RectTransform _screenContainer;
         [SerializeField] private ScreenInfo[] _screenInfos;
 
-        private IPersistentDataStorage _persistentDataStorage;
-
+        private IGameData _gameData;
+        private IWorldData _worldData;
         private readonly Dictionary<ScreenType, ScreenBase> _screens = new(8);
 
         public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
 
-        public void Init(ICameraService cameraService, IPersistentDataStorage persistentDataStorage)
+        public void Init(IGameData gameData, IWorldData worldData)
         {
-            _persistentDataStorage = persistentDataStorage;
+            _gameData = gameData;
+            _worldData = worldData;
 
-            var camera = cameraService.Camera;
+            var camera = gameData.CoreData.ServiceStorage.GetCameraService().Camera;
 
             _canvas.worldCamera = camera;
             _canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            transform.localPosition = Vector3.zero;
+            transform.localScale = Vector3.one;
         }
 
         public bool ShowScreen(ScreenType screenType)
         {
             if (_screens.ContainsKey(screenType))
             {
-                _screens[screenType].Show(_persistentDataStorage);
+                _screens[screenType].Show();
 
                 return true;
             }
@@ -43,7 +47,8 @@ namespace DoodleJump.Game.Services
                     continue;
 
                 var screen = Instantiate(info.ScreenPrefab, _screenContainer);
-                screen.Show(_persistentDataStorage);
+                screen.Init(_gameData, _worldData, this);
+                screen.Show();
 
                 _screens.Add(screenType, screen);
 

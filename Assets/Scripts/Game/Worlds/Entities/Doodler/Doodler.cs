@@ -52,6 +52,13 @@ namespace DoodleJump.Game.Worlds.Entities
             _cameraFollower.LateTick(deltaTime);
         }
 
+        public void SetPause(bool isPaused)
+        {
+            _doodlerInput.SetPause(isPaused);
+            _movement.SetPause(isPaused);
+            _animator.SetPause(isPaused);
+        }
+
         public void Restart()
         {
             _rigidbody.velocity = Vector3.zero;
@@ -87,6 +94,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _updater.AddUpdatable(this);
             _updater.AddFixedUpdatable(this);
             _updater.AddLateUpdatable(this);
+            _updater.AddPausable(this);
         }
 
         private void Unsubscribe()
@@ -94,6 +102,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _updater.RemoveUpdatable(this);
             _updater.RemoveFixedUpdatable(this);
             _updater.RemoveLateUpdatable(this);
+            _updater.RemovePausable(this);
         }
     }
 }

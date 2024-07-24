@@ -4,7 +4,9 @@
     {
         public ScreenType ScreenType { get; }
 
-        public void Show(Data.IPersistentDataStorage persistentDataStorage);
+        public abstract void Init(Data.IGameData gameData, Worlds.IWorldData worldData, Services.IScreenSystemService screenSystemService);
+
+        public void Show();
 
         public void Hide();
     }

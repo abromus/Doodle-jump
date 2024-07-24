@@ -29,7 +29,7 @@ namespace DoodleJump.Game.Data
             _configStorage = configStorage;
             _persistentDataStorage = new PersistentDataStorage();
             _serviceStorage = new Services.ServiceStorage(this, configStorage, uiServicesContainer);
-            _factoryStorage = new Factories.FactoryStorage(_coreData, _persistentDataStorage, configStorage, _serviceStorage);
+            _factoryStorage = new Factories.FactoryStorage(this, _coreData, _persistentDataStorage, configStorage, _serviceStorage);
         }
 
         public void Destroy()

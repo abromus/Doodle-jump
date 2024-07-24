@@ -12,6 +12,8 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private Transform _platformsContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
 
+        private IGameData _gameData;
+        private IWorldData _worldData;
         private WorldArgs _args;
         private IEventSystemService _eventSystemService;
         private IScreenSystemService _screenSystemService;
@@ -25,8 +27,9 @@ namespace DoodleJump.Game.Worlds
         private IBackgroundChecker _backgroundChecker;
         private Rect _screenRect;
 
-        public void Init(WorldArgs args)
+        public void Init(IGameData gameData, WorldArgs args)
         {
+            _gameData = gameData;
             _args = args;
             _eventSystemService = args.EventSystemService;
             _screenSystemService = args.ScreenSystemService;
@@ -39,6 +42,7 @@ namespace DoodleJump.Game.Worlds
             var doodlerTransform = _doodler.GameObject.transform;
             var cameraTransform = _cameraService.Camera.transform;
 
+            InitWorldData();
             InitDoodler(doodlerTransform);
             InitUi();
             InitTriggerFactory();
@@ -62,9 +66,9 @@ namespace DoodleJump.Game.Worlds
             _cameraService?.Detach();
         }
 
-        private void InitTriggerFactory()
+        private void InitWorldData()
         {
-            _args.TriggerFactory.Init(_doodler);
+            _worldData = new WorldData();
         }
 
         private void InitDoodler(Transform doodlerTransform)
@@ -73,9 +77,32 @@ namespace DoodleJump.Game.Worlds
             doodlerTransform.localPosition = Vector3.zero;
         }
 
+        private void InitUi()
+        {
+            InitCamera();
+
+            _eventSystemService.AddTo(gameObject.scene);
+            _screenSystemService.AttachTo(transform);
+            _screenSystemService.Init(_gameData, _worldData);
+
+            _screenRect = _cameraService.GetScreenRect();
+
+            _audioService.PlayBackground(BackgroundType.World);
+        }
+
+        private void InitTriggerFactory()
+        {
+            _args.TriggerFactory.Init(_doodler);
+        }
+
         private void InitDoodlerChecker(Transform doodlerTransform, Transform cameraTransform)
         {
-            _doodlerChecker = new DoodlerChecker(_persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, _screenRect);
+            _doodlerChecker = new DoodlerChecker(_worldData, _persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, _screenRect);
+        }
+
+        private void InitBackgroundChecker(Transform cameraTransform)
+        {
+            _backgroundChecker = new BackgroundChecker(cameraTransform, _screenRect, _backgrounds);
         }
 
         private void InitGenerator()
@@ -83,28 +110,11 @@ namespace DoodleJump.Game.Worlds
             _generator = new Generator(_args, _screenRect, _platformsContainer);
         }
 
-        private void InitUi()
-        {
-            InitCamera();
-
-            _eventSystemService.AddTo(gameObject.scene);
-            _screenSystemService.AttachTo(transform);
-
-            _screenRect = _cameraService.GetScreenRect();
-
-            _audioService.PlayBackground(BackgroundType.World);
-        }
-
         private void InitCamera()
         {
             _cameraService.AttachTo(transform);
 
             ResetCamera();
-        }
-
-        private void InitBackgroundChecker(Transform cameraTransform)
-        {
-            _backgroundChecker = new BackgroundChecker(cameraTransform, _screenRect, _backgrounds);
         }
 
         private void RestartGame()
@@ -127,13 +137,13 @@ namespace DoodleJump.Game.Worlds
         private void Subscribe()
         {
             _args.Updater.AddUpdatable(this);
-            _doodlerChecker.GameOver += OnGameOver;
+            _worldData.GameOver += OnGameOver;
         }
 
         private void Unsubscribe()
         {
             _args.Updater.RemoveUpdatable(this);
-            _doodlerChecker.GameOver -= OnGameOver;
+            _worldData.GameOver -= OnGameOver;
         }
 
         private void OnGameOver()

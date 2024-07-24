@@ -50,6 +50,8 @@ MonoBehaviour:
   _screenInfos:
   - _screenType: 1
     _screenPrefab: {fileID: 183162609886605431, guid: 630d0ca2af884f045a2926748cefe654, type: 3}
+  - _screenType: 2
+    _screenPrefab: {fileID: 8987469017054697497, guid: 9be951d2902a1414b96ed2637d7a07e5, type: 3}
 --- !u!1 &1575068891183513135
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +110,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &2158512174007190400
 MonoBehaviour:

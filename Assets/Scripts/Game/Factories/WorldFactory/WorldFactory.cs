@@ -14,6 +14,7 @@ namespace DoodleJump.Game.Factories
     {
         [SerializeField] private World _world;
 
+        private IGameData _gameData;
         private IUpdater _updater;
         private ICameraService _cameraService;
         private IEventSystemService _eventSystemService;
@@ -29,6 +30,7 @@ namespace DoodleJump.Game.Factories
 
         public void Init(WorldFactoryArgs args)
         {
+            _gameData = args.GameData;
             _updater = args.Updater;
             _cameraService = args.CameraService;
             _eventSystemService = args.EventSystemService;
@@ -57,7 +59,7 @@ namespace DoodleJump.Game.Factories
                 _platformsConfig,
                 _persistentDataStorage);
             var world = Instantiate(_world);
-            world.Init(args);
+            world.Init(_gameData, args);
             world.gameObject.RemoveCloneSuffix();
 
             return world;

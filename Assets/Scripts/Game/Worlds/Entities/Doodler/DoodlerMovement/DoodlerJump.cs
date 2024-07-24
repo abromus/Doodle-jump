@@ -15,10 +15,6 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Do(float height)
         {
-            /*var velocity = _rigidbody.velocity;
-            velocity.y = jumpHeight;
-            _rigidbody.velocity = velocity;*/
-
             _rigidbody.AddForce(_transform.up * height, ForceMode2D.Impulse);
         }
     }
