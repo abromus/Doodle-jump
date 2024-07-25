@@ -5,7 +5,8 @@ namespace DoodleJump.Game.Services
 {
     internal sealed class AudioService : UiService, IAudioService
     {
-        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioSource _backgroundMusic;
+        [SerializeField] private AudioSource _sounds;
         [SerializeField] private BackgroundInfo[] _backgroundInfos;
         [Separator(CustomColor.Lime)]
         [SerializeField] private ClipInfo[] _clipInfos;
@@ -22,12 +23,12 @@ namespace DoodleJump.Game.Services
             if (clip == null)
                 return;
 
-            _audioSource.clip = clip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            _backgroundMusic.clip = clip;
+            _backgroundMusic.loop = true;
+            _backgroundMusic.Play();
         }
 
-        public void Play(ClipType clipType)
+        public void PlaySound(ClipType clipType)
         {
             if (clipType == ClipType.None)
                 return;
@@ -37,7 +38,27 @@ namespace DoodleJump.Game.Services
             if (clip == null)
                 return;
 
-            _audioSource.PlayOneShot(clip);
+            _sounds.PlayOneShot(clip);
+        }
+
+        public void SetActiveBackgroundMusic(bool isActive)
+        {
+            _backgroundMusic.enabled = isActive;
+        }
+
+        public void SetActiveSounds(bool isActive)
+        {
+            _sounds.enabled = isActive;
+        }
+
+        public void SetBackgroundMusicVolume(float volume)
+        {
+            _backgroundMusic.volume = volume;
+        }
+
+        public void SetSoundsVolume(float volume)
+        {
+            _sounds.volume = volume;
         }
 
         public void Destroy() { }

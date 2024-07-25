@@ -71,7 +71,7 @@ namespace DoodleJump.Game.Worlds
 
         protected void PlaySound(ClipType type)
         {
-            _audioService.Play(type);
+            _audioService.PlaySound(type);
         }
 
 #if UNITY_EDITOR

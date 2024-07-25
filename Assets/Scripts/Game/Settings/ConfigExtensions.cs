@@ -4,6 +4,11 @@ namespace DoodleJump.Game.Settings
 {
     internal static class ConfigExtensions
     {
+        internal static IAudioConfig GetAudioConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IAudioConfig>();
+        }
+
         internal static ICameraConfig GetCameraConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<ICameraConfig>();

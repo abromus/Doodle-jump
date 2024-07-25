@@ -6,6 +6,14 @@ namespace DoodleJump.Game.Services
     {
         public void PlayBackground(BackgroundType backgroundType);
 
-        public void Play(ClipType clipType);
+        public void PlaySound(ClipType clipType);
+
+        public void SetActiveBackgroundMusic(bool isActive);
+
+        public void SetActiveSounds(bool isActive);
+
+        public void SetBackgroundMusicVolume(float volume);
+
+        public void SetSoundsVolume(float volume);
     }
 }
