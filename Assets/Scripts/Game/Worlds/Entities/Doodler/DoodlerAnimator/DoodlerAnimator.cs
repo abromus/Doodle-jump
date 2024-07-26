@@ -60,12 +60,12 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             var input = _doodlerInput.Direction.x;
 
-            if (input == AnimationKeys.DirectionKeys.Neutral)
+            if (input == 0f)
                 return;
 
-            if (input == AnimationKeys.DirectionKeys.Positive && _previousDirection == AnimationKeys.DirectionKeys.Negative)
+            if (0f < input && _previousDirection < 0f)
                 SetDirection(AnimationKeys.DirectionKeys.Positive);
-            else if (input == AnimationKeys.DirectionKeys.Negative && (_previousDirection == AnimationKeys.DirectionKeys.Positive || _previousDirection == AnimationKeys.DirectionKeys.Neutral))
+            else if (input < 0f && 0f <= _previousDirection)
                 SetDirection(AnimationKeys.DirectionKeys.Negative);
         }
 
@@ -83,7 +83,6 @@ namespace DoodleJump.Game.Worlds.Entities
             internal sealed class DirectionKeys
             {
                 internal const float Positive = 1f;
-                internal const float Neutral = 0f;
                 internal const float Negative = -1f;
             }
 

@@ -67,7 +67,11 @@ namespace DoodleJump.Core.Services
 
         private IInputService InitInputService()
         {
+#if UNITY_EDITOR == false && UNITY_ANDROID
+            var inputService = new AndroidInputService();
+#else
             var inputService = new InputService();
+#endif
 
             return inputService;
         }

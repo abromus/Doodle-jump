@@ -1,4 +1,5 @@
 using DoodleJump.Core.Services;
+using DoodleJump.Core.Settings;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
@@ -19,18 +20,24 @@ namespace DoodleJump.Game.UI
         private IPlayerData _playerData;
         private IScreenSystemService _screenSystemService;
         private IUpdater _updater;
+        private IInputService _inputService;
         private IAudioService _audioService;
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
             _playerData = gameData.PersistentDataStorage.GetPlayerData();
             _screenSystemService = screenSystemService;
-            _updater = gameData.CoreData.ServiceStorage.GetUpdater();
+
+            var coreServiceStorage = gameData.CoreData.ServiceStorage;
+            _updater = coreServiceStorage.GetUpdater();
+            _inputService = coreServiceStorage.GetInputService();
             _audioService = gameData.ServiceStorage.GetAudioService();
 
             var audioConfig = gameData.ConfigStorage.GetAudioConfig();
+            var inputConfig = gameData.CoreData.ConfigStorage.GetInputConfig();
 
             InitAudioService(audioConfig);
+            InitInputService(inputConfig);
         }
 
         private void OnEnable()
@@ -49,6 +56,11 @@ namespace DoodleJump.Game.UI
             _audioService.SetActiveSounds(audioConfig.IsSoundsActive);
             _audioService.SetBackgroundMusicVolume(audioConfig.BackgroundMusicVolume);
             _audioService.SetSoundsVolume(audioConfig.SoundVolume);
+        }
+
+        private void InitInputService(IInputConfig inputConfig)
+        {
+            _inputService.SetXSensitivity(inputConfig.CurrentXSensitivity);
         }
 
         private void Subscribe()

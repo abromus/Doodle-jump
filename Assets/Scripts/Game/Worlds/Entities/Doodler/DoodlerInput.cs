@@ -30,7 +30,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void CheckInput()
         {
-            _direction = _isPaused ? _zero : new Vector2(_inputService.GetHorizontalAxisRaw(), 0f).normalized;
+            _direction = _isPaused ? _zero : new Vector2(_inputService.GetHorizontalAxisRaw() * _inputService.XSensitivity, 0f);
         }
     }
 }

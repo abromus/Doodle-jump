@@ -9,6 +9,7 @@ namespace DoodleJump.Core.Settings
     {
         [SerializeField] private UiFactoryConfig _uiFactoryConfig;
         [SerializeField] private UiServiceConfig _uiServiceConfig;
+        [SerializeField] private InputConfig _inputConfig;
 
         private Dictionary<Type, IConfig> _configs;
 
@@ -18,6 +19,7 @@ namespace DoodleJump.Core.Settings
             {
                 [typeof(IUiFactoryConfig)] = _uiFactoryConfig,
                 [typeof(IUiServiceConfig)] = _uiServiceConfig,
+                [typeof(IInputConfig)] = _inputConfig,
             };
         }
 

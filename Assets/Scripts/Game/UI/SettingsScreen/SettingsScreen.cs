@@ -1,4 +1,5 @@
 using DoodleJump.Core.Services;
+using DoodleJump.Core.Settings;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
@@ -19,22 +20,30 @@ namespace DoodleJump.Game.UI
         [SerializeField] private Toggle _toggleSounds;
         [SerializeField] private Slider _sliderBackgroundMusic;
         [SerializeField] private Slider _sliderSounds;
+        [Core.Separator(Core.CustomColor.Elsie)]
+        [SerializeField] private Slider _sliderXSensitivity;
 
         private IWorldData _worldData;
         private IUpdater _updater;
+        private IInputService _inputService;
         private IAudioService _audioService;
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
             _worldData = worldData;
-            _updater = gameData.CoreData.ServiceStorage.GetUpdater();
+
+            var coreServiceStorage = gameData.CoreData.ServiceStorage;
+            _updater = coreServiceStorage.GetUpdater();
+            _inputService = coreServiceStorage.GetInputService();
             _audioService = gameData.ServiceStorage.GetAudioService();
 
             SubscribeUpdater();
 
             var audioConfig = gameData.ConfigStorage.GetAudioConfig();
+            var inputConfig = gameData.CoreData.ConfigStorage.GetInputConfig();
 
             InitAudioService(audioConfig);
+            InitInputService(inputConfig);
         }
 
         public override void Hide()
@@ -72,6 +81,13 @@ namespace DoodleJump.Game.UI
             _sliderSounds.value = audioConfig.SoundVolume;
         }
 
+        private void InitInputService(IInputConfig inputConfig)
+        {
+            _sliderXSensitivity.minValue = inputConfig.MinXSensitivity;
+            _sliderXSensitivity.maxValue = inputConfig.MaxXSensitivity;
+            _sliderXSensitivity.value = inputConfig.CurrentXSensitivity;
+        }
+
         private void Subscribe()
         {
             _buttonClose.onClick.AddListener(OnButtonCloseClicked);
@@ -82,6 +98,8 @@ namespace DoodleJump.Game.UI
             _toggleSounds.onValueChanged.AddListener(OnSoundsActiveChanged);
             _sliderBackgroundMusic.onValueChanged.AddListener(OnBackgroundMusicVolumeChanged);
             _sliderSounds.onValueChanged.AddListener(OnSoundsVolumeChanged);
+
+            _sliderXSensitivity.onValueChanged.AddListener(OnXSensitivityChanged);
         }
 
         private void Unsubscribe()
@@ -94,6 +112,8 @@ namespace DoodleJump.Game.UI
             _toggleSounds.onValueChanged.RemoveListener(OnSoundsActiveChanged);
             _sliderBackgroundMusic.onValueChanged.RemoveListener(OnBackgroundMusicVolumeChanged);
             _sliderSounds.onValueChanged.RemoveListener(OnSoundsVolumeChanged);
+
+            _sliderXSensitivity.onValueChanged.RemoveListener(OnXSensitivityChanged);
         }
 
         private void SubscribeUpdater()
@@ -145,6 +165,11 @@ namespace DoodleJump.Game.UI
         private void OnSoundsVolumeChanged(float volume)
         {
             _audioService.SetSoundsVolume(volume);
+        }
+
+        private void OnXSensitivityChanged(float volume)
+        {
+            _inputService.SetXSensitivity(volume);
         }
     }
 }
