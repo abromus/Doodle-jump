@@ -51,6 +51,7 @@ namespace DoodleJump.Game.Worlds
         private void ResetPositions()
         {
             var previousPositionY = 0f;
+            _backgroundsQueue.Clear();
 
             for (int i = 0; i < _backgrounds.Length; i++)
             {
@@ -60,6 +61,8 @@ namespace DoodleJump.Game.Worlds
                 position.y = i == 0 ? -_height * 2f : previousPositionY + _height;
                 previousPositionY = position.y;
                 transform.position = position;
+
+                _backgroundsQueue.Enqueue(background);
             }
 
             _highestYPosition = _backgrounds[_backgrounds.Length - 1].transform.position.y;
