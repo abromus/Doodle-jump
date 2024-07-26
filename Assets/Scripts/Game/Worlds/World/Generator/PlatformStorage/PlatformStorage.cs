@@ -169,7 +169,7 @@ namespace DoodleJump.Game.Worlds
                 return config.PlatformPrefab;
             }
 
-            return null;
+            return _platformConfigs[_platformConfigs.Count - 1].PlatformPrefab;
         }
 
         private void GenerateNextPosition()
