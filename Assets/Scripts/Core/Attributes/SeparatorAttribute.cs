@@ -19,10 +19,10 @@ namespace DoodleJump.Core
 
         public SeparatorAttribute(CustomColor color) : this(1f, 5f, color) { }
 
-        public SeparatorAttribute(float height, float width, CustomColor color)
+        public SeparatorAttribute(float height, float spacing, CustomColor color)
         {
             _height = height;
-            _spacing = width;
+            _spacing = spacing;
             _color = color;
         }
     }
