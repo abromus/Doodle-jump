@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DoodleJump.Core;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Factories;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
@@ -12,6 +13,8 @@ namespace DoodleJump.Game.Worlds
         private Vector3 _currentPlatformPosition;
         private float _highestPlatformY;
         private float _spawnChanceFactor = 0f;
+
+        private readonly IGameData _gameData;
         private readonly IAudioService _audioService;
         private readonly IWorldFactory _worldFactory;
         private readonly IPlatformsConfig _platformsConfig;
@@ -34,14 +37,16 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IPlatformCollisionInfo> Collided;
 
-        public PlatformStorage(IAudioService audioService, IWorldFactory worldFactory, IGeneratorConfig generatorConfig, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
+        public PlatformStorage(IGameData gameData, WorldArgs args, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
         {
-            _audioService = audioService;
-            _worldFactory = worldFactory;
+            _gameData = gameData;
+            _audioService = args.AudioService;
+            _worldFactory = args.WorldFactory;
             _platformsConfig = platformsConfig;
             _platformsContainer = platformsContainer;
             _screenRect = screenRect;
 
+            var generatorConfig = args.GeneratorConfig;
             _startPosition = generatorConfig.StartPosition;
             _platformStartCount = generatorConfig.PlatformStartCount;
             _platformMaxCount = generatorConfig.PlatformMaxCount;
@@ -152,7 +157,7 @@ namespace DoodleJump.Game.Worlds
         private IPlatform CreatePlatform(Platform platformPrefab)
         {
             var platform = _worldFactory.CreatePlatform(platformPrefab, _platformsContainer);
-            platform.Init(_audioService);
+            platform.Init(_gameData);
 
             return platform;
         }

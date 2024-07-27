@@ -18,6 +18,7 @@ MonoBehaviour:
   - rid: 3427830201746980864
   - rid: 3427830245331828736
   - rid: 3427830268857155584
+  - rid: 3427830362784399360
   references:
     version: 2
     RefIds:
@@ -25,27 +26,27 @@ MonoBehaviour:
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-        _spawnChance: 0.65
+        _spawnChance: 0.6
         _triggerType: 1
         _jumpForce: 10
     - rid: 3427830180456431618
       type: {class: WoodPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: 2218ba24f9ea23347a9dae09023a42f1, type: 3}
-        _spawnChance: 0.09
+        _spawnChance: 0.085
         _triggerType: 2
     - rid: 3427830201746980864
       type: {class: StonePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 5664778281280000024, guid: 3aaba9b82c8c4824f8b925d081d23b1c, type: 3}
-        _spawnChance: 0.05
+        _spawnChance: 0.045
         _triggerType: 1
         _jumpForce: 5
     - rid: 3427830245331828736
       type: {class: EarthSpringPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 8245406481292810278, guid: 3c8883dae6ee1e64fb6a7786c7509553, type: 3}
-        _spawnChance: 0.12
+        _spawnChance: 0.11
         _triggerType: 3
         _defaultJumpForce: 5
         _springJumpForce: 15
@@ -53,7 +54,14 @@ MonoBehaviour:
       type: {class: EarthTrampolinePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 8245406481292810278, guid: 5ca67e8e9faca9b43923da903429eeb8, type: 3}
-        _spawnChance: 0.08
+        _spawnChance: 0.07
         _triggerType: 3
         _defaultJumpForce: 8
         _springJumpForce: 26
+    - rid: 3427830362784399360
+      type: {class: IcePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 8340633529480403711, guid: 9085e6dc0beb1e742aca6372af298107, type: 3}
+        _spawnChance: 0.09
+        _triggerType: 1
+        _jumpForce: 8

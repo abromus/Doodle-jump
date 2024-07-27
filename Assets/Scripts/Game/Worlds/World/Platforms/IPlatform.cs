@@ -17,7 +17,7 @@ namespace DoodleJump.Game.Worlds
 
         public abstract event Action<IPlatform> Destroyed;
 
-        public void Init(IAudioService audioService);
+        public void Init(Data.IGameData gameData);
 
         public void InitPosition(Vector3 position);
 

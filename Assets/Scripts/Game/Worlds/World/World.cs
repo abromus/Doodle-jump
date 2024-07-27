@@ -107,7 +107,7 @@ namespace DoodleJump.Game.Worlds
 
         private void InitGenerator()
         {
-            _generator = new Generator(_args, _screenRect, _platformsContainer);
+            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer);
         }
 
         private void InitCamera()
