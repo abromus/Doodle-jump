@@ -22,6 +22,7 @@ namespace DoodleJump.Game.UI
         private IUpdater _updater;
         private IInputService _inputService;
         private IAudioService _audioService;
+        private bool _initialized;
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
@@ -38,16 +39,22 @@ namespace DoodleJump.Game.UI
 
             InitAudioService(audioConfig);
             InitInputService(inputConfig);
+
+            _initialized = true;
+
+            Subscribe();
         }
 
         private void OnEnable()
         {
-            Subscribe();
+            if (_initialized)
+                Subscribe();
         }
 
         private void OnDisable()
         {
-            Unsubscribe();
+            if (_initialized)
+                Unsubscribe();
         }
 
         private void InitAudioService(IAudioConfig audioConfig)

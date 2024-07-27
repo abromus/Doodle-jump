@@ -16,6 +16,9 @@ namespace DoodleJump.Game.Data
 
         public void SetCurrentScore(int score)
         {
+            if (_currentScore == score)
+                return;
+
             _currentScore = score;
 
             if (_maxScore < _currentScore)

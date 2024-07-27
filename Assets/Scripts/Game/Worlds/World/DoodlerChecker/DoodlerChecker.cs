@@ -56,10 +56,10 @@ namespace DoodleJump.Game.Worlds
 
         private void UpdateScore()
         {
-            var cameraPosition = _cameraTransform.position.y;
+            var cameraPosition = Mathf.FloorToInt(_cameraTransform.position.y);
 
-            if (_playerData.CurrentScore < cameraPosition)
-                _playerData.SetCurrentScore(Mathf.FloorToInt(cameraPosition));
+            if (_playerData.CurrentScore < cameraPosition + 1)
+                _playerData.SetCurrentScore(cameraPosition);
         }
 
         private void ChangeXPosition(Transform transform, float offset)

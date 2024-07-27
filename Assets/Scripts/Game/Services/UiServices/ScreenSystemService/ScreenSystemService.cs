@@ -28,6 +28,7 @@ namespace DoodleJump.Game.Services
 
             _canvas.worldCamera = camera;
             _canvas.renderMode = RenderMode.ScreenSpaceCamera;
+
             transform.localPosition = Vector3.zero;
             transform.localScale = Vector3.one;
         }
