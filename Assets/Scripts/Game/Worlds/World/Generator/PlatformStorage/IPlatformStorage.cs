@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DoodleJump.Core;
+using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds
 {
@@ -10,7 +11,7 @@ namespace DoodleJump.Game.Worlds
 
         public IReadOnlyList<IPlatform> Platforms { get; }
 
-        public event Action<IPlatformCollisionInfo> Collided;
+        public event Action<IProgressInfo, IPlatformCollisionInfo> Collided;
 
         public void Clear();
 

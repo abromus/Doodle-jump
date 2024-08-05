@@ -2,7 +2,6 @@
 using DoodleJump.Core;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Factories;
-using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using UnityEngine;
 
@@ -14,18 +13,17 @@ namespace DoodleJump.Game.Worlds
         private float _highestPlatformY;
         private float _spawnChanceFactor = 0f;
 
+        private bool _isMaxProgress;
+        private IProgressInfo _currentProgress;
+
         private readonly IGameData _gameData;
-        private readonly IAudioService _audioService;
         private readonly IWorldFactory _worldFactory;
-        private readonly IPlatformsConfig _platformsConfig;
         private readonly Transform _platformsContainer;
         private readonly Rect _screenRect;
 
         private readonly Vector3 _startPosition;
         private readonly int _platformStartCount;
-        private readonly int _platformMaxCount;
-        private readonly float _minY;
-        private readonly float _maxY;
+        private readonly IProgressInfo[] _progressInfos;
 
         private readonly List<IPlatformConfig> _platformConfigs = new(16);
         private readonly List<IPlatform> _platforms = new(256);
@@ -35,27 +33,24 @@ namespace DoodleJump.Game.Worlds
 
         public IReadOnlyList<IPlatform> Platforms => _platforms;
 
-        public event System.Action<IPlatformCollisionInfo> Collided;
+        public event System.Action<IProgressInfo, IPlatformCollisionInfo> Collided;
 
-        public PlatformStorage(IGameData gameData, WorldArgs args, IPlatformsConfig platformsConfig, Transform platformsContainer, Rect screenRect)
+        public PlatformStorage(IGameData gameData, WorldArgs args, Transform platformsContainer, Rect screenRect)
         {
             _gameData = gameData;
-            _audioService = args.AudioService;
             _worldFactory = args.WorldFactory;
-            _platformsConfig = platformsConfig;
             _platformsContainer = platformsContainer;
             _screenRect = screenRect;
 
             var generatorConfig = args.GeneratorConfig;
             _startPosition = generatorConfig.StartPosition;
             _platformStartCount = generatorConfig.PlatformStartCount;
-            _platformMaxCount = generatorConfig.PlatformMaxCount;
 
             _currentPlatformPosition = _startPosition;
             _highestPlatformY = _startPosition.y;
-            _minY = generatorConfig.MinY;
-            _maxY = generatorConfig.MaxY;
+            _progressInfos = generatorConfig.ProgressInfos;
 
+            CheckCurrentProgress();
             InitPlatformConfigs();
             InitPools();
         }
@@ -66,6 +61,9 @@ namespace DoodleJump.Game.Worlds
 
             _currentPlatformPosition = _startPosition;
             _highestPlatformY = _startPosition.y;
+            _isMaxProgress = false;
+
+            CheckCurrentProgress();
         }
 
         public void GenerateStartPlatform()
@@ -77,6 +75,7 @@ namespace DoodleJump.Game.Worlds
                 if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
                     return;
 
+                CheckCurrentProgress();
                 GeneratePlatform(platformPrefab);
                 GenerateNextPosition();
                 CheckHighestPosition(_currentPlatformPosition.y);
@@ -85,6 +84,7 @@ namespace DoodleJump.Game.Worlds
 
         public void TryGeneratePlatform()
         {
+            CheckCurrentProgress();
             GenerateNextPosition();
 
             var platformPrefab = GetPlatformPrefab();
@@ -98,7 +98,7 @@ namespace DoodleJump.Game.Worlds
 
         public void GeneratePlatforms()
         {
-            for (int i = 0; i < _platformMaxCount; i++)
+            for (int i = 0; i < _currentProgress.PlatformMaxCount; i++)
                 TryGeneratePlatform();
         }
 
@@ -122,7 +122,9 @@ namespace DoodleJump.Game.Worlds
 
         private void InitPlatformConfigs()
         {
-            var configs = _platformsConfig.Configs;
+            _platformConfigs.Clear();
+
+            var configs = _currentProgress.PlatformConfigs;
             var spawnChanceSum = 0f;
 
             foreach (var config in configs)
@@ -144,13 +146,15 @@ namespace DoodleJump.Game.Worlds
 
         private void InitPools()
         {
-            var configs = _platformsConfig.Configs;
+            _pools.Clear();
+
+            var configs = _currentProgress.PlatformConfigs;
 
             foreach (var config in configs)
             {
                 var prefab = config.PlatformPrefab;
 
-                _pools.Add(prefab.Id, new ObjectPool<IPlatform>(() => CreatePlatform(prefab), _platformMaxCount));
+                _pools.Add(prefab.Id, new ObjectPool<IPlatform>(() => CreatePlatform(prefab), _currentProgress.PlatformMaxCount));
             }
         }
 
@@ -177,9 +181,34 @@ namespace DoodleJump.Game.Worlds
             return _platformConfigs[_platformConfigs.Count - 1].PlatformPrefab;
         }
 
+        private void CheckCurrentProgress()
+        {
+            if (_isMaxProgress)
+                return;
+
+            foreach (var progressInfo in _progressInfos)
+            {
+                var minProgress = progressInfo.MinProgress;
+                var maxProgress = progressInfo.MaxProgress;
+
+                if (_highestPlatformY < minProgress || minProgress <= _highestPlatformY && _highestPlatformY <= maxProgress)
+                {
+                    _currentProgress = progressInfo;
+
+                    InitPlatformConfigs();
+                    InitPools();
+
+                    return;
+                }
+            }
+
+            _isMaxProgress = true;
+            _currentProgress = _progressInfos[_progressInfos.Length - 1];
+        }
+
         private void GenerateNextPosition()
         {
-            _currentPlatformPosition.y = _highestPlatformY + Random.Range(_minY, _maxY);
+            _currentPlatformPosition.y = _highestPlatformY + Random.Range(_currentProgress.MinOffsetY, _currentProgress.MaxOffsetY);
             _currentPlatformPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
         }
 
@@ -211,7 +240,7 @@ namespace DoodleJump.Game.Worlds
 
         private void OnCollided(IPlatformCollisionInfo info)
         {
-            Collided.SafeInvoke(info);
+            Collided.SafeInvoke(_currentProgress, info);
         }
 
         private void OnDestroyed(IPlatform platform)

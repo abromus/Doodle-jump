@@ -23,7 +23,6 @@ namespace DoodleJump.Game.Factories
         private ITriggerFactory _triggerFactory;
         private ICameraConfig _cameraConfig;
         private IGeneratorConfig _generatorConfig;
-        private IPlatformsConfig _platformsConfig;
         private IPersistentDataStorage _persistentDataStorage;
 
         public override UiFactoryType UiFactoryType => UiFactoryType.WorldFactory;
@@ -39,7 +38,6 @@ namespace DoodleJump.Game.Factories
             _triggerFactory = args.TriggerFactory;
             _cameraConfig = args.CameraConfig;
             _generatorConfig = args.GeneratorConfig;
-            _platformsConfig = args.PlatformsConfig;
             _persistentDataStorage = args.PersistentDataStorage;
         }
 
@@ -56,7 +54,6 @@ namespace DoodleJump.Game.Factories
                 doodler,
                 _cameraConfig,
                 _generatorConfig,
-                _platformsConfig,
                 _persistentDataStorage);
             var world = Instantiate(_world);
             world.Init(_gameData, args);

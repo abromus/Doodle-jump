@@ -4,15 +4,14 @@ using UnityEngine;
 namespace DoodleJump.Game.Settings
 {
     [System.Serializable]
-    internal struct EarthTrampolinePlatformConfig : IPlatformConfig, ISpringJumpConfig
+    internal struct EarthPlatformConfig : IPlatformConfig, IJumpConfig
     {
         [SerializeField] private Platform _platformPrefab;
         [SerializeField] private float _spawnChance;
         [SerializeField] private TriggerType _triggerType;
-        [SerializeField] private int _defaultJumpForce;
-        [SerializeField] private int _springJumpForce;
+        [SerializeField] private float _jumpForce;
 
-        public readonly string Title => "Конфиг земляной платформы с батутом";
+        public readonly string Title => "Конфиг земляной платформы";
 
         public readonly Platform PlatformPrefab => _platformPrefab;
 
@@ -20,9 +19,7 @@ namespace DoodleJump.Game.Settings
 
         public readonly TriggerType TriggerType => _triggerType;
 
-        public readonly float JumpForce => _defaultJumpForce;
-
-        public readonly float SpringJumpForce => _springJumpForce;
+        public readonly float JumpForce => _jumpForce;
 
 #if UNITY_EDITOR
         public void ChangeSpawnChance(float factor)

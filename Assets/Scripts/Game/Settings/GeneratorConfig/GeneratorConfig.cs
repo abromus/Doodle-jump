@@ -7,18 +7,12 @@ namespace DoodleJump.Game.Settings
     {
         [SerializeField] private Vector3 _startPosition;
         [SerializeField] private int _platformStartCount;
-        [SerializeField] private int _platformMaxCount;
-        [SerializeField] private float _minY;
-        [SerializeField] private float _maxY;
+        [SerializeField] private ProgressInfo[] _progressInfos;
 
         public Vector3 StartPosition => _startPosition;
 
         public int PlatformStartCount => _platformStartCount;
 
-        public int PlatformMaxCount => _platformMaxCount;
-
-        public float MinY => _minY;
-
-        public float MaxY => _maxY;
+        public IProgressInfo[] ProgressInfos => _progressInfos;
     }
 }

@@ -9,10 +9,6 @@ namespace DoodleJump.Game.Settings
 
         public int PlatformStartCount { get; }
 
-        public int PlatformMaxCount { get; }
-
-        public float MinY { get; }
-
-        public float MaxY { get; }
+        public IProgressInfo[] ProgressInfos { get; }
     }
 }

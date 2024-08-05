@@ -33,10 +33,5 @@ namespace DoodleJump.Game.Settings
         {
             return configStorage.GetConfig<IGeneratorConfig>();
         }
-
-        internal static IPlatformsConfig GetPlatformsConfig(this IConfigStorage configStorage)
-        {
-            return configStorage.GetConfig<IPlatformsConfig>();
-        }
     }
 }

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
+  m_Name: ProgressInfo1
+  m_EditorClassIdentifier: 
+  _minProgress: 0
+  _maxProgress: 200
+  _platformMaxCount: 30
+  _minOffsetY: -2.5
+  _maxOffsetY: 2.5
+  _platformConfigs:
+  - rid: 5398419703851646976
+  - rid: 5398419703851646978
+  references:
+    version: 2
+    RefIds:
+    - rid: 5398419703851646976
+      type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
+        _spawnChance: 0.85
+        _triggerType: 1
+        _jumpForce: 10
+    - rid: 5398419703851646978
+      type: {class: EarthSpringPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 8245406481292810278, guid: 3c8883dae6ee1e64fb6a7786c7509553, type: 3}
+        _spawnChance: 0.15
+        _triggerType: 3
+        _defaultJumpForce: 6.5
+        _springJumpForce: 15

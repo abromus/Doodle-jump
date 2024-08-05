@@ -9,7 +9,7 @@ namespace DoodleJump.Game.Settings
         [SerializeField] private Platform _platformPrefab;
         [SerializeField] private float _spawnChance;
         [SerializeField] private TriggerType _triggerType;
-        [SerializeField] private int _jumpForce;
+        [SerializeField] private float _jumpForce;
 
         public readonly string Title => "Конфиг ледяной платформы";
 

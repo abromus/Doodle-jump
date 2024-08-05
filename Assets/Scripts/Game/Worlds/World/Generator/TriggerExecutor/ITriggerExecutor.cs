@@ -2,6 +2,6 @@
 {
     internal interface ITriggerExecutor
     {
-        public void Execute(IPlatformCollisionInfo info);
+        public void Execute(Settings.IProgressInfo currentProgress, IPlatformCollisionInfo info);
     }
 }

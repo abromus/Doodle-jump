@@ -4,15 +4,15 @@ using UnityEngine;
 namespace DoodleJump.Game.Settings
 {
     [System.Serializable]
-    internal struct EarthSpringPlatformConfig : IPlatformConfig, ISpringJumpConfig
+    internal struct EarthTrampolinePlatformConfig : IPlatformConfig, ISpringJumpConfig
     {
         [SerializeField] private Platform _platformPrefab;
         [SerializeField] private float _spawnChance;
         [SerializeField] private TriggerType _triggerType;
-        [SerializeField] private int _defaultJumpForce;
-        [SerializeField] private int _springJumpForce;
+        [SerializeField] private float _defaultJumpForce;
+        [SerializeField] private float _springJumpForce;
 
-        public readonly string Title => "Конфиг земляной платформы с пружиной";
+        public readonly string Title => "Конфиг земляной платформы с батутом";
 
         public readonly Platform PlatformPrefab => _platformPrefab;
 

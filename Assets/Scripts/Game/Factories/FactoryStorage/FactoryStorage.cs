@@ -109,7 +109,6 @@ namespace DoodleJump.Game.Factories
             var factory = uiFactories.GetWorldFactory();
             var cameraConfig = _configStorage.GetCameraConfig();
             var generatorConfig = _configStorage.GetGeneratorConfig();
-            var platformsConfig = _configStorage.GetPlatformsConfig();
             var args = new Worlds.WorldFactoryArgs(
                 gameData,
                 updater,
@@ -120,7 +119,6 @@ namespace DoodleJump.Game.Factories
                 triggerFactory,
                 cameraConfig,
                 generatorConfig,
-                platformsConfig,
                 _persistentDataStorage);
             factory.Init(args);
 

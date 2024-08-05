@@ -1,3 +1,4 @@
+using DoodleJump.Game.Settings;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -15,12 +16,10 @@ namespace DoodleJump.Game.Worlds
 
             _doodlerTransform = args.Doodler.GameObject.transform;
 
-            var platformsConfig = args.PlatformsConfig;
-
-            _platformStorage = new PlatformStorage(gameData, args, platformsConfig, platformsContainer, _screenRect);
+            _platformStorage = new PlatformStorage(gameData, args, platformsContainer, _screenRect);
             _platformStorage.Collided += OnCollided;
 
-            _triggerExecutor = new TriggerExecutor(args.TriggerFactory, platformsConfig);
+            _triggerExecutor = new TriggerExecutor(args.TriggerFactory);
 
             Restart();
         }
@@ -65,9 +64,9 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.GeneratePlatforms();
         }
 
-        private void OnCollided(IPlatformCollisionInfo info)
+        private void OnCollided(IProgressInfo currentProgress, IPlatformCollisionInfo info)
         {
-            _triggerExecutor.Execute(info);
+            _triggerExecutor.Execute(currentProgress, info);
         }
     }
 }

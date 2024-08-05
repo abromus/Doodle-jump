@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
+  m_Name: ProgressInfo3
+  m_EditorClassIdentifier: 
+  _minProgress: 400
+  _maxProgress: 600
+  _platformMaxCount: 10
+  _minOffsetY: -4.5
+  _maxOffsetY: 4.5
+  _platformConfigs:
+  - rid: 5398419704034099200
+  - rid: 5398419704034099201
+  - rid: 5398419704034099203
+  - rid: 5398419704034099204
+  references:
+    version: 2
+    RefIds:
+    - rid: 5398419704034099200
+      type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
+        _spawnChance: 0.75
+        _triggerType: 1
+        _jumpForce: 10
+    - rid: 5398419704034099201
+      type: {class: EarthSpringPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 8245406481292810278, guid: 3c8883dae6ee1e64fb6a7786c7509553, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 3
+        _defaultJumpForce: 6.5
+        _springJumpForce: 15
+    - rid: 5398419704034099203
+      type: {class: EarthTrampolinePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 8245406481292810278, guid: 5ca67e8e9faca9b43923da903429eeb8, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 3
+        _defaultJumpForce: 8
+        _springJumpForce: 26
+    - rid: 5398419704034099204
+      type: {class: WoodPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: -3624870885808159989, guid: 2218ba24f9ea23347a9dae09023a42f1, type: 3}
+        _spawnChance: 0.05
+        _triggerType: 2

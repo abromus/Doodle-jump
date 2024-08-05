@@ -1,18 +1,34 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace DoodleJump.Game.Settings
 {
-    [CreateAssetMenu(fileName = nameof(PlatformsConfig), menuName = ConfigKeys.GamePathKey + nameof(PlatformsConfig))]
-    internal sealed class PlatformsConfig : ScriptableObject, IPlatformsConfig
+    [CreateAssetMenu(fileName = nameof(ProgressInfo), menuName = ConfigKeys.GamePathKey + nameof(ProgressInfo))]
+    internal sealed class ProgressInfo : ScriptableObject, IProgressInfo
     {
+        [SerializeField] private float _minProgress;
+        [SerializeField] private float _maxProgress;
+        [SerializeField] private int _platformMaxCount;
+        [SerializeField] private float _minOffsetY;
+        [SerializeField] private float _maxOffsetY;
+
 #if UNITY_EDITOR
         [Core.Label(nameof(GetTitles))]
 #endif
         [SerializeReference]
-        private List<IPlatformConfig> _configs = new(16);
+        private List<IPlatformConfig> _platformConfigs = new(16);
 
-        public IReadOnlyList<IPlatformConfig> Configs => _configs;
+        public float MinProgress => _minProgress;
+
+        public float MaxProgress => _maxProgress;
+
+        public int PlatformMaxCount => _platformMaxCount;
+
+        public float MinOffsetY => _minOffsetY;
+
+        public float MaxOffsetY => _maxOffsetY;
+
+        public IReadOnlyList<IPlatformConfig> PlatformConfigs => _platformConfigs;
 
 #if UNITY_EDITOR
         [Core.Button]
@@ -62,7 +78,7 @@ namespace DoodleJump.Game.Settings
                 return;
             }
 
-            _configs.Add((IPlatformConfig)configItem);
+            _platformConfigs.Add((IPlatformConfig)configItem);
 
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
@@ -70,12 +86,12 @@ namespace DoodleJump.Game.Settings
 
         private IReadOnlyList<string> GetTitles()
         {
-            if (_configs == null || _configs.Count == 0)
+            if (_platformConfigs == null || _platformConfigs.Count == 0)
                 return null;
 
-            var titles = new List<string>(_configs.Count);
+            var titles = new List<string>(_platformConfigs.Count);
 
-            foreach (var config in _configs)
+            foreach (var config in _platformConfigs)
                 titles.Add(config.Title);
 
             return titles;
@@ -86,12 +102,12 @@ namespace DoodleJump.Game.Settings
         {
             var spawnChanceSum = 0f;
 
-            foreach (var config in _configs)
+            foreach (var config in _platformConfigs)
                 spawnChanceSum += config.SpawnChance;
 
             var spawnChanceFactor = 1f / spawnChanceSum;
 
-            foreach (var config in _configs)
+            foreach (var config in _platformConfigs)
                 config.ChangeSpawnChance(spawnChanceFactor);
         }
 #endif

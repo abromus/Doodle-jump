@@ -7,30 +7,27 @@ namespace DoodleJump.Game.Worlds
     internal sealed class TriggerExecutor : ITriggerExecutor
     {
         private readonly ITriggerFactory _factory;
-        private readonly IPlatformsConfig _platformsConfig;
-
         private readonly Dictionary<IPlatform, ITrigger> _triggers = new(16);
 
-        internal TriggerExecutor(ITriggerFactory factory, IPlatformsConfig platformsConfig)
+        internal TriggerExecutor(ITriggerFactory factory)
         {
             _factory = factory;
-            _platformsConfig = platformsConfig;
         }
 
-        public void Execute(IPlatformCollisionInfo info)
+        public void Execute(IProgressInfo currentProgress, IPlatformCollisionInfo info)
         {
-            var trigger = GetTrigger(info);
+            var trigger = GetTrigger(currentProgress, info);
 
             trigger.Execute();
         }
 
-        private ITrigger GetTrigger(IPlatformCollisionInfo info)
+        private ITrigger GetTrigger(IProgressInfo currentProgress, IPlatformCollisionInfo info)
         {
             var platform = info.Platform;
 
             if (_triggers.ContainsKey(platform) == false)
             {
-                var newTrigger = CreateTrigger(info, platform);
+                var newTrigger = CreateTrigger(currentProgress, info, platform);
 
                 return newTrigger;
             }
@@ -41,10 +38,10 @@ namespace DoodleJump.Game.Worlds
             return trigger;
         }
 
-        private ITrigger CreateTrigger(IPlatformCollisionInfo info, IPlatform platform)
+        private ITrigger CreateTrigger(IProgressInfo currentProgress, IPlatformCollisionInfo info, IPlatform platform)
         {
             var platformId = platform.Id;
-            var configs = _platformsConfig.Configs;
+            var configs = currentProgress.PlatformConfigs;
 
             foreach (var config in configs)
             {

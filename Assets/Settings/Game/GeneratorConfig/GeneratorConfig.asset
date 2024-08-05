@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startPosition: {x: 0, y: -7, z: 0}
   _platformStartCount: 3
-  _platformMaxCount: 20
-  _minY: -2.5
-  _maxY: 2.5
+  _progressInfos:
+  - {fileID: 11400000, guid: ccd37d60654f06d469e6823b107696dc, type: 2}
+  - {fileID: 11400000, guid: 69a868dfaa3be5d41ab79069f37cf5ce, type: 2}
+  - {fileID: 11400000, guid: cee1337f3a11110458ad6c517b70493c, type: 2}
+  - {fileID: 11400000, guid: 0748cde6e387b6b468ba9d2913d621d0, type: 2}
+  - {fileID: 11400000, guid: 9b46969733938e44d8b2c0bec9d1416c, type: 2}
