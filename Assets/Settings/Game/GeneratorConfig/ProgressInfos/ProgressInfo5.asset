@@ -15,6 +15,10 @@ MonoBehaviour:
   _minProgress: 800
   _maxProgress: 100000
   _platformMaxCount: 7
+  _enemySimultaneouslyCount: 2
+  _enemyMaxCount: -1
+  _enemySpawnProbability: 0.1
+  _enemySpawnProbabilityFactor: 0.05
   _minOffsetY: -4.5
   _maxOffsetY: 4.5
   _platformConfigs:
@@ -23,6 +27,8 @@ MonoBehaviour:
   - rid: 5398419704034099212
   - rid: 5398419704034099214
   - rid: 5398419704034099213
+  _enemyConfigs:
+  - rid: 5398420111250161667
   references:
     version: 2
     RefIds:
@@ -62,3 +68,9 @@ MonoBehaviour:
         _platformPrefab: {fileID: -3624870885808159989, guid: 2218ba24f9ea23347a9dae09023a42f1, type: 3}
         _spawnChance: 0.1
         _triggerType: 2
+    - rid: 5398420111250161667
+      type: {class: BirdConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: 785730928075785803, guid: 5c95cdf3d3880ea4e9537e65fd562846, type: 3}
+        _spawnChance: 1
+        _triggerType: 1

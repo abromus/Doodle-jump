@@ -6,6 +6,7 @@ using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds;
 using DoodleJump.Game.Worlds.Entities;
+using DoodleJump.Game.Worlds.Platforms;
 using UnityEngine;
 
 namespace DoodleJump.Game.Factories
@@ -20,7 +21,8 @@ namespace DoodleJump.Game.Factories
         private IEventSystemService _eventSystemService;
         private IScreenSystemService _screenSystemService;
         private IAudioService _audioService;
-        private ITriggerFactory _triggerFactory;
+        private IPlatformTriggerFactory _platformTriggerFactory;
+        private IEnemyTriggerFactory _enemyTriggerFactory;
         private ICameraConfig _cameraConfig;
         private IGeneratorConfig _generatorConfig;
         private IPersistentDataStorage _persistentDataStorage;
@@ -35,7 +37,8 @@ namespace DoodleJump.Game.Factories
             _eventSystemService = args.EventSystemService;
             _screenSystemService = args.ScreenSystemService;
             _audioService = args.AudioService;
-            _triggerFactory = args.TriggerFactory;
+            _platformTriggerFactory = args.PlatformTriggerFactory;
+            _enemyTriggerFactory = args.EnemyTriggerFactory;
             _cameraConfig = args.CameraConfig;
             _generatorConfig = args.GeneratorConfig;
             _persistentDataStorage = args.PersistentDataStorage;
@@ -50,7 +53,8 @@ namespace DoodleJump.Game.Factories
                 _screenSystemService,
                 _audioService,
                 this,
-                _triggerFactory,
+                _platformTriggerFactory,
+                _enemyTriggerFactory,
                 doodler,
                 _cameraConfig,
                 _generatorConfig,
@@ -68,6 +72,14 @@ namespace DoodleJump.Game.Factories
             platform.gameObject.RemoveCloneSuffix();
 
             return platform;
+        }
+
+        public IEnemy CreateEnemy(Enemy prefab, Transform container)
+        {
+            var enemy = Instantiate(prefab, container);
+            enemy.gameObject.RemoveCloneSuffix();
+
+            return enemy;
         }
     }
 }

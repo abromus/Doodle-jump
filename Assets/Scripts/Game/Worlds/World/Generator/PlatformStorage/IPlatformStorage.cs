@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DoodleJump.Core;
 using DoodleJump.Game.Settings;
+using DoodleJump.Game.Worlds.Platforms;
 
 namespace DoodleJump.Game.Worlds
 {
@@ -16,8 +17,6 @@ namespace DoodleJump.Game.Worlds
         public void Clear();
 
         public void GenerateStartPlatform();
-
-        public void TryGeneratePlatform();
 
         public void GeneratePlatforms();
 

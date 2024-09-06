@@ -1,4 +1,6 @@
 using DoodleJump.Game.Settings;
+using DoodleJump.Game.Worlds.Entities;
+using DoodleJump.Game.Worlds.Platforms;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -8,18 +10,24 @@ namespace DoodleJump.Game.Worlds
         private readonly Transform _doodlerTransform;
         private readonly Rect _screenRect;
         private readonly IPlatformStorage _platformStorage;
-        private readonly ITriggerExecutor _triggerExecutor;
+        private readonly IEnemyStorage _enemyStorage;
+        private readonly IPlatformTriggerExecutor _platformTriggerExecutor;
+        private readonly IEnemyTriggerExecutor _enemyTriggerExecutor;
 
-        internal Generator(Data.IGameData gameData, WorldArgs args, Rect screenRect, Transform platformsContainer)
+        internal Generator(Data.IGameData gameData, WorldArgs args, Rect screenRect, Transform platformsContainer, Transform enemiesContainer)
         {
             _screenRect = screenRect;
 
             _doodlerTransform = args.Doodler.GameObject.transform;
 
             _platformStorage = new PlatformStorage(gameData, args, platformsContainer, _screenRect);
-            _platformStorage.Collided += OnCollided;
+            _platformStorage.Collided += OnPlatformCollided;
 
-            _triggerExecutor = new TriggerExecutor(args.TriggerFactory);
+            _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect);
+            _enemyStorage.Collided += OnEnemyCollided;
+
+            _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
+            _enemyTriggerExecutor = new EnemyTriggerExecutor(args.EnemyTriggerFactory);
 
             Restart();
         }
@@ -29,6 +37,9 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.Clear();
             _platformStorage.GenerateStartPlatform();
             _platformStorage.GeneratePlatforms();
+
+            _enemyStorage.Clear();
+            _enemyStorage.GenerateEnemies();
         }
 
         public void Tick()
@@ -38,8 +49,11 @@ namespace DoodleJump.Game.Worlds
 
         public void Destroy()
         {
-            _platformStorage.Collided -= OnCollided;
+            _platformStorage.Collided -= OnPlatformCollided;
             _platformStorage.Destroy();
+
+            _enemyStorage.Collided -= OnEnemyCollided;
+            _enemyStorage.Destroy();
         }
 
         private void CheckDoodlerPosition()
@@ -50,6 +64,15 @@ namespace DoodleJump.Game.Worlds
             if (doodlerPosition + screenHeight < _platformStorage.HighestPlatformY)
                 return;
 
+            ClearPlatforms(doodlerPosition, screenHeight);
+            ClearEnemies(doodlerPosition, screenHeight);
+
+            _platformStorage.GeneratePlatforms();
+            _enemyStorage.GenerateEnemies();
+        }
+
+        private void ClearPlatforms(float doodlerPosition, float screenHeight)
+        {
             var platforms = _platformStorage.Platforms;
             var count = platforms.Count;
 
@@ -60,13 +83,30 @@ namespace DoodleJump.Game.Worlds
                 if (platform.Position.y < doodlerPosition - screenHeight)
                     _platformStorage.DestroyPlatform(platform);
             }
-
-            _platformStorage.GeneratePlatforms();
         }
 
-        private void OnCollided(IProgressInfo currentProgress, IPlatformCollisionInfo info)
+        private void ClearEnemies(float doodlerPosition, float screenHeight)
         {
-            _triggerExecutor.Execute(currentProgress, info);
+            var enemies = _enemyStorage.Enemies;
+            var count = enemies.Count;
+
+            for (int i = count - 1; 0 < i + 1; i--)
+            {
+                var enemy = enemies[i];
+
+                if (enemy.Position.y < doodlerPosition - screenHeight)
+                    _enemyStorage.DestroyEnemy(enemy);
+            }
+        }
+
+        private void OnPlatformCollided(IProgressInfo currentProgress, IPlatformCollisionInfo info)
+        {
+            _platformTriggerExecutor.Execute(currentProgress, info);
+        }
+
+        private void OnEnemyCollided(IProgressInfo currentProgress, IEnemyCollisionInfo info)
+        {
+            _enemyTriggerExecutor.Execute(currentProgress, info);
         }
     }
 }

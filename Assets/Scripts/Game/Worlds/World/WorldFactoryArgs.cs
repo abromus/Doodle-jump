@@ -14,7 +14,8 @@ namespace DoodleJump.Game.Worlds
         private readonly IEventSystemService _eventSystemService;
         private readonly IScreenSystemService _screenSystemService;
         private readonly IAudioService _audioService;
-        private readonly ITriggerFactory _triggerFactory;
+        private readonly IPlatformTriggerFactory _platformTriggerFactory;
+        private readonly IEnemyTriggerFactory _enemyTriggerFactory;
         private readonly ICameraConfig _cameraConfig;
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPersistentDataStorage _persistentDataStorage;
@@ -31,7 +32,9 @@ namespace DoodleJump.Game.Worlds
 
         internal IAudioService AudioService => _audioService;
 
-        internal ITriggerFactory TriggerFactory => _triggerFactory;
+        internal IPlatformTriggerFactory PlatformTriggerFactory => _platformTriggerFactory;
+
+        internal IEnemyTriggerFactory EnemyTriggerFactory => _enemyTriggerFactory;
 
         internal ICameraConfig CameraConfig => _cameraConfig;
 
@@ -46,7 +49,8 @@ namespace DoodleJump.Game.Worlds
             IEventSystemService eventSystemService,
             IScreenSystemService screenSystemService,
             IAudioService audioService,
-            ITriggerFactory triggerFactory,
+            IPlatformTriggerFactory platformTriggerFactory,
+            IEnemyTriggerFactory enemyTriggerFactory,
             ICameraConfig cameraConfig,
             IGeneratorConfig generatorConfig,
             IPersistentDataStorage persistentDataStorage)
@@ -57,7 +61,8 @@ namespace DoodleJump.Game.Worlds
             _eventSystemService = eventSystemService;
             _screenSystemService = screenSystemService;
             _audioService = audioService;
-            _triggerFactory = triggerFactory;
+            _platformTriggerFactory = platformTriggerFactory;
+            _enemyTriggerFactory = enemyTriggerFactory;
             _cameraConfig = cameraConfig;
             _generatorConfig = generatorConfig;
             _persistentDataStorage = persistentDataStorage;

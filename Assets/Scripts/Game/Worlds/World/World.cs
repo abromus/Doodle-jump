@@ -10,6 +10,7 @@ namespace DoodleJump.Game.Worlds
     internal class World : MonoBehaviour, IWorld
     {
         [SerializeField] private Transform _platformsContainer;
+        [SerializeField] private Transform _enemiesContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
 
         private IGameData _gameData;
@@ -45,7 +46,7 @@ namespace DoodleJump.Game.Worlds
             InitWorldData();
             InitDoodler(doodlerTransform);
             InitUi();
-            InitTriggerFactory();
+            InitTriggerFactories();
             InitDoodlerChecker(doodlerTransform, cameraTransform);
             InitGenerator();
             InitBackgroundChecker(cameraTransform);
@@ -90,9 +91,10 @@ namespace DoodleJump.Game.Worlds
             _audioService.PlayBackground(BackgroundType.World);
         }
 
-        private void InitTriggerFactory()
+        private void InitTriggerFactories()
         {
-            _args.TriggerFactory.Init(_doodler);
+            _args.PlatformTriggerFactory.Init(_doodler);
+            _args.EnemyTriggerFactory.Init(_doodler, _worldData);
         }
 
         private void InitDoodlerChecker(Transform doodlerTransform, Transform cameraTransform)
@@ -107,7 +109,7 @@ namespace DoodleJump.Game.Worlds
 
         private void InitGenerator()
         {
-            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer);
+            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer, _enemiesContainer);
         }
 
         private void InitCamera()

@@ -6,13 +6,13 @@ using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class IcePlatform : Platform, IUpdatable, IPausable
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;
-        [SerializeField] private ClipType _clipType;
+        [SerializeField] private PlatformClipType _clipType;
         [SerializeField] private float _xOffset;
         [SerializeField] private float _minSpeed;
         [SerializeField] private float _maxSpeed;
@@ -56,11 +56,6 @@ namespace DoodleJump.Game.Worlds
             Subscribe();
         }
 
-        public override void Destroy()
-        {
-            Destroyed.SafeInvoke(this);
-        }
-
         public void Tick(float deltaTime)
         {
             Move(deltaTime);
@@ -69,6 +64,11 @@ namespace DoodleJump.Game.Worlds
         public void SetPause(bool isPaused)
         {
             _isPaused = isPaused;
+        }
+
+        public override void Destroy()
+        {
+            Destroyed.SafeInvoke(this);
         }
 
         private void Awake()

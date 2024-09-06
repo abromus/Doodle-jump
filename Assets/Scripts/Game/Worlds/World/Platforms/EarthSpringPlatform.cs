@@ -4,7 +4,7 @@ using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class EarthSpringPlatform : Platform
     {
@@ -14,8 +14,8 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private float _springSize;
         [SerializeField] private float _springOffset;
         [SerializeField] private Animator _animator;
-        [SerializeField] private ClipType _clipType;
-        [SerializeField] private ClipType _springClipType;
+        [SerializeField] private PlatformClipType _clipType;
+        [SerializeField] private PlatformClipType _springClipType;
 
         private SpringJumpPlatformCollisionInfo _info;
         private float _springPosition;

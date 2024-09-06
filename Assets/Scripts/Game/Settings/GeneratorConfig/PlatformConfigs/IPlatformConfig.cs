@@ -1,4 +1,4 @@
-﻿using DoodleJump.Game.Worlds;
+﻿using DoodleJump.Game.Worlds.Platforms;
 
 namespace DoodleJump.Game.Settings
 {
@@ -10,7 +10,7 @@ namespace DoodleJump.Game.Settings
 
         public float SpawnChance { get; }
 
-        public TriggerType TriggerType { get; }
+        public PlatformTriggerType TriggerType { get; }
 
 #if UNITY_EDITOR
         public void ChangeSpawnChance(float factor);

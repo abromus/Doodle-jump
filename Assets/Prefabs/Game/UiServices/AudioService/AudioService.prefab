@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6090152075951054631}
   - component: {fileID: 2607271468580268518}
   m_Layer: 0
-  m_Name: Sounds
+  m_Name: OneShotSounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,6 +128,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5884439590241058239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6097453531393114862}
+  m_Layer: 0
+  m_Name: LoopSounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6097453531393114862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5884439590241058239}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6108629660756526587}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6108629660756526585
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +190,7 @@ Transform:
   m_Children:
   - {fileID: 2350511632382054808}
   - {fileID: 6090152075951054631}
+  - {fileID: 6097453531393114862}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,17 +207,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backgroundMusic: {fileID: 1974693212183356440}
-  _sounds: {fileID: 2607271468580268518}
+  _oneShotSounds: {fileID: 2607271468580268518}
+  _loopSoundPrefab: {fileID: 1557114355859856126, guid: 0642eb0c2b9411a47aa29431b478fd5f, type: 3}
+  _loopSoundsContainer: {fileID: 6097453531393114862}
   _backgroundInfos:
   - _backgroundType: 1
     _audioClip: {fileID: 8300000, guid: a630a1c2530e266439997c4d129f6cd8, type: 3}
-  _clipInfos:
+  _platformClipInfos:
   - _clipType: 1
     _audioClip: {fileID: 8300000, guid: 71894d4f63fe95d40ba91e4dfaafc0c7, type: 3}
   - _clipType: 2
     _audioClip: {fileID: 8300000, guid: c9ffdae75ca43c945b29f877383233a2, type: 3}
   - _clipType: 3
     _audioClip: {fileID: 8300000, guid: ba858702a0cdd3446aa9ba0be34db32e, type: 3}
+  _enemyClipInfos:
+  - _clipType: 1
+    _audioClip: {fileID: 8300000, guid: d48c550701a9a5345957bdd58960a5de, type: 3}
+  _enemyTriggerClipInfos: []
 --- !u!1 &8918552150790355685
 GameObject:
   m_ObjectHideFlags: 0

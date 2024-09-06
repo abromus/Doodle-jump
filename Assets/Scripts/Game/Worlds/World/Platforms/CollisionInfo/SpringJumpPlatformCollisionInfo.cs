@@ -1,4 +1,4 @@
-﻿namespace DoodleJump.Game.Worlds
+﻿namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class SpringJumpPlatformCollisionInfo : IPlatformCollisionInfo
     {

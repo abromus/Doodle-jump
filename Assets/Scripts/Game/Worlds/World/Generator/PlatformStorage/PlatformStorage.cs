@@ -3,6 +3,7 @@ using DoodleJump.Core;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Factories;
 using DoodleJump.Game.Settings;
+using DoodleJump.Game.Worlds.Platforms;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds
@@ -82,20 +83,6 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
-        public void TryGeneratePlatform()
-        {
-            CheckCurrentProgress();
-            GenerateNextPosition();
-
-            var platformPrefab = GetPlatformPrefab();
-
-            if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
-                return;
-
-            GeneratePlatform(platformPrefab);
-            CheckHighestPosition(_currentPlatformPosition.y);
-        }
-
         public void GeneratePlatforms()
         {
             for (int i = 0; i < _currentProgress.PlatformMaxCount; i++)
@@ -146,13 +133,14 @@ namespace DoodleJump.Game.Worlds
 
         private void InitPools()
         {
-            _pools.Clear();
-
             var configs = _currentProgress.PlatformConfigs;
 
             foreach (var config in configs)
             {
                 var prefab = config.PlatformPrefab;
+
+                if (_pools.ContainsKey(prefab.Id))
+                    continue;
 
                 _pools.Add(prefab.Id, new ObjectPool<IPlatform>(() => CreatePlatform(prefab), _currentProgress.PlatformMaxCount));
             }
@@ -193,6 +181,9 @@ namespace DoodleJump.Game.Worlds
 
                 if (_highestPlatformY < minProgress || minProgress <= _highestPlatformY && _highestPlatformY <= maxProgress)
                 {
+                    if (_currentProgress == progressInfo)
+                        return;
+
                     _currentProgress = progressInfo;
 
                     InitPlatformConfigs();
@@ -229,6 +220,20 @@ namespace DoodleJump.Game.Worlds
             platform.Destroyed += OnDestroyed;
 
             _platforms.Add(platform);
+        }
+
+        private void TryGeneratePlatform()
+        {
+            CheckCurrentProgress();
+            GenerateNextPosition();
+
+            var platformPrefab = GetPlatformPrefab();
+
+            if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
+                return;
+
+            GeneratePlatform(platformPrefab);
+            CheckHighestPosition(_currentPlatformPosition.y);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

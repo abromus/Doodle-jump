@@ -6,7 +6,13 @@ namespace DoodleJump.Game.Services
     {
         public void PlayBackground(BackgroundType backgroundType);
 
-        public void PlaySound(ClipType clipType);
+        public void PlaySound(PlatformClipType clipType);
+
+        public void PlaySound(EnemyTriggerClipType clipType);
+
+        public UnityEngine.AudioSource PlayLoopSound(EnemyClipType clipType);
+
+        public void StopLoopSound(UnityEngine.AudioSource loopSound);
 
         public void SetActiveBackgroundMusic(bool isActive);
 

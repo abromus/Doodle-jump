@@ -61,13 +61,15 @@ namespace DoodleJump.Game.Factories
             var updater = coreServiceStorage.GetUpdater();
             var cameraService = coreServiceStorage.GetCameraService();
             var doodlerFactory = InitDoodlerFactory(coreServiceStorage, updater, cameraService, uiFactories);
-            var triggerFactory = InitTriggerFactory();
-            var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, triggerFactory);
+            var platformTriggerFactory = InitPlatformTriggerFactory();
+            var enemyTriggerFactory = InitEnemyTriggerFactory();
+            var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, platformTriggerFactory, enemyTriggerFactory);
 
             _factories = new(8)
             {
                 [typeof(IDoodlerFactory)] = doodlerFactory,
-                [typeof(ITriggerFactory)] = triggerFactory,
+                [typeof(IPlatformTriggerFactory)] = platformTriggerFactory,
+                [typeof(IEnemyTriggerFactory)] = enemyTriggerFactory,
                 [typeof(IWorldFactory)] = worldFactory,
             };
         }
@@ -88,9 +90,16 @@ namespace DoodleJump.Game.Factories
             return factory;
         }
 
-        private ITriggerFactory InitTriggerFactory()
+        private IPlatformTriggerFactory InitPlatformTriggerFactory()
         {
-            var factory = new TriggerFactory();
+            var factory = new PlatformTriggerFactory();
+
+            return factory;
+        }
+
+        private IEnemyTriggerFactory InitEnemyTriggerFactory()
+        {
+            var factory = new EnemyTriggerFactory();
 
             return factory;
         }
@@ -101,7 +110,8 @@ namespace DoodleJump.Game.Factories
             IUpdater updater,
             ICameraService cameraService,
             IReadOnlyList<IUiFactory> uiFactories,
-            ITriggerFactory triggerFactory)
+            IPlatformTriggerFactory platformTriggerFactory,
+            IEnemyTriggerFactory enemyTriggerFactory)
         {
             var eventSystemService = coreServiceStorage.GetEventSystemService();
             var screenSystemService = _serviceStorage.GetScreenSystemService();
@@ -116,7 +126,8 @@ namespace DoodleJump.Game.Factories
                 eventSystemService,
                 screenSystemService,
                 audioService,
-                triggerFactory,
+                platformTriggerFactory,
+                enemyTriggerFactory,
                 cameraConfig,
                 generatorConfig,
                 _persistentDataStorage);

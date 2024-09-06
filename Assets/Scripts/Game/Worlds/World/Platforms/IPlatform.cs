@@ -1,9 +1,8 @@
 ﻿using System;
 using DoodleJump.Core;
-using DoodleJump.Game.Services;
 using UnityEngine;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
     internal interface IPlatform : IPoolable
     {

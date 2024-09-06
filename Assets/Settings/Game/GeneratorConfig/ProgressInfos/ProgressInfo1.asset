@@ -12,14 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
   m_Name: ProgressInfo1
   m_EditorClassIdentifier: 
-  _minProgress: 0
+  _minProgress: 1
   _maxProgress: 200
   _platformMaxCount: 30
+  _enemySimultaneouslyCount: 0
+  _enemyMaxCount: 0
+  _enemySpawnProbability: 0
+  _enemySpawnProbabilityFactor: 0
   _minOffsetY: -2.5
   _maxOffsetY: 2.5
   _platformConfigs:
   - rid: 5398419703851646976
   - rid: 5398419703851646978
+  _enemyConfigs: []
   references:
     version: 2
     RefIds:

@@ -3,13 +3,13 @@ using DoodleJump.Core;
 using DoodleJump.Game.Services;
 using UnityEngine;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class WoodPlatform : Platform
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;
-        [SerializeField] private ClipType _clipType;
+        [SerializeField] private PlatformClipType _clipType;
 
         private IPlatformCollisionInfo _info;
 

@@ -1,10 +1,10 @@
-﻿namespace DoodleJump.Game.Worlds
+﻿namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal readonly struct DestroyTrigger : ITrigger
+    internal readonly struct DestroyTrigger : IPlatformTrigger
     {
         private readonly IPlatform _platform;
 
-        public readonly TriggerType TriggerType => TriggerType.Destroy;
+        public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Destroy;
 
         public DestroyTrigger(IPlatform platform)
         {
@@ -16,9 +16,6 @@
             _platform.Destroy();
         }
 
-        public void UpdateInfo(IPlatformCollisionInfo info)
-        {
-
-        }
+        public void UpdateInfo(IPlatformCollisionInfo info) { }
     }
 }

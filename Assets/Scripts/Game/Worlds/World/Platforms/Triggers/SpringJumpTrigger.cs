@@ -1,15 +1,15 @@
 ﻿using DoodleJump.Game.Worlds.Entities;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal struct SpringJumpTrigger : ITrigger
+    internal struct SpringJumpTrigger : IPlatformTrigger
     {
         private bool _isSpringCollided;
         private readonly IDoodler _doodler;
         private readonly float _jumpForce;
         private readonly float _springJumpForce;
 
-        public readonly TriggerType TriggerType => TriggerType.Jump;
+        public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
         public SpringJumpTrigger(IPlatformCollisionInfo info, IDoodler doodler, float jumpForce, float springJumpForce)
         {

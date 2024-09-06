@@ -3,7 +3,7 @@ using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using UnityEngine;
 
-namespace DoodleJump.Game.Worlds
+namespace DoodleJump.Game.Worlds.Platforms
 {
     internal abstract class Platform : MonoBehaviour, IPlatform
     {
@@ -47,7 +47,7 @@ namespace DoodleJump.Game.Worlds
             gameObject.SetActive(true);
         }
 
-        public virtual bool IsIntersectedArea(Vector2 center, Vector2 size)
+        public bool IsIntersectedArea(Vector2 center, Vector2 size)
         {
             var xCenter = center.x;
             var yCenter = center.y;
@@ -69,7 +69,7 @@ namespace DoodleJump.Game.Worlds
 
         public abstract void Destroy();
 
-        protected void PlaySound(ClipType type)
+        protected void PlaySound(PlatformClipType type)
         {
             _audioService.PlaySound(type);
         }
