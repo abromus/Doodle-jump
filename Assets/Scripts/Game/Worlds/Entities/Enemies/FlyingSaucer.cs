@@ -10,11 +10,14 @@ namespace DoodleJump.Game.Worlds.Entities
     {
         [SerializeField] private float _minSpeed;
         [SerializeField] private float _maxSpeed;
+        [SerializeField] private AnimationCurve _animationCurve;
+        [SerializeField] private float _offsetY;
 
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
         private float _direction;
         private float _speed;
+        private float _defaultY;
         private bool _isPaused;
 
         public override event Action<IEnemyCollisionInfo> Collided;
@@ -38,6 +41,7 @@ namespace DoodleJump.Game.Worlds.Entities
             base.InitPosition(position);
 
             _speed = UnityEngine.Random.Range(_minSpeed, _maxSpeed);
+            _defaultY = position.y;
 
             SetLocalScale(_direction);
         }
@@ -102,13 +106,17 @@ namespace DoodleJump.Game.Worlds.Entities
             var position = transform.position;
             position.x += _direction * _speed * deltaTime;
 
-            if (_direction == Constants.Left && position.x < _screenRect.xMin)
+            var isLeft = _direction == Constants.Left;
+            var progress = isLeft ? (position.x - _screenRect.xMin) / _screenRect.width : (position.x + _screenRect.xMax) / _screenRect.width;
+            position.y = _defaultY + _direction * _animationCurve.Evaluate(progress) * _offsetY;
+
+            if (isLeft && position.x < _screenRect.xMin)
             {
                 _direction = Constants.Right;
 
                 SetLocalScale(_direction);
             }
-            else if (_direction == Constants.Right && _screenRect.xMax < position.x)
+            else if (isLeft == false && _screenRect.xMax < position.x)
             {
                 _direction = Constants.Left;
 
