@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DoodleJump.Core;
+using DoodleJump.Core.Services;
 using UnityEngine;
 
 namespace DoodleJump.Game.Services
@@ -17,11 +18,19 @@ namespace DoodleJump.Game.Services
         [SerializeField] private EnemyClipInfo[] _enemyClipInfos;
         [SerializeField] private EnemyTriggerClipInfo[] _enemyTriggerClipInfos;
 
+        private IUpdater _updater;
         private IObjectPool<AudioSource> _loopSoundPool;
 
         private readonly List<AudioSource> _loopSounds = new(32);
 
         public override UiServiceType UiServiceType => UiServiceType.AudioService;
+
+        public void Init(IUpdater updater)
+        {
+            _updater = updater;
+
+            Subscribe();
+        }
 
         public void PlayBackground(BackgroundType backgroundType)
         {
@@ -122,8 +131,30 @@ namespace DoodleJump.Game.Services
                 loopSound.volume = volume;
         }
 
+        public void SetPause(bool isPaused)
+        {
+            if (isPaused)
+            {
+                _backgroundMusic.Pause();
+                _oneShotSounds.Pause();
+
+                foreach (var loopSound in _loopSounds)
+                    loopSound.Pause();
+            }
+            else
+            {
+                _backgroundMusic.UnPause();
+                _oneShotSounds.UnPause();
+
+                foreach (var loopSound in _loopSounds)
+                    loopSound.UnPause();
+            }
+        }
+
         public void Destroy()
         {
+            Unsubscribe();
+
             foreach (var loopSound in _loopSounds)
             {
                 loopSound.Stop();
@@ -185,6 +216,16 @@ namespace DoodleJump.Game.Services
                     return clipInfo.AudioClip;
 
             return null;
+        }
+
+        private void Subscribe()
+        {
+            _updater.AddPausable(this);
+        }
+
+        private void Unsubscribe()
+        {
+            _updater.RemovePausable(this);
         }
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8749656434054684382}
   - component: {fileID: 5600268948265193151}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Leg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1911006921006351966}
   - component: {fileID: 1909790452520932971}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1968728557357645105}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8175851544396586755}
   - component: {fileID: 3397472638461436305}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: MouthClosed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 139988697005079918}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6246123524190139684}
   - component: {fileID: 8474015719484856151}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Leg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,8 +417,9 @@ GameObject:
   - component: {fileID: 9079107737063357875}
   - component: {fileID: 3754371822964584456}
   - component: {fileID: 4592133072247752411}
+  - component: {fileID: 7117328736900645840}
   - component: {fileID: 1554169636435041937}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Doodler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,6 +505,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.01}
   m_EdgeRadius: 0
+--- !u!70 &7117328736900645840
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4369532699474280810}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Size: {x: 0.9, y: 2}
+  m_Direction: 0
 --- !u!95 &1554169636435041937
 Animator:
   serializedVersion: 5
@@ -535,7 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6833464184651276459}
   - component: {fileID: 2821820787621473788}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Leg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2215762799001367844}
   - component: {fileID: 2060791111295323083}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5995671824850710517}
   - component: {fileID: 8329173529058173697}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: RightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,7 +808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3248814862928474941}
   - component: {fileID: 8281490228748401869}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Leg4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -875,7 +892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6565444667208192312}
   - component: {fileID: 6199478744572967671}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: MouthOpened
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4450943061937202940}
   - component: {fileID: 668984818766706849}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: LeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,8 +2,10 @@ using DoodleJump.Core.Services;
 
 namespace DoodleJump.Game.Services
 {
-    internal interface IAudioService : IService
+    internal interface IAudioService : IService, IPausable
     {
+        public void Init(IUpdater updater);
+
         public void PlayBackground(BackgroundType backgroundType);
 
         public void PlaySound(PlatformClipType clipType);

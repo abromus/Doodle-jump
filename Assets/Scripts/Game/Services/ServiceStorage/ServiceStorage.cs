@@ -23,11 +23,11 @@ namespace DoodleJump.Game.Services
             _configStorage = configStorage;
             _uiServicesContainer = uiServicesContainer;
 
-            var cameraService = gameData.CoreData.ServiceStorage.GetCameraService();
+            var updater = gameData.CoreData.ServiceStorage.GetUpdater();
             var uiServices = _configStorage.GetGameUiServiceConfig().UiServices;
             var persistentDataStorage = gameData.PersistentDataStorage;
-            var audioService = InitAudioService(uiServices, _uiServicesContainer);
-            var screenSystemService = InitScreenSystemService(cameraService, uiServices, persistentDataStorage, _uiServicesContainer);
+            var audioService = InitAudioService(updater, uiServices, _uiServicesContainer);
+            var screenSystemService = InitScreenSystemService(uiServices, persistentDataStorage, _uiServicesContainer);
 
             _services = new(8)
             {
@@ -60,16 +60,17 @@ namespace DoodleJump.Game.Services
             _services = null;
         }
 
-        private IAudioService InitAudioService(IReadOnlyList<IUiService> uiServices, Transform container)
+        private IAudioService InitAudioService(IUpdater updater, IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var audioServicePrefab = uiServices.GetAudioService();
             var audioServiceObject = InstantiateUiService(audioServicePrefab as UiService, container);
-            var audioServiceService = audioServiceObject as IAudioService;
+            var audioService = audioServiceObject as IAudioService;
+            audioService.Init(updater);
 
-            return audioServiceService;
+            return audioService;
         }
 
-        private IScreenSystemService InitScreenSystemService(ICameraService cameraService, IReadOnlyList<IUiService> uiServices, IPersistentDataStorage persistentDataStorage, Transform container)
+        private IScreenSystemService InitScreenSystemService(IReadOnlyList<IUiService> uiServices, IPersistentDataStorage persistentDataStorage, Transform container)
         {
             var screenSystemServicePrefab = uiServices.GetScreenSystemService();
             var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as UiService, container);

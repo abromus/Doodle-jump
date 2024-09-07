@@ -63,6 +63,7 @@ namespace DoodleJump.Game.Worlds
             _currentEnemyPosition = _startPosition;
             _highestEnemyY = _startPosition.y + _screenRect.height;
             _isMaxProgress = false;
+            _generatedEnemiesCount = 0;
 
             CheckCurrentProgress();
         }

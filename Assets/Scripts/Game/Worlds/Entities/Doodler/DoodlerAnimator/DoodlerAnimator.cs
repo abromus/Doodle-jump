@@ -13,8 +13,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly Animator _animator;
         private readonly IDoodlerMovement _movement;
         private readonly IDoodlerInput _doodlerInput;
-        private readonly float _activeSpeed = 1f;
-        private readonly float _pauseSpeed = 0f;
 
         public DoodlerAnimator(Transform doodler, Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
         {
@@ -40,7 +38,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _isPaused = isPaused;
 
-            _animator.speed = _isPaused ? _pauseSpeed : _activeSpeed;
+            _animator.speed = _isPaused ? Constants.PauseSpeed : Constants.ActiveSpeed;
         }
 
         private void SetGrounded(bool isCollided)

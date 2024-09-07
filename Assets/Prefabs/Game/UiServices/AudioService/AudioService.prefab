@@ -223,7 +223,11 @@ MonoBehaviour:
   _enemyClipInfos:
   - _clipType: 1
     _audioClip: {fileID: 8300000, guid: d48c550701a9a5345957bdd58960a5de, type: 3}
-  _enemyTriggerClipInfos: []
+  - _clipType: 2
+    _audioClip: {fileID: 8300000, guid: bb6f95fa8d0b9674fba5ce236b5c8e11, type: 3}
+  _enemyTriggerClipInfos:
+  - _clipType: 1
+    _audioClip: {fileID: 8300000, guid: b2180c2bcf536bc4b8ee05b6567bd90d, type: 3}
 --- !u!1 &8918552150790355685
 GameObject:
   m_ObjectHideFlags: 0

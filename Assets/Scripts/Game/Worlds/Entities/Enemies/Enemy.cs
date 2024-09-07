@@ -1,4 +1,5 @@
 using System;
+using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using UnityEngine;
@@ -7,18 +8,26 @@ namespace DoodleJump.Game.Worlds.Entities
 {
     internal abstract class Enemy : MonoBehaviour, IEnemy
     {
+        [SerializeField] private int _id;
+        [SerializeField] private Vector2 _size;
+        [SerializeField] private EnemyClipType _clipType;
+        [SerializeField] private EnemyTriggerClipType _triggerClipType;
+        [SerializeField] private Animator _animator;
+
         private float _xMin;
         private float _xMax;
         private float _yMin;
         private float _yMax;
         private IAudioService _audioService;
+        private IUpdater _updater;
         private AudioSource _loopSound;
+        private bool _initialized;
 
         private readonly float _half = 0.5f;
 
-        public abstract int Id { get; }
+        public int Id => _id;
 
-        public abstract Vector2 Size { get; }
+        public Vector2 Size => _size;
 
         public Vector3 Position => transform.position;
 
@@ -29,6 +38,11 @@ namespace DoodleJump.Game.Worlds.Entities
         public virtual void Init(IGameData gameData)
         {
             _audioService = gameData.ServiceStorage.GetAudioService();
+            _updater = gameData.CoreData.ServiceStorage.GetUpdater();
+
+            _initialized = true;
+
+            Subscribe();
         }
 
         public virtual void InitPosition(Vector3 position)
@@ -46,6 +60,8 @@ namespace DoodleJump.Game.Worlds.Entities
             _yMax = yCenter + yOffset;
 
             gameObject.SetActive(true);
+
+            PlaySound(_clipType);
         }
 
         public bool IsIntersectedArea(Vector2 center, Vector2 size)
@@ -63,9 +79,12 @@ namespace DoodleJump.Game.Worlds.Entities
             return xMin <= xMax && yMin <= yMax;
         }
 
-        public abstract void Tick(float deltaTime);
+        public virtual void Tick(float deltaTime) { }
 
-        public abstract void SetPause(bool isPaused);
+        public virtual void SetPause(bool isPaused)
+        {
+            _animator.speed = isPaused ? Constants.PauseSpeed : Constants.ActiveSpeed;
+        }
 
         public void Clear()
         {
@@ -86,19 +105,21 @@ namespace DoodleJump.Game.Worlds.Entities
             _loopSound = _audioService.PlayLoopSound(type);
         }
 
-        protected void PlaySound(EnemyTriggerClipType type)
+        protected void PlayTriggerSound()
         {
-            _audioService.PlaySound(type);
+            _audioService.PlaySound(_triggerClipType);
         }
 
         private void OnEnable()
         {
-            _loopSound.Play();
+            if (_initialized)
+                Subscribe();
         }
 
         private void OnDisable()
         {
-            _loopSound.Pause();
+            if (_initialized)
+                Unsubscribe();
         }
 
 #if UNITY_EDITOR
@@ -116,6 +137,18 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _audioService.StopLoopSound(_loopSound);
             _loopSound = null;
+        }
+
+        private void Subscribe()
+        {
+            _updater.AddUpdatable(this);
+            _updater.AddPausable(this);
+        }
+
+        private void Unsubscribe()
+        {
+            _updater.RemoveUpdatable(this);
+            _updater.RemovePausable(this);
         }
     }
 }
