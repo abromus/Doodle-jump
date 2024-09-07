@@ -8,13 +8,10 @@ namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class EarthSpringPlatform : Platform
     {
-        [SerializeField] private int _id;
-        [SerializeField] private Vector2 _platformSize;
         [SerializeField] private Transform _spring;
         [SerializeField] private float _springSize;
         [SerializeField] private float _springOffset;
         [SerializeField] private Animator _animator;
-        [SerializeField] private PlatformClipType _clipType;
         [SerializeField] private PlatformClipType _springClipType;
 
         private SpringJumpPlatformCollisionInfo _info;
@@ -22,10 +19,6 @@ namespace DoodleJump.Game.Worlds.Platforms
         private Vector2 _springPositionRange;
 
         private readonly float _half = 0.5f;
-
-        public override int Id => _id;
-
-        public override Vector2 Size => _platformSize;
 
         public override event Action<IPlatformCollisionInfo> Collided;
 
@@ -47,7 +40,7 @@ namespace DoodleJump.Game.Worlds.Platforms
         {
             _info = new SpringJumpPlatformCollisionInfo(this);
 
-            var offset = (_platformSize.x - _springSize - _springOffset) * _half;
+            var offset = (Size.x - _springSize - _springOffset) * _half;
             _springPositionRange = new Vector2(-offset, offset);
         }
 
@@ -64,7 +57,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             if (isSpringCollided)
                 _animator.SetTrigger(AnimationKeys.TriggerKeys.Collided);
 
-            var clipType = isSpringCollided ? _springClipType : _clipType;
+            var clipType = isSpringCollided ? _springClipType : СlipType;
 
             PlaySound(clipType);
 

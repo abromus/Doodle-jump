@@ -2,7 +2,6 @@
 using DoodleJump.Core;
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
-using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -10,9 +9,6 @@ namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class IcePlatform : Platform, IUpdatable, IPausable
     {
-        [SerializeField] private int _id;
-        [SerializeField] private Vector2 _size;
-        [SerializeField] private PlatformClipType _clipType;
         [SerializeField] private float _xOffset;
         [SerializeField] private float _minSpeed;
         [SerializeField] private float _maxSpeed;
@@ -27,10 +23,6 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         private readonly float _left = -1f;
         private readonly float _right = 1f;
-
-        public override int Id => _id;
-
-        public override Vector2 Size => _size;
 
         public override event Action<IPlatformCollisionInfo> Collided;
 
@@ -95,7 +87,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
             Collided.SafeInvoke(_info);
 
-            PlaySound(_clipType);
+            PlaySound(СlipType);
         }
 
         private float GetDirection()

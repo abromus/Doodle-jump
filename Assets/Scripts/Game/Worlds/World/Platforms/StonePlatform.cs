@@ -1,6 +1,5 @@
 ﻿using System;
 using DoodleJump.Core;
-using DoodleJump.Game.Services;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -8,15 +7,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class StonePlatform : Platform
     {
-        [SerializeField] private int _id;
-        [SerializeField] private Vector2 _size;
-        [SerializeField] private PlatformClipType _clipType;
-
         private IPlatformCollisionInfo _info;
-
-        public override int Id => _id;
-
-        public override Vector2 Size => _size;
 
         public override event Action<IPlatformCollisionInfo> Collided;
 
@@ -39,7 +30,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
             Collided.SafeInvoke(_info);
 
-            PlaySound(_clipType);
+            PlaySound(СlipType);
         }
     }
 }

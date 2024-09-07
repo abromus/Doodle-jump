@@ -24,6 +24,8 @@ namespace DoodleJump.Game.Factories
                     return CreateSpringJumpTrigger(info, platformConfig);
                 case PlatformTriggerType.Destroy:
                     return CreateDestroyTrigger(platform);
+                case PlatformTriggerType.Temporary:
+                    return CreateTemporaryTrigger(info, platformConfig);
                 default:
                     break;
             }
@@ -56,6 +58,16 @@ namespace DoodleJump.Game.Factories
         private IPlatformTrigger CreateDestroyTrigger(IPlatform platform)
         {
             var trigger = new DestroyTrigger(platform);
+
+            return trigger;
+        }
+
+        private IPlatformTrigger CreateTemporaryTrigger(IPlatformCollisionInfo info, IPlatformConfig platformConfig)
+        {
+            if (platformConfig is not ITemporaryConfig temporaryConfig)
+                return null;
+
+            var trigger = new TemporaryTrigger(info, _doodler, temporaryConfig.JumpForce);
 
             return trigger;
         }

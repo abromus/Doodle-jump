@@ -1,10 +1,9 @@
 ﻿using System;
-using DoodleJump.Core;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal interface IPlatform : IPoolable
+    internal interface IPlatform : Core.IPoolable
     {
         public int Id { get; }
 
@@ -17,6 +16,8 @@ namespace DoodleJump.Game.Worlds.Platforms
         public abstract event Action<IPlatform> Destroyed;
 
         public void Init(Data.IGameData gameData);
+
+        public void InitConfig(Settings.IPlatformConfig platformConfig);
 
         public void InitPosition(Vector3 position);
 

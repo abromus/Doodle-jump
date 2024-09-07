@@ -24,15 +24,24 @@ MonoBehaviour:
   _platformConfigs:
   - rid: 5398419703851646976
   - rid: 5398419703851646978
+  - rid: 4237769769900572673
   _enemyConfigs: []
   references:
     version: 2
     RefIds:
+    - rid: 4237769769900572673
+      type: {class: TemporaryPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 1526409225390827133, guid: 2c941f571c1f176408a5a45fbd0d6b3d, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 4
+        _jumpForce: 6
+        _existenceTime: 2
     - rid: 5398419703851646976
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-        _spawnChance: 0.85
+        _spawnChance: 0.75
         _triggerType: 1
         _jumpForce: 10
     - rid: 5398419703851646978

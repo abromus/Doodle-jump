@@ -71,13 +71,13 @@ namespace DoodleJump.Game.Worlds
         {
             for (int i = 0; i < _platformStartCount; i++)
             {
-                var platformPrefab = GetPlatformPrefab();
+                GetPlatformPrefab(out var platformConfig, out var platformPrefab);
 
                 if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
                     return;
 
                 CheckCurrentProgress();
-                GeneratePlatform(platformPrefab);
+                GeneratePlatform(platformConfig, platformPrefab);
                 GenerateNextPosition();
                 CheckHighestPosition(_currentPlatformPosition.y);
             }
@@ -154,7 +154,7 @@ namespace DoodleJump.Game.Worlds
             return platform;
         }
 
-        private Platform GetPlatformPrefab()
+        private void GetPlatformPrefab(out IPlatformConfig platformConfig, out Platform platform)
         {
             var spawnChance = Random.value;
 
@@ -163,10 +163,14 @@ namespace DoodleJump.Game.Worlds
                 if (config.SpawnChance * _spawnChanceFactor < spawnChance)
                     continue;
 
-                return config.PlatformPrefab;
+                platformConfig = config;
+                platform = platformConfig.PlatformPrefab;
+
+                return;
             }
 
-            return _platformConfigs[_platformConfigs.Count - 1].PlatformPrefab;
+            platformConfig = _platformConfigs[_platformConfigs.Count - 1];
+            platform = platformConfig.PlatformPrefab;
         }
 
         private void CheckCurrentProgress()
@@ -212,9 +216,10 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
-        private void GeneratePlatform(Platform platformPrefab)
+        private void GeneratePlatform(IPlatformConfig platformConfig, Platform platformPrefab)
         {
             var platform = _pools[platformPrefab.Id].Get();
+            platform.InitConfig(platformConfig);
             platform.InitPosition(_currentPlatformPosition);
             platform.Collided += OnCollided;
             platform.Destroyed += OnDestroyed;
@@ -227,12 +232,12 @@ namespace DoodleJump.Game.Worlds
             CheckCurrentProgress();
             GenerateNextPosition();
 
-            var platformPrefab = GetPlatformPrefab();
+            GetPlatformPrefab(out var platformConfig, out var platformPrefab);
 
             if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
                 return;
 
-            GeneratePlatform(platformPrefab);
+            GeneratePlatform(platformConfig, platformPrefab);
             CheckHighestPosition(_currentPlatformPosition.y);
         }
 

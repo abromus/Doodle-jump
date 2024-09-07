@@ -51,11 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 4
   _platformSize: {x: 1.36, y: 0.65}
+  _clipType: 1
   _spring: {fileID: 3091946048760727041}
   _springSize: 0.3
   _springOffset: 0.1
   _animator: {fileID: 4445484434075346220}
-  _clipType: 1
   _springClipType: 2
 --- !u!212 &792228342339114408
 SpriteRenderer:

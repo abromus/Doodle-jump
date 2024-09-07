@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 6
-  _size: {x: 1.36, y: 0.35}
+  _platformSize: {x: 1.36, y: 0.35}
   _clipType: 1
   _xOffset: 3
   _minSpeed: 0.2

@@ -1,12 +1,17 @@
 using System;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
+using DoodleJump.Game.Settings;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
     internal abstract class Platform : MonoBehaviour, IPlatform
     {
+        [SerializeField] private int _id;
+        [SerializeField] private Vector2 _platformSize;
+        [SerializeField] private PlatformClipType _clipType;
+
         private float _xMin;
         private float _xMax;
         private float _yMin;
@@ -15,9 +20,11 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         private readonly float _half = 0.5f;
 
-        public abstract int Id { get; }
+        public int Id => _id;
 
-        public abstract Vector2 Size { get; }
+        public Vector2 Size => _platformSize;
+
+        public PlatformClipType ÑlipType => _clipType;
 
         public Vector3 Position => transform.position;
 
@@ -29,6 +36,8 @@ namespace DoodleJump.Game.Worlds.Platforms
         {
             _audioService = gameData.ServiceStorage.GetAudioService();
         }
+
+        public virtual void InitConfig(IPlatformConfig platformConfig) { }
 
         public virtual void InitPosition(Vector3 position)
         {
