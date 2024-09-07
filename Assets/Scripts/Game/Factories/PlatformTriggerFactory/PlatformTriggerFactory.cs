@@ -25,7 +25,9 @@ namespace DoodleJump.Game.Factories
                 case PlatformTriggerType.Destroy:
                     return CreateDestroyTrigger(platform);
                 case PlatformTriggerType.Temporary:
-                    return CreateTemporaryTrigger(info, platformConfig);
+                    return CreateTemporaryTrigger(platformConfig);
+                case PlatformTriggerType.Quantity:
+                    return CreateQuantityTrigger(platformConfig);
                 default:
                     break;
             }
@@ -62,12 +64,22 @@ namespace DoodleJump.Game.Factories
             return trigger;
         }
 
-        private IPlatformTrigger CreateTemporaryTrigger(IPlatformCollisionInfo info, IPlatformConfig platformConfig)
+        private IPlatformTrigger CreateTemporaryTrigger(IPlatformConfig platformConfig)
         {
             if (platformConfig is not ITemporaryConfig temporaryConfig)
                 return null;
 
-            var trigger = new TemporaryTrigger(info, _doodler, temporaryConfig.JumpForce);
+            var trigger = new TemporaryTrigger(_doodler, temporaryConfig.JumpForce);
+
+            return trigger;
+        }
+
+        private IPlatformTrigger CreateQuantityTrigger(IPlatformConfig platformConfig)
+        {
+            if (platformConfig is not IQuantityConfig quantityConfig)
+                return null;
+
+            var trigger = new QuantityTrigger(_doodler, quantityConfig.JumpForce);
 
             return trigger;
         }

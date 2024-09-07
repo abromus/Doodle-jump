@@ -2,14 +2,14 @@
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal readonly struct TemporaryTrigger : IPlatformTrigger
+    internal readonly struct QuantityTrigger : IPlatformTrigger
     {
         private readonly IDoodler _doodler;
         private readonly float _jumpForce;
 
         public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
-        public TemporaryTrigger(IDoodler doodler, float jumpForce)
+        public QuantityTrigger(IDoodler doodler, float jumpForce)
         {
             _doodler = doodler;
             _jumpForce = jumpForce;

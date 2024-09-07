@@ -7,5 +7,6 @@
         Destroy = 2,
         SpringJump = 3,
         Temporary = 4,
+        Quantity = 5,
     }
 }

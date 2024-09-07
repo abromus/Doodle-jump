@@ -159,7 +159,7 @@ namespace DoodleJump.Game.Settings
         }
 
         [Core.Button]
-        private void NormalizeSpawnChances()
+        private void NormalizePlatformSpawnChances()
         {
             var spawnChanceSum = 0f;
 
