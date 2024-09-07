@@ -6,5 +6,6 @@ namespace DoodleJump.Game.Services
         None = 0,
         Bird = 1,
         InkBlot = 2,
+        FlyingSaucer = 3,
     }
 }

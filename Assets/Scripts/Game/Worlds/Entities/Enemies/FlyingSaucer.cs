@@ -1,17 +1,18 @@
-using System;
+﻿using System;
 using DoodleJump.Core;
+using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class Bird : Enemy
+    internal sealed class FlyingSaucer : Enemy
     {
-        [SerializeField] private float _xOffset;
         [SerializeField] private float _minSpeed;
         [SerializeField] private float _maxSpeed;
 
+        private Rect _screenRect;
         private IEnemyCollisionInfo _info;
-        private Vector3 _startPosition;
         private float _direction;
         private float _speed;
         private bool _isPaused;
@@ -20,12 +21,22 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public override event Action<IEnemy> Destroyed;
 
+        public override void Init(IGameData gameData)
+        {
+            base.Init(gameData);
+
+            _screenRect = gameData.CoreData.ServiceStorage.GetCameraService().GetScreenRect();
+        }
+
         public override void InitPosition(Vector3 position)
         {
+            _direction = GetDirection();
+
+            var size = transform.localScale.x;
+            position.x = _direction == Constants.Right ? _screenRect.xMin - size : _screenRect.xMax + size;
+
             base.InitPosition(position);
 
-            _startPosition = transform.position;
-            _direction = GetDirection();
             _speed = UnityEngine.Random.Range(_minSpeed, _maxSpeed);
 
             SetLocalScale(_direction);
@@ -89,16 +100,15 @@ namespace DoodleJump.Game.Worlds.Entities
                 return;
 
             var position = transform.position;
-
             position.x += _direction * _speed * deltaTime;
 
-            if (_direction == Constants.Left && position.x < _startPosition.x - _xOffset)
+            if (_direction == Constants.Left && position.x < _screenRect.xMin)
             {
                 _direction = Constants.Right;
 
                 SetLocalScale(_direction);
             }
-            else if (_direction == Constants.Right && _startPosition.x + _xOffset < position.x)
+            else if (_direction == Constants.Right && _screenRect.xMax < position.x)
             {
                 _direction = Constants.Left;
 

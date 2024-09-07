@@ -11,9 +11,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
 
-        private readonly float _left = -1f;
-        private readonly float _right = 1f;
-
         public override event Action<IEnemyCollisionInfo> Collided;
 
         public override event Action<IEnemy> Destroyed;
@@ -34,7 +31,7 @@ namespace DoodleJump.Game.Worlds.Entities
             var halfSize = localScale.x * half;
 
             position.x = isRight ? _screenRect.xMin + halfSize : _screenRect.xMax - halfSize;
-            localScale.x = isRight ? _left : _right;
+            localScale.x = isRight ? Constants.Left : Constants.Right;
             transform.localScale = localScale;
 
             base.InitPosition(position);

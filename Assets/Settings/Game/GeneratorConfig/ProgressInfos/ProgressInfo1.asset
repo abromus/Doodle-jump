@@ -15,10 +15,10 @@ MonoBehaviour:
   _minProgress: 1
   _maxProgress: 200
   _platformMaxCount: 30
-  _enemySimultaneouslyCount: 0
-  _enemyMaxCount: 0
-  _enemySpawnProbability: 0
-  _enemySpawnProbabilityFactor: 0
+  _enemySimultaneouslyCount: 1
+  _enemyMaxCount: 8
+  _enemySpawnProbability: 0.2
+  _enemySpawnProbabilityFactor: 0.1
   _minOffsetY: -2.5
   _maxOffsetY: 2.5
   _platformConfigs:
@@ -26,7 +26,10 @@ MonoBehaviour:
   - rid: 5398419703851646978
   - rid: 4237769769900572673
   - rid: 4237769769900572674
-  _enemyConfigs: []
+  _enemyConfigs:
+  - rid: 4237769769900572675
+  - rid: 4237769769900572676
+  - rid: 4237769769900572677
   references:
     version: 2
     RefIds:
@@ -46,6 +49,24 @@ MonoBehaviour:
         _triggerType: 5
         _jumpForce: 5
         _quantity: 5
+    - rid: 4237769769900572675
+      type: {class: FlyingSaucerConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: -5333612434031293170, guid: a0f7df5a459f9e14f848c0f1a0063f0d, type: 3}
+        _spawnChance: 0.4
+        _triggerType: 1
+    - rid: 4237769769900572676
+      type: {class: BirdConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: 785730928075785803, guid: 5c95cdf3d3880ea4e9537e65fd562846, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 1
+    - rid: 4237769769900572677
+      type: {class: InkBlotConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: 3120939525253196225, guid: 209ce6f56d0a03e429df3e5073b89b23, type: 3}
+        _spawnChance: 0.5
+        _triggerType: 1
     - rid: 5398419703851646976
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
