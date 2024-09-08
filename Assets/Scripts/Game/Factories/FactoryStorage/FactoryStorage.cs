@@ -57,10 +57,11 @@ namespace DoodleJump.Game.Factories
         private void InitFactories(IGameData gameData, ICoreData coreData)
         {
             var uiFactories = _uiFactoryConfig.UiFactories;
+            var gameServiceStorage = gameData.ServiceStorage;
             var coreServiceStorage = coreData.ServiceStorage;
             var updater = coreServiceStorage.GetUpdater();
             var cameraService = coreServiceStorage.GetCameraService();
-            var doodlerFactory = InitDoodlerFactory(coreServiceStorage, updater, cameraService, uiFactories);
+            var doodlerFactory = InitDoodlerFactory(gameServiceStorage, coreServiceStorage, updater, cameraService, uiFactories);
             var platformTriggerFactory = InitPlatformTriggerFactory();
             var enemyTriggerFactory = InitEnemyTriggerFactory();
             var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, platformTriggerFactory, enemyTriggerFactory);
@@ -74,12 +75,14 @@ namespace DoodleJump.Game.Factories
             };
         }
 
-        private IDoodlerFactory InitDoodlerFactory(IServiceStorage coreServiceStorage, IUpdater updater, ICameraService cameraService, IReadOnlyList<IUiFactory> uiFactories)
+        private IDoodlerFactory InitDoodlerFactory(IServiceStorage gameServiceStorage, IServiceStorage coreServiceStorage, IUpdater updater, ICameraService cameraService, IReadOnlyList<IUiFactory> uiFactories)
         {
+            var audioService = gameServiceStorage.GetAudioService();
             var inputService = coreServiceStorage.GetInputService();
             var doodlerConfig = _configStorage.GetDoodlerConfig();
             var args = new Worlds.Entities.DoodlerArgs(
                 updater,
+                audioService,
                 inputService,
                 cameraService,
                 doodlerConfig);

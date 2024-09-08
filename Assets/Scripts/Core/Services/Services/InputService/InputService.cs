@@ -18,6 +18,26 @@ namespace DoodleJump.Core.Services
             return Input.GetAxisRaw(AxisKeys.Horizontal);
         }
 
+        public int GetTouchCount()
+        {
+            return Input.touchCount;
+        }
+
+        public Touch GetTouch(int index)
+        {
+            return Input.GetTouch(index);
+        }
+
+        public bool GetMouseButtonDown(int button)
+        {
+            return Input.GetMouseButtonDown(button);
+        }
+
+        public Vector3 GetMousePosition()
+        {
+            return Input.mousePosition;
+        }
+
         public void SetXSensitivity(float xSensitivity)
         {
             _xSensitivity = xSensitivity;

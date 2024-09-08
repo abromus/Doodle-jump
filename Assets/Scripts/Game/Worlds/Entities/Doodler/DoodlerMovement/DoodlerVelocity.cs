@@ -31,7 +31,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void CheckInput()
         {
-            _direction = _doodlerInput.Direction;
+            _direction = _doodlerInput.MoveDirection;
         }
 
         private void Move(float deltaTime)

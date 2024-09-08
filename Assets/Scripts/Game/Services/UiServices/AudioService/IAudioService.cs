@@ -12,6 +12,8 @@ namespace DoodleJump.Game.Services
 
         public void PlaySound(EnemyTriggerClipType clipType);
 
+        public void PlaySound(ProjectileClipType clipType);
+
         public UnityEngine.AudioSource PlayLoopSound(EnemyClipType clipType);
 
         public void StopLoopSound(UnityEngine.AudioSource loopSound);

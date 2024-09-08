@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds
     {
         [SerializeField] private Transform _platformsContainer;
         [SerializeField] private Transform _enemiesContainer;
+        [SerializeField] private Transform _projectilesContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
 
         private IGameData _gameData;
@@ -76,6 +77,8 @@ namespace DoodleJump.Game.Worlds
         {
             doodlerTransform.SetParent(transform);
             doodlerTransform.localPosition = Vector3.zero;
+
+            _doodler.SetProjectileContainer(_projectilesContainer);
         }
 
         private void InitUi()

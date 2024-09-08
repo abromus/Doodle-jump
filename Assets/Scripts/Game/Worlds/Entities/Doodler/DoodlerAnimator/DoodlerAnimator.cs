@@ -31,7 +31,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _currentVelocity = _movement.Velocity.y;
 
             SetGrounded(_previousVelocity < 0f && 0f < _currentVelocity);
-            CheckDirection();
+            CheckMoveDirection();
         }
 
         public void SetPause(bool isPaused)
@@ -54,9 +54,9 @@ namespace DoodleJump.Game.Worlds.Entities
                 _animator.ResetTrigger(triggerKey);
         }
 
-        private void CheckDirection()
+        private void CheckMoveDirection()
         {
-            var input = _doodlerInput.Direction.x;
+            var input = _doodlerInput.MoveDirection.x;
 
             if (input == 0f)
                 return;

@@ -13,6 +13,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Jump(float height);
 
+        public void SetProjectileContainer(Transform projectilesContainer);
+
         public void Restart();
     }
 }

@@ -57,22 +57,34 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
-                return;
+            var transform = collision.transform;
 
-            Collided.SafeInvoke(_info);
+            if (transform.TryGetComponent<IDoodler>(out var doodler))
+            {
+                Collided.SafeInvoke(_info);
 
-            PlayTriggerSound();
+                PlayTriggerSound();
+            }
+            else if (transform.TryGetComponent<IProjectile>(out var projectile))
+            {
+                Destroyed.SafeInvoke(this);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
-                return;
+            var transform = collision.transform;
 
-            Collided.SafeInvoke(_info);
+            if (transform.TryGetComponent<IDoodler>(out var doodler))
+            {
+                Collided.SafeInvoke(_info);
 
-            PlayTriggerSound();
+                PlayTriggerSound();
+            }
+            else if (transform.TryGetComponent<IProjectile>(out var projectile))
+            {
+                Destroyed.SafeInvoke(this);
+            }
         }
 
         private float GetDirection()

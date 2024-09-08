@@ -17,6 +17,8 @@ namespace DoodleJump.Game.Services
         [Separator(CustomColor.MediumTurquoise)]
         [SerializeField] private EnemyClipInfo[] _enemyClipInfos;
         [SerializeField] private EnemyTriggerClipInfo[] _enemyTriggerClipInfos;
+        [Separator(CustomColor.Elsie)]
+        [SerializeField] private ProjectileClipInfo[] _projectileClipInfos;
 
         private IUpdater _updater;
         private IObjectPool<AudioSource> _loopSoundPool;
@@ -63,6 +65,19 @@ namespace DoodleJump.Game.Services
         public void PlaySound(EnemyTriggerClipType clipType)
         {
             if (clipType == EnemyTriggerClipType.None)
+                return;
+
+            var clip = GetClip(clipType);
+
+            if (clip == null)
+                return;
+
+            _oneShotSounds.PlayOneShot(clip);
+        }
+
+        public void PlaySound(ProjectileClipType clipType)
+        {
+            if (clipType == ProjectileClipType.None)
                 return;
 
             var clip = GetClip(clipType);
@@ -212,6 +227,15 @@ namespace DoodleJump.Game.Services
         private AudioClip GetClip(EnemyTriggerClipType clipType)
         {
             foreach (var clipInfo in _enemyTriggerClipInfos)
+                if (clipInfo.ClipType == clipType)
+                    return clipInfo.AudioClip;
+
+            return null;
+        }
+
+        private AudioClip GetClip(ProjectileClipType clipType)
+        {
+            foreach (var clipInfo in _projectileClipInfos)
                 if (clipInfo.ClipType == clipType)
                     return clipInfo.AudioClip;
 

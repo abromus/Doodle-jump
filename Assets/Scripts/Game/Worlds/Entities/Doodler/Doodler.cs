@@ -9,11 +9,13 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private Animator _doodlerAnimator;
         [SerializeField] private BoxCollider2D _collider;
         [SerializeField] private Vector2 _size;
+        [SerializeField] private Projectile _projectilePrefab;
 
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
         private ICameraService _cameraService;
         private IDoodlerMovement _movement;
+        private IDoodlerShooting _shooting;
         private IDoodlerCameraFollower _cameraFollower;
         private IDoodlerAnimator _animator;
 
@@ -35,10 +37,16 @@ namespace DoodleJump.Game.Worlds.Entities
             _movement.Jump(height);
         }
 
+        public void SetProjectileContainer(Transform projectilesContainer)
+        {
+            _shooting.SetProjectileContainer(projectilesContainer);
+        }
+
         public void Tick(float deltaTime)
         {
             _doodlerInput.Tick(deltaTime);
             _movement.Tick(deltaTime);
+            _shooting.Tick(deltaTime);
         }
 
         public void FixedTick(float deltaTime)
@@ -57,6 +65,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerInput.SetPause(isPaused);
             _movement.SetPause(isPaused);
             _animator.SetPause(isPaused);
+            _shooting.SetPause(isPaused);
         }
 
         public void Restart()
@@ -75,17 +84,16 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             var inputService = args.InputService;
             var doodlerConfig = args.DoodlerConfig;
+            var camera = _cameraService.Camera;
 
             _doodlerInput = new DoodlerInput(inputService);
 
-            var doodlerMovementArgs = new DoodlerMovementArgs(
-                transform,
-                _rigidbody,
-                _doodlerInput,
-                doodlerConfig);
+            var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, doodlerConfig);
+            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.Updater, camera, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
-            _cameraFollower = new DoodlerCameraFollower(transform, _cameraService.Camera.transform);
+            _shooting = new DoodlerShooting(doodlerShootingArgs);
+            _cameraFollower = new DoodlerCameraFollower(transform, camera.transform);
             _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
         }
 

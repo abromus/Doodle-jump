@@ -8,6 +8,14 @@ namespace DoodleJump.Core.Services
 
         public float GetHorizontalAxisRaw();
 
+        public int GetTouchCount();
+
+        public UnityEngine.Touch GetTouch(int index);
+
+        public bool GetMouseButtonDown(int button);
+
+        public UnityEngine.Vector3 GetMousePosition();
+
         public void SetXSensitivity(float xSensitivity);
     }
 }
