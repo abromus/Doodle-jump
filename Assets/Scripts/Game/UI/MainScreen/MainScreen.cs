@@ -26,23 +26,25 @@ namespace DoodleJump.Game.UI
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
-            _playerData = gameData.PersistentDataStorage.GetPlayerData();
-            _screenSystemService = screenSystemService;
+            var coreData = gameData.CoreData;
+            var coreServiceStorage = coreData.ServiceStorage;
+            var gameServiceStorage = gameData.ServiceStorage;
+            var saveLoadService = gameServiceStorage.GetSaveLoadService();
+            var inputConfig = coreData.ConfigStorage.GetInputConfig();
+            var audioConfig = gameData.ConfigStorage.GetAudioConfig();
 
-            var coreServiceStorage = gameData.CoreData.ServiceStorage;
+            _playerData = saveLoadService.PersistentDataStorage.GetPlayerData();
+            _screenSystemService = screenSystemService;
             _updater = coreServiceStorage.GetUpdater();
             _inputService = coreServiceStorage.GetInputService();
-            _audioService = gameData.ServiceStorage.GetAudioService();
-
-            var audioConfig = gameData.ConfigStorage.GetAudioConfig();
-            var inputConfig = gameData.CoreData.ConfigStorage.GetInputConfig();
+            _audioService = gameServiceStorage.GetAudioService();
 
             InitAudioService(audioConfig);
             InitInputService(inputConfig);
+            UpdateMaxScore(_playerData.MaxScore);
+            Subscribe();
 
             _initialized = true;
-
-            Subscribe();
         }
 
         private void OnEnable()
@@ -99,7 +101,12 @@ namespace DoodleJump.Game.UI
             var maxScore = _playerData.MaxScore;
 
             if (0 < maxScore)
-                _maxScore.text = $"Max score: {maxScore}";
+                UpdateMaxScore(maxScore);
+        }
+
+        private void UpdateMaxScore(int maxScore)
+        {
+            _maxScore.text = $"Max score: {maxScore}";
         }
     }
 }

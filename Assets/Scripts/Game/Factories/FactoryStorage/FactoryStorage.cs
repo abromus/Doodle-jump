@@ -14,14 +14,12 @@ namespace DoodleJump.Game.Factories
     {
         private Dictionary<Type, IFactory> _factories;
 
-        private readonly IPersistentDataStorage _persistentDataStorage;
         private readonly IConfigStorage _configStorage;
         private readonly IServiceStorage _serviceStorage;
         private readonly IUiFactoryConfig _uiFactoryConfig;
 
-        internal FactoryStorage(IGameData gameData, ICoreData coreData, IPersistentDataStorage persistentDataStorage, IConfigStorage configStorage, IServiceStorage serviceStorage)
+        internal FactoryStorage(IGameData gameData, ICoreData coreData, IConfigStorage configStorage, IServiceStorage serviceStorage)
         {
-            _persistentDataStorage = persistentDataStorage;
             _configStorage = configStorage;
             _serviceStorage = serviceStorage;
 
@@ -118,6 +116,7 @@ namespace DoodleJump.Game.Factories
         {
             var eventSystemService = coreServiceStorage.GetEventSystemService();
             var screenSystemService = _serviceStorage.GetScreenSystemService();
+            var saveLoadService = _serviceStorage.GetSaveLoadService();
             var audioService = _serviceStorage.GetAudioService();
             var factory = uiFactories.GetWorldFactory();
             var cameraConfig = _configStorage.GetCameraConfig();
@@ -133,7 +132,7 @@ namespace DoodleJump.Game.Factories
                 enemyTriggerFactory,
                 cameraConfig,
                 generatorConfig,
-                _persistentDataStorage);
+                saveLoadService.PersistentDataStorage);
             factory.Init(args);
 
             return factory;

@@ -15,6 +15,11 @@ namespace DoodleJump.Game.Services
             return uiServices.GetService<IAudioService>(UiServiceType.AudioService);
         }
 
+        internal static ISaveLoadService GetSaveLoadService(this IServiceStorage serviceStorage)
+        {
+            return serviceStorage.GetService<ISaveLoadService>();
+        }
+
         internal static IScreenSystemService GetScreenSystemService(this IServiceStorage serviceStorage)
         {
             return serviceStorage.GetService<IScreenSystemService>();

@@ -25,13 +25,14 @@ namespace DoodleJump.Game.Services
 
             var updater = gameData.CoreData.ServiceStorage.GetUpdater();
             var uiServices = _configStorage.GetGameUiServiceConfig().UiServices;
-            var persistentDataStorage = gameData.PersistentDataStorage;
             var audioService = InitAudioService(updater, uiServices, _uiServicesContainer);
-            var screenSystemService = InitScreenSystemService(uiServices, persistentDataStorage, _uiServicesContainer);
+            var saveLoadService = InitSaveLoadService(updater);
+            var screenSystemService = InitScreenSystemService(uiServices, _uiServicesContainer);
 
             _services = new(8)
             {
                 [typeof(IAudioService)] = audioService,
+                [typeof(ISaveLoadService)] = saveLoadService,
                 [typeof(IScreenSystemService)] = screenSystemService,
             };
         }
@@ -70,7 +71,14 @@ namespace DoodleJump.Game.Services
             return audioService;
         }
 
-        private IScreenSystemService InitScreenSystemService(IReadOnlyList<IUiService> uiServices, IPersistentDataStorage persistentDataStorage, Transform container)
+        private ISaveLoadService InitSaveLoadService(IUpdater updater)
+        {
+            var saveLoadService = new SaveLoadService(updater);
+
+            return saveLoadService;
+        }
+
+        private IScreenSystemService InitScreenSystemService(IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var screenSystemServicePrefab = uiServices.GetScreenSystemService();
             var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as UiService, container);

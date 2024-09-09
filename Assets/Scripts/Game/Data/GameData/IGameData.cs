@@ -1,21 +1,13 @@
-using DoodleJump.Core;
-using DoodleJump.Core.Data;
-using DoodleJump.Core.Factories;
-using DoodleJump.Core.Services;
-using DoodleJump.Core.Settings;
-
 namespace DoodleJump.Game.Data
 {
-    internal interface IGameData : IDestroyable
+    internal interface IGameData : Core.IDestroyable
     {
-        public ICoreData CoreData { get; }
+        public Core.Data.ICoreData CoreData { get; }
 
-        public IConfigStorage ConfigStorage { get; }
+        public Core.Settings.IConfigStorage ConfigStorage { get; }
 
-        public IFactoryStorage FactoryStorage { get; }
+        public Core.Factories.IFactoryStorage FactoryStorage { get; }
 
-        public IPersistentDataStorage PersistentDataStorage { get; }
-
-        public IServiceStorage ServiceStorage { get; }
+        public Core.Services.IServiceStorage ServiceStorage { get; }
     }
 }
