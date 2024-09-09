@@ -9,8 +9,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly Transform _doodlerTransform;
         private readonly IDoodlerInput _doodlerInput;
         private readonly IAudioService _audioService;
+        private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
-        private readonly Camera _camera;
         private readonly Projectile _projectilePrefab;
 
         internal Transform DoodlerTransform => _doodlerTransform;
@@ -19,9 +19,9 @@ namespace DoodleJump.Game.Worlds.Entities
 
         internal IAudioService AudioService => _audioService;
 
-        internal IUpdater Updater => _updater;
+        internal ICameraService CameraService => _cameraService;
 
-        internal Camera Camera => _camera;
+        internal IUpdater Updater => _updater;
 
         internal Projectile ProjectilePrefab => _projectilePrefab;
 
@@ -29,15 +29,15 @@ namespace DoodleJump.Game.Worlds.Entities
             Transform doodlerTransform,
             IDoodlerInput doodlerInput,
             IAudioService audioService,
+            ICameraService cameraService,
             IUpdater updater,
-            Camera camera,
             Projectile projectilePrefab)
         {
             _doodlerTransform = doodlerTransform;
             _doodlerInput = doodlerInput;
             _audioService = audioService;
+            _cameraService = cameraService;
             _updater = updater;
-            _camera = camera;
             _projectilePrefab = projectilePrefab;
         }
     }

@@ -89,7 +89,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerInput = new DoodlerInput(inputService);
 
             var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, doodlerConfig);
-            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.Updater, camera, _projectilePrefab);
+            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(doodlerShootingArgs);

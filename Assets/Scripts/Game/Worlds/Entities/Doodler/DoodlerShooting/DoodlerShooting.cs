@@ -14,8 +14,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly Transform _doodlerTransform;
         private readonly IDoodlerInput _doodlerInput;
         private readonly IAudioService _audioService;
+        private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
-        private readonly Camera _camera;
         private readonly Projectile _projectilePrefab;
 
         private readonly IObjectPool<IProjectile> _projectilePool;
@@ -26,8 +26,8 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerTransform = args.DoodlerTransform;
             _doodlerInput = args.DoodlerInput;
             _audioService = args.AudioService;
+            _cameraService = args.CameraService;
             _updater = args.Updater;
-            _camera = args.Camera;
             _projectilePrefab = args.ProjectilePrefab;
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
@@ -56,7 +56,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
                 _projectilePool.Release(projectile);
 
-                UnityEngine.Object.Destroy(projectile.GameObject);
+                Object.Destroy(projectile.GameObject);
             }
 
             _projectiles.Clear();
@@ -70,23 +70,16 @@ namespace DoodleJump.Game.Worlds.Entities
             var doodlerDirection = _doodlerTransform.localScale.x == Constants.Left ? Constants.Left : Constants.Right;
             var doodlerPosition = _doodlerTransform.position;
             var shootPosition = _doodlerInput.ShootPosition;
-            var shootWorldPosition = _camera.ScreenToWorldPoint(shootPosition);
-            shootWorldPosition.z = 0f;
-
-            Debug.DrawLine(doodlerPosition, shootWorldPosition, Color.blue);
-            var shootDirection = (shootWorldPosition - doodlerPosition).normalized;
-            Debug.DrawRay(doodlerPosition, shootDirection, Color.green);
-
             var projectile = _projectilePool.Get();
-            projectile.InitPosition(doodlerPosition, doodlerDirection, shootDirection);
+            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
 
             _projectiles.Add(projectile);
         }
 
         private IProjectile CreateProjectile()
         {
-            var projectile = UnityEngine.Object.Instantiate(_projectilePrefab, _projectilesContainer);
-            projectile.Init(_audioService, _updater);
+            var projectile = Object.Instantiate(_projectilePrefab, _projectilesContainer);
+            projectile.Init(_audioService, _updater, _cameraService);
             projectile.GameObject.RemoveCloneSuffix();
             projectile.Destroyed += OnProjectileDestroyed;
 

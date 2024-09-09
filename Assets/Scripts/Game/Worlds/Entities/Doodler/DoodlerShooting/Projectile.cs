@@ -17,6 +17,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private IAudioService _audioService;
         private IUpdater _updater;
+        private Camera _camera;
         private bool _initialized;
         private Vector3 _direction;
         private float _movingTime;
@@ -26,19 +27,23 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event Action<IProjectile> Destroyed;
 
-        public void Init(IAudioService audioService, IUpdater updater)
+        public void Init(IAudioService audioService, IUpdater updater, ICameraService cameraService)
         {
             _audioService = audioService;
             _updater = updater;
+            _camera = cameraService.Camera;
         }
 
-        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootDirection)
+        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition)
         {
             doodlerPosition.x += doodlerDirection * _offset.x;
             doodlerPosition.y += _offset.y;
             transform.position = doodlerPosition;
             gameObject.SetActive(true);
 
+            var shootWorldPosition = _camera.ScreenToWorldPoint(shootPosition);
+            shootWorldPosition.z = 0f;
+            var shootDirection = (shootWorldPosition - doodlerPosition).normalized;
             _direction = shootDirection;
             _movingTime = 0f;
             _audioService.PlaySound(_projectileMovingClipType);
