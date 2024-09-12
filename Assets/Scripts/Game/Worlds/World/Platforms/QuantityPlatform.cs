@@ -51,7 +51,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info.UpdateQuantity(_quantity);
 
             UpdateColor(1f * _quantity / _maxQuantity);
-            PlaySound(СlipType);
+            PlaySound(ClipType);
 
             Collided.SafeInvoke(_info);
 

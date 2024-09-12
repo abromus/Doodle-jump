@@ -86,7 +86,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
             _info.UpdateTime(_existenceTime);
 
-            PlaySound(СlipType);
+            PlaySound(ClipType);
 
             Collided.SafeInvoke(_info);
         }

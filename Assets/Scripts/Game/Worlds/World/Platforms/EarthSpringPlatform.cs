@@ -57,7 +57,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             if (isSpringCollided)
                 _animator.SetTrigger(AnimationKeys.TriggerKeys.Collided);
 
-            var clipType = isSpringCollided ? _springClipType : СlipType;
+            var clipType = isSpringCollided ? _springClipType : ClipType;
 
             PlaySound(clipType);
 

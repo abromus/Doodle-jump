@@ -87,7 +87,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
             Collided.SafeInvoke(_info);
 
-            PlaySound(СlipType);
+            PlaySound(ClipType);
         }
 
         private float GetDirection()

@@ -24,7 +24,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public Vector2 Size => _platformSize;
 
-        public PlatformClipType ÑlipType => _clipType;
+        public PlatformClipType ClipType => _clipType;
 
         public Vector3 Position => transform.position;
 
