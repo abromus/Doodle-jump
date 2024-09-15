@@ -34,17 +34,25 @@ namespace DoodleJump.Game.Worlds.Entities
             _camera = cameraService.Camera;
         }
 
-        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition)
+        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition, bool canShootAround)
         {
             doodlerPosition.x += doodlerDirection * _offset.x;
             doodlerPosition.y += _offset.y;
             transform.position = doodlerPosition;
             gameObject.SetActive(true);
 
-            var shootWorldPosition = _camera.ScreenToWorldPoint(shootPosition);
-            shootWorldPosition.z = 0f;
-            var shootDirection = (shootWorldPosition - doodlerPosition).normalized;
-            _direction = shootDirection;
+            if (canShootAround)
+            {
+                var shootWorldPosition = _camera.ScreenToWorldPoint(shootPosition);
+                shootWorldPosition.z = 0f;
+
+                _direction = (shootWorldPosition - doodlerPosition).normalized;
+            }
+            else
+            {
+                _direction = Vector3.up;
+            }
+
             _movingTime = 0f;
             _audioService.PlaySound(_projectileMovingClipType);
 

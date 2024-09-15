@@ -16,6 +16,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IAudioService _audioService;
         private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
+        private readonly bool _canShootAround;
         private readonly Projectile _projectilePrefab;
 
         private readonly IObjectPool<IProjectile> _projectilePool;
@@ -28,6 +29,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _audioService = args.AudioService;
             _cameraService = args.CameraService;
             _updater = args.Updater;
+            _canShootAround = args.CanShootAround;
             _projectilePrefab = args.ProjectilePrefab;
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
@@ -71,7 +73,7 @@ namespace DoodleJump.Game.Worlds.Entities
             var doodlerPosition = _doodlerTransform.position;
             var shootPosition = _doodlerInput.ShootPosition;
             var projectile = _projectilePool.Get();
-            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
+            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition, _canShootAround);
 
             _projectiles.Add(projectile);
         }
