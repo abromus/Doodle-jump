@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds.Platforms
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _platformSize;
         [SerializeField] private PlatformClipType _clipType;
+        [SerializeField] private Transform _boosterContainer;
 
         private float _xMin;
         private float _xMax;
@@ -35,6 +36,13 @@ namespace DoodleJump.Game.Worlds.Platforms
         public virtual void Init(IGameData gameData)
         {
             _audioService = gameData.ServiceStorage.GetAudioService();
+        }
+
+        public void InitBooster(Boosters.IBooster booster)
+        {
+            var boosterTransform = booster.GameObject.transform;
+            boosterTransform.SetParent(_boosterContainer);
+            boosterTransform.localPosition = Vector3.zero;
         }
 
         public virtual void InitConfig(IPlatformConfig platformConfig) { }

@@ -16,6 +16,7 @@ namespace DoodleJump.Game.Worlds
         private readonly IAudioService _audioService;
         private readonly IPlatformTriggerFactory _platformTriggerFactory;
         private readonly IEnemyTriggerFactory _enemyTriggerFactory;
+        private readonly IBoosterTriggerFactory _boosterTriggerFactory;
         private readonly ICameraConfig _cameraConfig;
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPersistentDataStorage _persistentDataStorage;
@@ -36,6 +37,8 @@ namespace DoodleJump.Game.Worlds
 
         internal IEnemyTriggerFactory EnemyTriggerFactory => _enemyTriggerFactory;
 
+        internal IBoosterTriggerFactory BoosterTriggerFactory => _boosterTriggerFactory;
+
         internal ICameraConfig CameraConfig => _cameraConfig;
 
         internal IGeneratorConfig GeneratorConfig => _generatorConfig;
@@ -51,6 +54,7 @@ namespace DoodleJump.Game.Worlds
             IAudioService audioService,
             IPlatformTriggerFactory platformTriggerFactory,
             IEnemyTriggerFactory enemyTriggerFactory,
+            IBoosterTriggerFactory boosterTriggerFactory,
             ICameraConfig cameraConfig,
             IGeneratorConfig generatorConfig,
             IPersistentDataStorage persistentDataStorage)
@@ -63,6 +67,7 @@ namespace DoodleJump.Game.Worlds
             _audioService = audioService;
             _platformTriggerFactory = platformTriggerFactory;
             _enemyTriggerFactory = enemyTriggerFactory;
+            _boosterTriggerFactory = boosterTriggerFactory;
             _cameraConfig = cameraConfig;
             _generatorConfig = generatorConfig;
             _persistentDataStorage = persistentDataStorage;

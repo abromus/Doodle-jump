@@ -1,6 +1,5 @@
 ﻿using System;
 using DoodleJump.Core;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
@@ -22,7 +21,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info = new DestroyedPlatformCollisionInfo(this);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
             if (0f < collision.relativeVelocity.y)
                 return;

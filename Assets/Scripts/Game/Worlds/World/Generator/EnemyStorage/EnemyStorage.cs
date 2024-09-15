@@ -45,10 +45,10 @@ namespace DoodleJump.Game.Worlds
             _doodlerTransform = args.Doodler.GameObject.transform;
 
             var generatorConfig = args.GeneratorConfig;
-            _startPosition = generatorConfig.StartPosition;
+            _startPosition = generatorConfig.EnemiesStartPosition;
 
             _currentEnemyPosition = _startPosition;
-            _highestEnemyY = _startPosition.y + _screenRect.height;
+            _highestEnemyY = _startPosition.y;
             _progressInfos = generatorConfig.ProgressInfos;
 
             CheckCurrentProgress();
@@ -61,7 +61,7 @@ namespace DoodleJump.Game.Worlds
             Destroy();
 
             _currentEnemyPosition = _startPosition;
-            _highestEnemyY = _startPosition.y + _screenRect.height;
+            _highestEnemyY = _startPosition.y;
             _isMaxProgress = false;
             _generatedEnemiesCount = 0;
 
@@ -79,14 +79,6 @@ namespace DoodleJump.Game.Worlds
                     TryGenerateEnemy();
         }
 
-        public void Destroy()
-        {
-            var count = _enemies.Count;
-
-            for (int i = count - 1; 0 < i + 1; i--)
-                DestroyEnemy(_enemies[i]);
-        }
-
         public void DestroyEnemy(IEnemy enemy)
         {
             enemy.Collided -= OnCollided;
@@ -95,6 +87,14 @@ namespace DoodleJump.Game.Worlds
 
             _pools[enemy.Id].Release(enemy);
             _enemies.Remove(enemy);
+        }
+
+        public void Destroy()
+        {
+            var count = _enemies.Count;
+
+            for (int i = count - 1; 0 < i + 1; i--)
+                DestroyEnemy(_enemies[i]);
         }
 
         private void InitEnemyConfigs()
@@ -137,7 +137,7 @@ namespace DoodleJump.Game.Worlds
                     continue;
 
                 var enemyMaxCount = _currentProgress.EnemyMaxCount;
-                var capacity = 100;
+                var capacity = 128;
 
                 _pools.Add(prefab.Id, new ObjectPool<IEnemy>(() => CreateEnemy(prefab), enemyMaxCount < 0 ? capacity : enemyMaxCount));
             }

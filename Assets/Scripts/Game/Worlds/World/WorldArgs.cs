@@ -17,6 +17,7 @@ namespace DoodleJump.Game.Worlds
         private readonly IWorldFactory _worldFactory;
         private readonly IPlatformTriggerFactory _platformTriggerFactory;
         private readonly IEnemyTriggerFactory _enemyTriggerFactory;
+        private readonly IBoosterTriggerFactory _boosterTriggerFactory;
         private readonly IDoodler _doodler;
         private readonly ICameraConfig _cameraConfig;
         private readonly IGeneratorConfig _generatorConfig;
@@ -38,6 +39,8 @@ namespace DoodleJump.Game.Worlds
 
         internal IEnemyTriggerFactory EnemyTriggerFactory => _enemyTriggerFactory;
 
+        internal IBoosterTriggerFactory BoosterTriggerFactory => _boosterTriggerFactory;
+
         internal IDoodler Doodler => _doodler;
 
         internal ICameraConfig CameraConfig => _cameraConfig;
@@ -55,6 +58,7 @@ namespace DoodleJump.Game.Worlds
             IWorldFactory worldFactory,
             IPlatformTriggerFactory platformTriggerFactory,
             IEnemyTriggerFactory enemyTriggerFactory,
+            IBoosterTriggerFactory boosterTriggerFactory,
             IDoodler doodler,
             ICameraConfig cameraConfig,
             IGeneratorConfig generatorConfig,
@@ -68,6 +72,7 @@ namespace DoodleJump.Game.Worlds
             _worldFactory = worldFactory;
             _platformTriggerFactory = platformTriggerFactory;
             _enemyTriggerFactory = enemyTriggerFactory;
+            _boosterTriggerFactory = boosterTriggerFactory;
             _doodler = doodler;
             _cameraConfig = cameraConfig;
             _generatorConfig = generatorConfig;

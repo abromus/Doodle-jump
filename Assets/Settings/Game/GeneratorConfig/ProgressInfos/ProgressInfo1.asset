@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minProgress: 1
   _maxProgress: 200
+  _minOffsetY: -2.5
+  _maxOffsetY: 2.5
   _platformMaxCount: 30
   _enemySimultaneouslyCount: 1
   _enemyMaxCount: 8
   _enemySpawnProbability: 0.2
   _enemySpawnProbabilityFactor: 0.1
-  _minOffsetY: -2.5
-  _maxOffsetY: 2.5
+  _boosterSimultaneouslyCount: 1
+  _boosterMaxCount: 3
+  _boosterSpawnProbability: 0.1
+  _boosterSpawnProbabilityFactor: 0.1
   _platformConfigs:
   - rid: 5398419703851646976
   - rid: 5398419703851646978
@@ -30,6 +34,8 @@ MonoBehaviour:
   - rid: 4237769769900572675
   - rid: 4237769769900572676
   - rid: 4237769769900572677
+  _boosterConfigs:
+  - rid: 4237769953162559489
   references:
     version: 2
     RefIds:
@@ -66,6 +72,12 @@ MonoBehaviour:
       data:
         _enemyPrefab: {fileID: 3120939525253196225, guid: 209ce6f56d0a03e429df3e5073b89b23, type: 3}
         _spawnChance: 0.5
+        _triggerType: 1
+    - rid: 4237769953162559489
+      type: {class: ShieldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _boosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
+        _spawnChance: 1
         _triggerType: 1
     - rid: 5398419703851646976
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}

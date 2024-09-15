@@ -37,6 +37,11 @@ namespace DoodleJump.Game.Worlds.Entities
             _movement.Jump(height);
         }
 
+        public void AddBooster(Boosters.IBooster booster)
+        {
+
+        }
+
         public void SetProjectileContainer(Transform projectilesContainer)
         {
             _shooting.SetProjectileContainer(projectilesContainer);

@@ -62,7 +62,8 @@ namespace DoodleJump.Game.Factories
             var doodlerFactory = InitDoodlerFactory(gameServiceStorage, coreServiceStorage, updater, cameraService, uiFactories);
             var platformTriggerFactory = InitPlatformTriggerFactory();
             var enemyTriggerFactory = InitEnemyTriggerFactory();
-            var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, platformTriggerFactory, enemyTriggerFactory);
+            var boosterTriggerFactory = InitBoosterTriggerFactory();
+            var worldFactory = InitWorldFactory(gameData, coreServiceStorage, updater, cameraService, uiFactories, platformTriggerFactory, enemyTriggerFactory, boosterTriggerFactory);
 
             _factories = new(8)
             {
@@ -105,6 +106,13 @@ namespace DoodleJump.Game.Factories
             return factory;
         }
 
+        private IBoosterTriggerFactory InitBoosterTriggerFactory()
+        {
+            var factory = new BoosterTriggerFactory();
+
+            return factory;
+        }
+
         private IWorldFactory InitWorldFactory(
             IGameData gameData,
             IServiceStorage coreServiceStorage,
@@ -112,7 +120,8 @@ namespace DoodleJump.Game.Factories
             ICameraService cameraService,
             IReadOnlyList<IUiFactory> uiFactories,
             IPlatformTriggerFactory platformTriggerFactory,
-            IEnemyTriggerFactory enemyTriggerFactory)
+            IEnemyTriggerFactory enemyTriggerFactory,
+            IBoosterTriggerFactory boosterTriggerFactory)
         {
             var eventSystemService = coreServiceStorage.GetEventSystemService();
             var screenSystemService = _serviceStorage.GetScreenSystemService();
@@ -130,6 +139,7 @@ namespace DoodleJump.Game.Factories
                 audioService,
                 platformTriggerFactory,
                 enemyTriggerFactory,
+                boosterTriggerFactory,
                 cameraConfig,
                 generatorConfig,
                 saveLoadService.PersistentDataStorage);

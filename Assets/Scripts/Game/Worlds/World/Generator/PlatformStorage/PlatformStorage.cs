@@ -44,7 +44,7 @@ namespace DoodleJump.Game.Worlds
             _screenRect = screenRect;
 
             var generatorConfig = args.GeneratorConfig;
-            _startPosition = generatorConfig.StartPosition;
+            _startPosition = generatorConfig.PlatformsStartPosition;
             _platformStartCount = generatorConfig.PlatformStartCount;
 
             _currentPlatformPosition = _startPosition;
@@ -89,14 +89,6 @@ namespace DoodleJump.Game.Worlds
                 TryGeneratePlatform();
         }
 
-        public void Destroy()
-        {
-            var count = _platforms.Count;
-
-            for (int i = count - 1; 0 < i + 1; i--)
-                DestroyPlatform(_platforms[i]);
-        }
-
         public void DestroyPlatform(IPlatform platform)
         {
             platform.Collided -= OnCollided;
@@ -105,6 +97,14 @@ namespace DoodleJump.Game.Worlds
 
             _pools[platform.Id].Release(platform);
             _platforms.Remove(platform);
+        }
+
+        public void Destroy()
+        {
+            var count = _platforms.Count;
+
+            for (int i = count - 1; 0 < i + 1; i--)
+                DestroyPlatform(_platforms[i]);
         }
 
         private void InitPlatformConfigs()

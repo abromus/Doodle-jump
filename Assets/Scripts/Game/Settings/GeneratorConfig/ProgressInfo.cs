@@ -8,14 +8,22 @@ namespace DoodleJump.Game.Settings
     {
         [SerializeField] private float _minProgress;
         [SerializeField] private float _maxProgress;
+        [SerializeField] private float _minOffsetY;
+        [SerializeField] private float _maxOffsetY;
+        [Core.Separator(Core.CustomColor.Lime)]
         [SerializeField] private int _platformMaxCount;
+        [Core.Separator(Core.CustomColor.MediumTurquoise)]
         [SerializeField] private int _enemySimultaneouslyCount;
         [SerializeField] private int _enemyMaxCount;
         [SerializeField] private float _enemySpawnProbability;
         [SerializeField] private float _enemySpawnProbabilityFactor;
-        [SerializeField] private float _minOffsetY;
-        [SerializeField] private float _maxOffsetY;
+        [Core.Separator(Core.CustomColor.Elsie)]
+        [SerializeField] private int _boosterSimultaneouslyCount;
+        [SerializeField] private int _boosterMaxCount;
+        [SerializeField] private float _boosterSpawnProbability;
+        [SerializeField] private float _boosterSpawnProbabilityFactor;
 
+        [Core.Separator(Core.CustomColor.Presley)]
 #if UNITY_EDITOR
         [Core.Label(nameof(GetPlatformTitles))]
 #endif
@@ -26,9 +34,18 @@ namespace DoodleJump.Game.Settings
 #endif
         [SerializeReference] private List<IEnemyConfig> _enemyConfigs = new(16);
 
+#if UNITY_EDITOR
+        [Core.Label(nameof(GetBoosterTitles))]
+#endif
+        [SerializeReference] private List<IBoosterConfig> _boosterConfigs = new(16);
+
         public float MinProgress => _minProgress;
 
         public float MaxProgress => _maxProgress;
+
+        public float MinOffsetY => _minOffsetY;
+
+        public float MaxOffsetY => _maxOffsetY;
 
         public int PlatformMaxCount => _platformMaxCount;
 
@@ -40,13 +57,19 @@ namespace DoodleJump.Game.Settings
 
         public float EnemySpawnProbabilityFactor => _enemySpawnProbabilityFactor;
 
-        public float MinOffsetY => _minOffsetY;
+        public int BoosterSimultaneouslyCount => _boosterSimultaneouslyCount;
 
-        public float MaxOffsetY => _maxOffsetY;
+        public int BoosterMaxCount => _boosterMaxCount;
+
+        public float BoosterSpawnProbability => _boosterSpawnProbability;
+
+        public float BoosterSpawnProbabilityFactor => _boosterSpawnProbabilityFactor;
 
         public IReadOnlyList<IPlatformConfig> PlatformConfigs => _platformConfigs;
 
         public IReadOnlyList<IEnemyConfig> EnemyConfigs => _enemyConfigs;
+
+        public IReadOnlyList<IBoosterConfig> BoosterConfigs => _boosterConfigs;
 
 #if UNITY_EDITOR
         [Core.Button]
@@ -69,6 +92,18 @@ namespace DoodleJump.Game.Settings
 
             foreach (var config in configs)
                 menu.AddItem(new GUIContent((System.Activator.CreateInstance(config) as IEnemyConfig)?.Title), false, AddEnemyConfig, config);
+
+            menu.ShowAsContext();
+        }
+
+        [Core.Button]
+        private void AddBoosterConfig()
+        {
+            var menu = new UnityEditor.GenericMenu();
+            var configs = GetAllConfigs(typeof(IBoosterConfig));
+
+            foreach (var config in configs)
+                menu.AddItem(new GUIContent((System.Activator.CreateInstance(config) as IBoosterConfig)?.Title), false, AddBoosterConfig, config);
 
             menu.ShowAsContext();
         }
@@ -106,6 +141,17 @@ namespace DoodleJump.Game.Settings
                 return;
 
             _enemyConfigs.Add(configItem);
+
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+        }
+
+        private void AddBoosterConfig(object abstractConfig)
+        {
+            if (TryGetConfigItem<IBoosterConfig>(abstractConfig, out var configItem) == false)
+                return;
+
+            _boosterConfigs.Add(configItem);
 
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
@@ -158,18 +204,58 @@ namespace DoodleJump.Game.Settings
             return titles;
         }
 
+        private IReadOnlyList<string> GetBoosterTitles()
+        {
+            if (_boosterConfigs == null || _boosterConfigs.Count == 0)
+                return null;
+
+            var titles = new List<string>(_boosterConfigs.Count);
+
+            foreach (var config in _boosterConfigs)
+                titles.Add(config.Title);
+
+            return titles;
+        }
+
         [Core.Button]
         private void NormalizePlatformSpawnChances()
         {
+            NormalizeSpawnChances(_platformConfigs);
+        }
+
+        [Core.Button]
+        private void NormalizeEnemySpawnChances()
+        {
+            NormalizeSpawnChances(_enemyConfigs);
+        }
+
+        [Core.Button]
+        private void NormalizeBoosterSpawnChances()
+        {
+            NormalizeSpawnChances(_boosterConfigs);
+        }
+
+        private void NormalizeSpawnChances<T>(List<T> probables) where T : IProbable
+        {
             var spawnChanceSum = 0f;
 
-            foreach (var config in _platformConfigs)
+            foreach (var config in probables)
                 spawnChanceSum += config.SpawnChance;
 
-            var spawnChanceFactor = 1f / spawnChanceSum;
+            if (spawnChanceSum == 0f)
+            {
+                var spawnChance = 1f / probables.Count;
 
-            foreach (var config in _platformConfigs)
-                config.ChangeSpawnChance(spawnChanceFactor);
+                foreach (var config in probables)
+                    config.SetSpawnChance(spawnChance);
+            }
+            else
+            {
+                var spawnChanceFactor = 1f / spawnChanceSum;
+
+                foreach (var config in probables)
+                    config.ChangeSpawnChance(spawnChanceFactor);
+            }
         }
 #endif
     }

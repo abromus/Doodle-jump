@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6e2ba569cbd9645b0e6ed9ad4442e2, type: 3}
   m_Name: GeneratorConfig
   m_EditorClassIdentifier: 
-  _startPosition: {x: 0, y: -7, z: 0}
+  _platformsStartPosition: {x: 0, y: -7, z: 0}
+  _enemiesStartPosition: {x: 0, y: 125, z: 0}
+  _boostersStartPosition: {x: 0, y: 15, z: 0}
   _platformStartCount: 3
   _progressInfos:
   - {fileID: 11400000, guid: ccd37d60654f06d469e6823b107696dc, type: 2}

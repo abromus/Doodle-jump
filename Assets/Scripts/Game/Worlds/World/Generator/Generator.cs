@@ -11,8 +11,10 @@ namespace DoodleJump.Game.Worlds
         private readonly Rect _screenRect;
         private readonly IPlatformStorage _platformStorage;
         private readonly IEnemyStorage _enemyStorage;
+        private readonly IBoosterStorage _boosterStorage;
         private readonly IPlatformTriggerExecutor _platformTriggerExecutor;
         private readonly IEnemyTriggerExecutor _enemyTriggerExecutor;
+        private readonly IBoosterTriggerExecutor _boosterTriggerExecutor;
 
         internal Generator(Data.IGameData gameData, WorldArgs args, Rect screenRect, Transform platformsContainer, Transform enemiesContainer)
         {
@@ -26,8 +28,12 @@ namespace DoodleJump.Game.Worlds
             _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect);
             _enemyStorage.Collided += OnEnemyCollided;
 
+            _boosterStorage = new BoosterStorage(gameData, args, _screenRect, _platformStorage);
+            _boosterStorage.Collided += OnBoosterCollided;
+
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
             _enemyTriggerExecutor = new EnemyTriggerExecutor(args.EnemyTriggerFactory);
+            _boosterTriggerExecutor = new BoosterTriggerExecutor(args.BoosterTriggerFactory);
 
             Restart();
         }
@@ -40,6 +46,9 @@ namespace DoodleJump.Game.Worlds
 
             _enemyStorage.Clear();
             _enemyStorage.GenerateEnemies();
+
+            _boosterStorage.Clear();
+            _boosterStorage.GenerateBoosters();
         }
 
         public void Tick()
@@ -54,6 +63,9 @@ namespace DoodleJump.Game.Worlds
 
             _enemyStorage.Collided -= OnEnemyCollided;
             _enemyStorage.Destroy();
+
+            _boosterStorage.Collided -= OnBoosterCollided;
+            _boosterStorage.Destroy();
         }
 
         private void CheckDoodlerPosition()
@@ -69,6 +81,7 @@ namespace DoodleJump.Game.Worlds
 
             _platformStorage.GeneratePlatforms();
             _enemyStorage.GenerateEnemies();
+            _boosterStorage.GenerateBoosters();
         }
 
         private void ClearPlatforms(float doodlerPosition, float screenHeight)
@@ -99,6 +112,20 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
+        private void ClearBoosters(float doodlerPosition, float screenHeight)
+        {
+            var boosters = _boosterStorage.Boosters;
+            var count = boosters.Count;
+
+            for (int i = count - 1; 0 < i + 1; i--)
+            {
+                var booster = boosters[i];
+
+                if (booster.Position.y < doodlerPosition - screenHeight)
+                    _boosterStorage.DestroyBooster(booster);
+            }
+        }
+
         private void OnPlatformCollided(IProgressInfo currentProgress, IPlatformCollisionInfo info)
         {
             _platformTriggerExecutor.Execute(currentProgress, info);
@@ -107,6 +134,11 @@ namespace DoodleJump.Game.Worlds
         private void OnEnemyCollided(IProgressInfo currentProgress, IEnemyCollisionInfo info)
         {
             _enemyTriggerExecutor.Execute(currentProgress, info);
+        }
+
+        private void OnBoosterCollided(IProgressInfo currentProgress, Boosters.IBoosterCollisionInfo booster)
+        {
+            _boosterTriggerExecutor.Execute(currentProgress, booster);
         }
     }
 }

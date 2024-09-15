@@ -17,6 +17,8 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public void Init(Data.IGameData gameData);
 
+        public void InitBooster(Boosters.IBooster booster);
+
         public void InitConfig(Settings.IPlatformConfig platformConfig);
 
         public void InitPosition(Vector3 position);

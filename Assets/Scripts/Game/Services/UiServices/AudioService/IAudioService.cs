@@ -16,6 +16,8 @@ namespace DoodleJump.Game.Services
 
         public UnityEngine.AudioSource PlayLoopSound(EnemyClipType clipType);
 
+        public UnityEngine.AudioSource PlayLoopSound(BoosterClipType clipType);
+
         public void StopLoopSound(UnityEngine.AudioSource loopSound);
 
         public void SetActiveBackgroundMusic(bool isActive);

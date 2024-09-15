@@ -6,6 +6,10 @@
 
         public float MaxProgress { get; }
 
+        public float MinOffsetY { get; }
+
+        public float MaxOffsetY { get; }
+
         public int PlatformMaxCount { get; }
 
         public int EnemySimultaneouslyCount { get; }
@@ -16,12 +20,18 @@
 
         public float EnemySpawnProbabilityFactor { get; }
 
-        public float MinOffsetY { get; }
+        public int BoosterSimultaneouslyCount { get; }
 
-        public float MaxOffsetY { get; }
+        public int BoosterMaxCount { get; }
+
+        public float BoosterSpawnProbability { get; }
+
+        public float BoosterSpawnProbabilityFactor { get; }
 
         public System.Collections.Generic.IReadOnlyList<IPlatformConfig> PlatformConfigs { get; }
 
         public System.Collections.Generic.IReadOnlyList<IEnemyConfig> EnemyConfigs { get; }
+
+        public System.Collections.Generic.IReadOnlyList<IBoosterConfig> BoosterConfigs { get; }
     }
 }

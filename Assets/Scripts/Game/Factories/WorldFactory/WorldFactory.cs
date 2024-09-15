@@ -1,35 +1,27 @@
 using DoodleJump.Core;
-using DoodleJump.Core.Factories;
-using DoodleJump.Core.Services;
-using DoodleJump.Game.Data;
-using DoodleJump.Game.Services;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds;
-using DoodleJump.Game.Worlds.Entities;
-using DoodleJump.Game.Worlds.Platforms;
-using UnityEngine;
 
 namespace DoodleJump.Game.Factories
 {
-    internal sealed class WorldFactory : UiFactory, IWorldFactory
+    internal sealed class WorldFactory : Core.Factories.UiFactory, IWorldFactory
     {
-        [SerializeField] private World _world;
+        [UnityEngine.SerializeField] private Worlds.World _world;
 
-        private IGameData _gameData;
-        private IUpdater _updater;
-        private ICameraService _cameraService;
-        private IEventSystemService _eventSystemService;
-        private IScreenSystemService _screenSystemService;
-        private IAudioService _audioService;
+        private Data.IGameData _gameData;
+        private Core.Services.IUpdater _updater;
+        private Core.Services.ICameraService _cameraService;
+        private Core.Services.IEventSystemService _eventSystemService;
+        private Services.IScreenSystemService _screenSystemService;
+        private Services.IAudioService _audioService;
         private IPlatformTriggerFactory _platformTriggerFactory;
         private IEnemyTriggerFactory _enemyTriggerFactory;
-        private ICameraConfig _cameraConfig;
-        private IGeneratorConfig _generatorConfig;
-        private IPersistentDataStorage _persistentDataStorage;
+        private IBoosterTriggerFactory _boosterTriggerFactory;
+        private Settings.ICameraConfig _cameraConfig;
+        private Settings.IGeneratorConfig _generatorConfig;
+        private Data.IPersistentDataStorage _persistentDataStorage;
 
-        public override UiFactoryType UiFactoryType => UiFactoryType.WorldFactory;
+        public override Core.Factories.UiFactoryType UiFactoryType => Core.Factories.UiFactoryType.WorldFactory;
 
-        public void Init(WorldFactoryArgs args)
+        public void Init(Worlds.WorldFactoryArgs args)
         {
             _gameData = args.GameData;
             _updater = args.Updater;
@@ -39,14 +31,15 @@ namespace DoodleJump.Game.Factories
             _audioService = args.AudioService;
             _platformTriggerFactory = args.PlatformTriggerFactory;
             _enemyTriggerFactory = args.EnemyTriggerFactory;
+            _boosterTriggerFactory = args.BoosterTriggerFactory;
             _cameraConfig = args.CameraConfig;
             _generatorConfig = args.GeneratorConfig;
             _persistentDataStorage = args.PersistentDataStorage;
         }
 
-        public IWorld CreateWorld(IDoodler doodler)
+        public Worlds.IWorld CreateWorld(Worlds.Entities.IDoodler doodler)
         {
-            var args = new WorldArgs(
+            var args = new Worlds.WorldArgs(
                 _updater,
                 _cameraService,
                 _eventSystemService,
@@ -55,6 +48,7 @@ namespace DoodleJump.Game.Factories
                 this,
                 _platformTriggerFactory,
                 _enemyTriggerFactory,
+                _boosterTriggerFactory,
                 doodler,
                 _cameraConfig,
                 _generatorConfig,
@@ -66,7 +60,7 @@ namespace DoodleJump.Game.Factories
             return world;
         }
 
-        public IPlatform CreatePlatform(Platform prefab, Transform container)
+        public Worlds.Platforms.IPlatform CreatePlatform(Worlds.Platforms.Platform prefab, UnityEngine.Transform container)
         {
             var platform = Instantiate(prefab, container);
             platform.gameObject.RemoveCloneSuffix();
@@ -74,12 +68,20 @@ namespace DoodleJump.Game.Factories
             return platform;
         }
 
-        public IEnemy CreateEnemy(Enemy prefab, Transform container)
+        public Worlds.Entities.IEnemy CreateEnemy(Worlds.Entities.Enemy prefab, UnityEngine.Transform container)
         {
             var enemy = Instantiate(prefab, container);
             enemy.gameObject.RemoveCloneSuffix();
 
             return enemy;
+        }
+
+        public Worlds.Boosters.IBooster CreateBooster(Worlds.Boosters.Booster prefab)
+        {
+            var booster = Instantiate(prefab);
+            booster.gameObject.RemoveCloneSuffix();
+
+            return booster;
         }
     }
 }

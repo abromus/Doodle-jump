@@ -23,6 +23,11 @@ namespace DoodleJump.Game.Settings
         {
             _spawnChance *= factor;
         }
+
+        public void SetSpawnChance(float chance)
+        {
+            _spawnChance = chance;
+        }
 #endif
     }
 }
