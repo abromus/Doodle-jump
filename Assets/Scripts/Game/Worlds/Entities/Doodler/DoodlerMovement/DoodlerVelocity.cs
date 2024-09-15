@@ -36,6 +36,9 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void Move(float deltaTime)
         {
+            if (_movementVelocity < _rigidbody.velocity.x)
+                return;
+
             _rigidbody.AddForce(_movementVelocity * deltaTime * _direction, ForceMode2D.Impulse);
         }
     }
