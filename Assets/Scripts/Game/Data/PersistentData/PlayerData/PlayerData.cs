@@ -1,227 +1,98 @@
 using DoodleJump.Core;
-using Mono.Data.Sqlite;
 
 namespace DoodleJump.Game.Data
 {
     internal sealed class PlayerData : IPlayerData
     {
-        private SqliteConnection _connection;
-        private SqliteCommand _commandInsertInfo;
-        private SqliteCommand _commandUpdateInfo;
-        private SqliteCommand _commandSelectInfo;
-        private Info _info = new();
-        private int _saveableMarker;
+        private readonly Mono.Data.Sqlite.SqliteConnection _connection;
+        private readonly ISimpleDataStorage _simpleDataStorage;
+        private readonly IComplexDataStorage _complexDataStorage;
 
-        private readonly System.Collections.Generic.Dictionary<string, SqliteParameter> _dbParameters = new(4);
-        private readonly SaveableInfo[] _saveableInfos = new SaveableInfo[32];
-        private readonly int _defaultId = 1;
+        public int CurrentScore => _simpleDataStorage.Info.CurrentScore;
 
-        public int CurrentScore => _info.CurrentScore;
+        public int MaxScore => _simpleDataStorage.Info.MaxScore;
 
-        public int MaxScore => _info.MaxScore;
+        public System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, int> Boosters => _complexDataStorage.Boosters;
 
         public event System.Action ScoreChanged;
 
+        public event System.Action<Worlds.Boosters.BoosterType, int> BoosterChanged;
+
+        public event System.Action<Worlds.Boosters.BoosterType> BoosterUsed;
+
         public PlayerData()
         {
-            var info = _info;
-            info.Id = _defaultId;
-            _info = info;
+            _connection = new Mono.Data.Sqlite.SqliteConnection($"URI=file:{UnityEngine.Application.persistentDataPath}/PlayerData.db");
+            _connection.Open();
 
-            _dbParameters.Add(ParameterKeys.Id, new SqliteParameter(ParameterKeys.Id, System.Data.DbType.Int32));
-            _dbParameters.Add(ParameterKeys.CurrentScore, new SqliteParameter(ParameterKeys.CurrentScore, System.Data.DbType.Int32));
-            _dbParameters.Add(ParameterKeys.MaxScore, new SqliteParameter(ParameterKeys.MaxScore, System.Data.DbType.Boolean));
+            _simpleDataStorage = new SimpleDataStorage(_connection);
+            _complexDataStorage = new ComplexDataStorage(_connection);
+
+            Subscribe();
         }
 
-        public void Init(SqliteConnection connection)
+        public void Init()
         {
-            _connection = connection;
-            _commandInsertInfo = GetCommandInsertInfo();
-            _commandUpdateInfo = GetCommandUpdateInfo();
-            _commandSelectInfo = GetCommandSelectInfo();
-
-            CreateSchema();
-
-            LoadData();
+            _simpleDataStorage.Init();
+            _complexDataStorage.Init();
         }
 
         public void Save()
         {
-            for (int i = 0; i < _saveableMarker; i++)
-            {
-                ref readonly var saveableInfo = ref _saveableInfos[i];
-                var info = saveableInfo.Info;
-                var command = saveableInfo.Command;
-                var parameters = command.Parameters;
-                parameters[ParameterKeys.Id].Value = info.Id;
-                parameters[ParameterKeys.CurrentScore].Value = info.CurrentScore;
-                parameters[ParameterKeys.MaxScore].Value = info.MaxScore;
-
-                command.ExecuteNonQuery();
-            }
-
-            _saveableMarker = 0;
+            _simpleDataStorage.Save();
+            _complexDataStorage.Save();
         }
 
         public void Dispose()
         {
-            _commandInsertInfo.Dispose();
-            _commandUpdateInfo.Dispose();
-            _commandSelectInfo.Dispose();
+            Unsubscribe();
+
+            _simpleDataStorage.Dispose();
+            _complexDataStorage.Dispose();
+
+            _connection.Close();
         }
 
         public void SetCurrentScore(int score)
         {
-            if (_info.CurrentScore == score)
-                return;
+            _simpleDataStorage.SetCurrentScore(score);
+        }
 
-            var info = _info;
-            info.CurrentScore = score;
+        public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info, int count)
+        {
+            _complexDataStorage.AddBooster(info, count);
+        }
 
-            if (_info.MaxScore < score)
-                info.MaxScore = score;
+        public void RemoveBooster(Worlds.Boosters.BoosterType boosterType, int count = 1)
+        {
+            _complexDataStorage.UseBooster(boosterType, count);
+        }
 
-            _info = info;
+        public void UseBooster(Worlds.Boosters.BoosterType boosterType, int count = 1)
+        {
+            BoosterUsed.SafeInvoke(boosterType);
+        }
 
-            _saveableInfos[_saveableMarker] = new SaveableInfo(_info, _commandUpdateInfo);
+        private void Subscribe()
+        {
+            _simpleDataStorage.ScoreChanged += OnScoreChanged;
+            _complexDataStorage.BoosterChanged += OnBoosterChanged;
+        }
 
-#if UNITY_EDITOR
-            UnityEngine.Assertions.Assert.IsTrue(++_saveableMarker < _saveableInfos.Length);
-#else
-            ++_saveableMarker;
-#endif
+        private void Unsubscribe()
+        {
+            _simpleDataStorage.ScoreChanged -= OnScoreChanged;
+            _complexDataStorage.BoosterChanged -= OnBoosterChanged;
+        }
 
+        private void OnScoreChanged()
+        {
             ScoreChanged.SafeInvoke();
         }
 
-        private SqliteCommand GetCommandInsertInfo()
+        private void OnBoosterChanged(Worlds.Boosters.BoosterType boosterType, int score)
         {
-            var command = _connection.CreateCommand();
-            command.CommandType = System.Data.CommandType.Text;
-            command.Parameters.Clear();
-            command.CommandText = SqlInfo.CommandInsertInfo;
-            command.Parameters.Add(_dbParameters[ParameterKeys.Id]);
-            command.Parameters.Add(_dbParameters[ParameterKeys.CurrentScore]);
-            command.Parameters.Add(_dbParameters[ParameterKeys.MaxScore]);
-
-            return command;
-        }
-
-        private SqliteCommand GetCommandUpdateInfo()
-        {
-            var command = _connection.CreateCommand();
-            command.CommandType = System.Data.CommandType.Text;
-            command.Parameters.Clear();
-            command.CommandText = SqlInfo.CommandUpdateInfo;
-            command.Parameters.Add(_dbParameters[ParameterKeys.Id]);
-            command.Parameters.Add(_dbParameters[ParameterKeys.CurrentScore]);
-            command.Parameters.Add(_dbParameters[ParameterKeys.MaxScore]);
-
-            return command;
-        }
-
-        private SqliteCommand GetCommandSelectInfo()
-        {
-            var command = _connection.CreateCommand();
-            command.CommandType = System.Data.CommandType.Text;
-            command.Parameters.Clear();
-            command.CommandText = SqlInfo.CommandSelectInfo;
-
-            return command;
-        }
-
-        private void CreateSchema()
-        {
-            var command = _connection.CreateCommand();
-            command.CommandText = SqlInfo.CommandCreateTable;
-            command.ExecuteNonQuery();
-        }
-
-        private void LoadData()
-        {
-            var reader = _commandSelectInfo.ExecuteReader();
-            var hasData = false;
-
-            using (reader)
-            {
-                if (reader.Read())
-                {
-                    hasData = true;
-
-                    var info = _info;
-                    info.Id = reader.GetInt32(0);
-                    info.MaxScore = reader.GetInt32(2);
-
-                    _info = info;
-                }
-            }
-
-            reader.Close();
-
-            if (hasData == false)
-            {
-                var parameters = _commandInsertInfo.Parameters;
-                parameters[ParameterKeys.Id].Value = _info.Id;
-
-                _commandInsertInfo.ExecuteNonQuery();
-            }
-        }
-
-        private sealed class SqlInfo
-        {
-            internal static readonly string TableName = "PlayerData";
-
-            internal static readonly string CommandCreateTable =
-                $"CREATE TABLE IF NOT EXISTS {TableName} " +
-                $"({ParameterKeys.Id} INTEGER NOT NULL, " +
-                $"{ParameterKeys.CurrentScore} INTEGER NOT NULL, " +
-                $"{ParameterKeys.MaxScore} INTEGER NOT NULL);";
-
-            internal static readonly string CommandInsertInfo =
-                $"INSERT OR IGNORE INTO {TableName} " +
-                $"({ParameterKeys.Id}, {ParameterKeys.CurrentScore}, {ParameterKeys.MaxScore}) " +
-                $"VALUES (@{ParameterKeys.Id}, 0, 0);";
-
-            internal static readonly string CommandUpdateInfo =
-                $"UPDATE {TableName} SET " +
-                $"{ParameterKeys.CurrentScore} = @{ParameterKeys.CurrentScore}, " +
-                $"{ParameterKeys.MaxScore} = @{ParameterKeys.MaxScore} " +
-                $"WHERE {ParameterKeys.Id} = @{ParameterKeys.Id}";
-
-            internal static readonly string CommandSelectInfo =
-                $"SELECT " +
-                $"{ParameterKeys.Id}, {ParameterKeys.CurrentScore}, {ParameterKeys.MaxScore} " +
-                $"FROM {TableName};";
-        }
-
-        private sealed class ParameterKeys
-        {
-            internal static readonly string Id = "Id";
-            internal static readonly string CurrentScore = "CurrentScore";
-            internal static readonly string MaxScore = "MaxScore";
-        }
-
-        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-        private struct Info
-        {
-            public int Id { get; set; }
-
-            public int CurrentScore { get; set; }
-
-            public int MaxScore { get; set; }
-        }
-
-        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-        private readonly struct SaveableInfo
-        {
-            public readonly Info Info;
-            public readonly SqliteCommand Command;
-
-            public SaveableInfo(Info info, SqliteCommand command)
-            {
-                Info = info;
-                Command = command;
-            }
+            BoosterChanged.SafeInvoke(boosterType, score);
         }
     }
 }

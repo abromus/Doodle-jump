@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds
     {
         [SerializeField] private Transform _platformsContainer;
         [SerializeField] private Transform _enemiesContainer;
+        [SerializeField] private Transform _boostersContainer;
         [SerializeField] private Transform _projectilesContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
 
@@ -113,7 +114,7 @@ namespace DoodleJump.Game.Worlds
 
         private void InitGenerator()
         {
-            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer, _enemiesContainer);
+            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer, _enemiesContainer, _boostersContainer);
         }
 
         private void InitCamera()

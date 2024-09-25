@@ -13,7 +13,9 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Jump(float height);
 
-        public void AddBooster(Boosters.IBooster booster);
+        public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info);
+
+        public bool HasBooster(Worlds.Boosters.BoosterType boosterType);
 
         public void SetProjectileContainer(Transform projectilesContainer);
 

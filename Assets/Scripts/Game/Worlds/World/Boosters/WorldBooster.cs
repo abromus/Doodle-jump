@@ -6,33 +6,35 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal abstract class Booster : MonoBehaviour, IBooster
+    internal abstract class WorldBooster : MonoBehaviour, IWorldBooster
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;
+        [SerializeField] private BoosterType _boosterType;
         [SerializeField] private BoosterClipType _clipType;
         [SerializeField] private Animator _animator;
 
         private IAudioService _audioService;
         private IUpdater _updater;
         private AudioSource _loopSound;
+        private Transform _defaultParent;
         private bool _initialized;
-
-        private readonly float _half = 0.5f;
 
         public int Id => _id;
 
         public Vector2 Size => _size;
 
-        public BoosterClipType ClipType => _clipType;
+        public BoosterType BoosterType => _boosterType;
 
         public GameObject GameObject => gameObject;
 
         public Vector3 Position => transform.position;
 
+        protected BoosterClipType ClipType => _clipType;
+
         public abstract event Action<IBoosterCollisionInfo> Collided;
 
-        public abstract event Action<IBooster> Destroyed;
+        public abstract event Action<IWorldBooster> Destroyed;
 
         public virtual void Init(IGameData gameData)
         {
@@ -63,7 +65,7 @@ namespace DoodleJump.Game.Worlds.Boosters
         {
             StopLoopSound();
 
-            transform.SetParent(null);
+            transform.SetParent(_defaultParent);
             gameObject.SetActive(false);
         }
 
@@ -77,6 +79,11 @@ namespace DoodleJump.Game.Worlds.Boosters
             StopLoopSound();
 
             _loopSound = _audioService.PlayLoopSound(type);
+        }
+
+        protected virtual void Awake()
+        {
+            _defaultParent = transform.parent;
         }
 
         private void OnEnable()

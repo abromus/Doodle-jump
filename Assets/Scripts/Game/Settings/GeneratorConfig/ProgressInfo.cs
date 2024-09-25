@@ -35,9 +35,9 @@ namespace DoodleJump.Game.Settings
         [SerializeReference] private List<IEnemyConfig> _enemyConfigs = new(16);
 
 #if UNITY_EDITOR
-        [Core.Label(nameof(GetBoosterTitles))]
+        [Core.Label(nameof(GetWorldBoosterTitles))]
 #endif
-        [SerializeReference] private List<IBoosterConfig> _boosterConfigs = new(16);
+        [SerializeReference] private List<IWorldBoosterConfig> _worldBoosterConfigs = new(16);
 
         public float MinProgress => _minProgress;
 
@@ -69,7 +69,7 @@ namespace DoodleJump.Game.Settings
 
         public IReadOnlyList<IEnemyConfig> EnemyConfigs => _enemyConfigs;
 
-        public IReadOnlyList<IBoosterConfig> BoosterConfigs => _boosterConfigs;
+        public IReadOnlyList<IWorldBoosterConfig> WorldBoosterConfigs => _worldBoosterConfigs;
 
 #if UNITY_EDITOR
         [Core.Button]
@@ -97,13 +97,13 @@ namespace DoodleJump.Game.Settings
         }
 
         [Core.Button]
-        private void AddBoosterConfig()
+        private void AddWorldBoosterConfig()
         {
             var menu = new UnityEditor.GenericMenu();
-            var configs = GetAllConfigs(typeof(IBoosterConfig));
+            var configs = GetAllConfigs(typeof(IWorldBoosterConfig));
 
             foreach (var config in configs)
-                menu.AddItem(new GUIContent((System.Activator.CreateInstance(config) as IBoosterConfig)?.Title), false, AddBoosterConfig, config);
+                menu.AddItem(new GUIContent((System.Activator.CreateInstance(config) as IWorldBoosterConfig)?.Title), false, AddBoosterConfig, config);
 
             menu.ShowAsContext();
         }
@@ -148,10 +148,10 @@ namespace DoodleJump.Game.Settings
 
         private void AddBoosterConfig(object abstractConfig)
         {
-            if (TryGetConfigItem<IBoosterConfig>(abstractConfig, out var configItem) == false)
+            if (TryGetConfigItem<IWorldBoosterConfig>(abstractConfig, out var configItem) == false)
                 return;
 
-            _boosterConfigs.Add(configItem);
+            _worldBoosterConfigs.Add(configItem);
 
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
@@ -204,14 +204,14 @@ namespace DoodleJump.Game.Settings
             return titles;
         }
 
-        private IReadOnlyList<string> GetBoosterTitles()
+        private IReadOnlyList<string> GetWorldBoosterTitles()
         {
-            if (_boosterConfigs == null || _boosterConfigs.Count == 0)
+            if (_worldBoosterConfigs == null || _worldBoosterConfigs.Count == 0)
                 return null;
 
-            var titles = new List<string>(_boosterConfigs.Count);
+            var titles = new List<string>(_worldBoosterConfigs.Count);
 
-            foreach (var config in _boosterConfigs)
+            foreach (var config in _worldBoosterConfigs)
                 titles.Add(config.Title);
 
             return titles;
@@ -232,7 +232,7 @@ namespace DoodleJump.Game.Settings
         [Core.Button]
         private void NormalizeBoosterSpawnChances()
         {
-            NormalizeSpawnChances(_boosterConfigs);
+            NormalizeSpawnChances(_worldBoosterConfigs);
         }
 
         private void NormalizeSpawnChances<T>(List<T> probables) where T : IProbable

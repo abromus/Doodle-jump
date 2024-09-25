@@ -8,7 +8,7 @@ namespace DoodleJump.Game.Worlds
 {
     internal interface IBoosterStorage : IDestroyable
     {
-        public IReadOnlyList<IBooster> Boosters { get; }
+        public IReadOnlyList<IWorldBooster> WorldBoosters { get; }
 
         public event Action<IProgressInfo, IBoosterCollisionInfo> Collided;
 
@@ -16,6 +16,6 @@ namespace DoodleJump.Game.Worlds
 
         public void GenerateBoosters();
 
-        public void DestroyBooster(IBooster booster);
+        public void DestroyBooster(IWorldBooster booster);
     }
 }

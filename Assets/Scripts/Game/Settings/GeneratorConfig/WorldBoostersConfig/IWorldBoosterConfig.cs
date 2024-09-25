@@ -2,11 +2,11 @@ using DoodleJump.Game.Worlds.Boosters;
 
 namespace DoodleJump.Game.Settings
 {
-    internal interface IBoosterConfig : IProbable
+    internal interface IWorldBoosterConfig : IProbable
     {
         public string Title { get; }
 
-        public Booster BoosterPrefab { get; }
+        public WorldBooster WorldBoosterPrefab { get; }
 
         public BoosterTriggerType TriggerType { get; }
     }

@@ -1,6 +1,5 @@
 using DoodleJump.Core.Factories;
 using DoodleJump.Game.Worlds;
-using UnityEngine;
 
 namespace DoodleJump.Game.Factories
 {
@@ -10,10 +9,10 @@ namespace DoodleJump.Game.Factories
 
         public IWorld CreateWorld(Worlds.Entities.IDoodler doodler);
 
-        public Worlds.Platforms.IPlatform CreatePlatform(Worlds.Platforms.Platform prefab, Transform container);
+        public Worlds.Platforms.IPlatform CreatePlatform<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Platforms.IPlatform;
 
-        public Worlds.Entities.IEnemy CreateEnemy(Worlds.Entities.Enemy prefab, Transform container);
+        public Worlds.Entities.IEnemy CreateEnemy<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Entities.IEnemy;
 
-        public Worlds.Boosters.IBooster CreateBooster(Worlds.Boosters.Booster prefab);
+        public Worlds.Boosters.IWorldBooster CreateBooster<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Boosters.IWorldBooster;
     }
 }

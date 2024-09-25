@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GeneratorConfig
   m_EditorClassIdentifier: 
   _platformsStartPosition: {x: 0, y: -7, z: 0}
-  _enemiesStartPosition: {x: 0, y: 125, z: 0}
+  _enemiesStartPosition: {x: 0, y: 15, z: 0}
   _boostersStartPosition: {x: 0, y: 15, z: 0}
   _platformStartCount: 3
   _progressInfos:

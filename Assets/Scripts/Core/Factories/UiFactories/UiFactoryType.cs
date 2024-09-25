@@ -2,8 +2,9 @@ namespace DoodleJump.Core.Factories
 {
     public enum UiFactoryType
     {
-        GameSceneControllerFactory,
-        DoodlerFactory,
-        WorldFactory,
+        None = 0,
+        GameSceneControllerFactory = 1,
+        DoodlerFactory = 2,
+        WorldFactory = 3,
     }
 }

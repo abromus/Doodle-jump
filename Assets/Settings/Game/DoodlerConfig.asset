@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DoodlerConfig
   m_EditorClassIdentifier: 
   _movementVelocity: 7.5
-  _canShootAround: 0
+  _canShootAround: 1

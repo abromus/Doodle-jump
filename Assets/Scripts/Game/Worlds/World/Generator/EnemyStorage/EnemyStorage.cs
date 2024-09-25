@@ -143,7 +143,7 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
-        private IEnemy CreateEnemy(Enemy enemyPrefab)
+        private IEnemy CreateEnemy<T>(T enemyPrefab) where T : MonoBehaviour, IEnemy 
         {
             var enemy = _worldFactory.CreateEnemy(enemyPrefab, _enemiesContainer);
             enemy.Init(_gameData);

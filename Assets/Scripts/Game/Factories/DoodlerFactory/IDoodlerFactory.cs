@@ -1,12 +1,9 @@
-using DoodleJump.Core.Factories;
-using DoodleJump.Game.Worlds.Entities;
-
 namespace DoodleJump.Game.Factories
 {
-    internal interface IDoodlerFactory : IFactory
+    internal interface IDoodlerFactory : Core.Factories.IFactory
     {
-        public void Init(DoodlerArgs args);
+        public void Init(Worlds.Entities.DoodlerArgs args);
 
-        public IDoodler Create();
+        public Worlds.Entities.IDoodler Create();
     }
 }

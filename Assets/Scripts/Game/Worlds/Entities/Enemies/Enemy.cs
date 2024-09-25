@@ -1,4 +1,5 @@
 using System;
+using DoodleJump.Core;
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
@@ -31,9 +32,9 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public Vector3 Position => transform.position;
 
-        public abstract event Action<IEnemyCollisionInfo> Collided;
+        public event Action<IEnemyCollisionInfo> Collided;
 
-        public abstract event Action<IEnemy> Destroyed;
+        public event Action<IEnemy> Destroyed;
 
         public virtual void Init(IGameData gameData)
         {
@@ -93,10 +94,14 @@ namespace DoodleJump.Game.Worlds.Entities
             gameObject.SetActive(false);
         }
 
-        public virtual void Destroy()
+        public void Destroy()
         {
             StopLoopSound();
+
+            Destroyed.SafeInvoke(this);
         }
+
+        protected abstract IEnemyCollisionInfo GetCollisionInfo();
 
         protected void PlaySound(EnemyClipType type)
         {
@@ -120,6 +125,42 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             if (_initialized)
                 Unsubscribe();
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var transform = collision.transform;
+
+            if (transform.TryGetComponent<IDoodler>(out var doodler) && doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+            {
+                var collisionInfo = GetCollisionInfo();
+
+                Collided.SafeInvoke(collisionInfo);
+
+                PlayTriggerSound();
+            }
+            else if (transform.TryGetComponent<IProjectile>(out var projectile))
+            {
+                Destroyed.SafeInvoke(this);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            var transform = collision.transform;
+
+            if (transform.TryGetComponent<IDoodler>(out var doodler) && doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+            {
+                var collisionInfo = GetCollisionInfo();
+
+                Collided.SafeInvoke(collisionInfo);
+
+                PlayTriggerSound();
+            }
+            else if (transform.TryGetComponent<IProjectile>(out var projectile))
+            {
+                Destroyed.SafeInvoke(this);
+            }
         }
 
 #if UNITY_EDITOR

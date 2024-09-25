@@ -38,9 +38,9 @@ namespace DoodleJump.Game.Worlds.Platforms
             _audioService = gameData.ServiceStorage.GetAudioService();
         }
 
-        public void InitBooster(Boosters.IBooster booster)
+        public void InitBooster(Boosters.IWorldBooster worldBooster)
         {
-            var boosterTransform = booster.GameObject.transform;
+            var boosterTransform = worldBooster.GameObject.transform;
             boosterTransform.SetParent(_boosterContainer);
             boosterTransform.localPosition = Vector3.zero;
         }

@@ -21,9 +21,9 @@ MonoBehaviour:
   _enemyMaxCount: 8
   _enemySpawnProbability: 0.2
   _enemySpawnProbabilityFactor: 0.1
-  _boosterSimultaneouslyCount: 1
-  _boosterMaxCount: 3
-  _boosterSpawnProbability: 0.1
+  _boosterSimultaneouslyCount: 2
+  _boosterMaxCount: 880
+  _boosterSpawnProbability: 0.5
   _boosterSpawnProbabilityFactor: 0.1
   _platformConfigs:
   - rid: 5398419703851646976
@@ -34,7 +34,7 @@ MonoBehaviour:
   - rid: 4237769769900572675
   - rid: 4237769769900572676
   - rid: 4237769769900572677
-  _boosterConfigs:
+  _worldBoosterConfigs:
   - rid: 4237769953162559489
   references:
     version: 2
@@ -74,9 +74,9 @@ MonoBehaviour:
         _spawnChance: 0.5
         _triggerType: 1
     - rid: 4237769953162559489
-      type: {class: ShieldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      type: {class: ShieldWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
-        _boosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
+        _worldBoosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
         _spawnChance: 1
         _triggerType: 1
     - rid: 5398419703851646976

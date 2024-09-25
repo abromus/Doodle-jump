@@ -1,0 +1,106 @@
+﻿using System.Collections.Generic;
+
+namespace DoodleJump.Game.Worlds.Entities
+{
+    internal sealed class DoodlerBoosterExecutor : IDoodlerBoosterExecutor
+    {
+        private readonly UnityEngine.Transform _boosterContainer;
+        private readonly Core.Services.IUpdater _updater;
+        private readonly Factories.IBoosterFactory _factory;
+        private readonly Settings.IBoostersConfig _boostersConfig;
+        private readonly List<Boosters.IBooster> _boosters = new(16);
+        private readonly List<Boosters.IBooster> _executingBoosters = new(16);
+        private readonly Dictionary<Worlds.Boosters.BoosterType, Core.IObjectPool<Boosters.IBooster>> _pools = new(16);
+
+        internal DoodlerBoosterExecutor(UnityEngine.Transform boosterContainer, Core.Services.IUpdater updater, Factories.IBoosterFactory factory, Settings.IBoostersConfig boostersConfig)
+        {
+            _boosterContainer = boosterContainer;
+            _updater = updater;
+            _factory = factory;
+            _boostersConfig = boostersConfig;
+
+            InitPools();
+        }
+
+        public bool Execute(Worlds.Boosters.BoosterType boosterType)
+        {
+            if (Has(boosterType))
+                return false;
+
+            var booster = GetBooster(boosterType);
+            booster.Executed += OnExecuted;
+
+            _boosters.Add(booster);
+            _executingBoosters.Add(booster);
+
+            booster.Execute(_updater);
+
+            return true;
+        }
+
+        public bool Has(Worlds.Boosters.BoosterType boosterType)
+        {
+            foreach (var booster in _boosters)
+                if (booster.BoosterType == boosterType)
+                    return true;
+
+            return false;
+        }
+
+        public void Destroy()
+        {
+            var count = _boosters.Count;
+
+            for (int i = count - 1; 0 < i + 1; i--)
+                DestroyBooster(_boosters[i]);
+        }
+
+        private void DestroyBooster(Boosters.IBooster booster)
+        {
+            booster.Executed -= OnExecuted;
+            booster.Destroy();
+
+            _pools[booster.BoosterType].Release(booster);
+            _boosters.Remove(booster);
+
+            if (_executingBoosters.Contains(booster))
+                _executingBoosters.Remove(booster);
+        }
+
+        private void InitPools()
+        {
+            var boosterConfigs = _boostersConfig.BoosterConfigs;
+
+            foreach (var boosterConfig in boosterConfigs)
+            {
+                var prefab = boosterConfig.BoosterPrefab;
+                var boosterType = prefab.BoosterType;
+
+                if (_pools.ContainsKey(boosterType))
+                    continue;
+
+                _pools.Add(boosterType, new Core.ObjectPool<Boosters.IBooster>(() => CreateBooster(boosterConfig, prefab)));
+            }
+        }
+
+        private Boosters.IBooster CreateBooster<T>(Settings.IBoosterConfig config, T prefab) where T : UnityEngine.MonoBehaviour, Boosters.IBooster
+        {
+            var booster = _factory.Create(prefab, _boosterContainer);
+            booster.Init(config);
+
+            return booster;
+        }
+
+        private Boosters.IBooster GetBooster(Worlds.Boosters.BoosterType boosterType)
+        {
+            var booster = _pools[boosterType].Get();
+
+            return booster;
+        }
+
+        private void OnExecuted(Boosters.IBooster booster)
+        {
+            DestroyBooster(booster);
+        }
+    }
+}

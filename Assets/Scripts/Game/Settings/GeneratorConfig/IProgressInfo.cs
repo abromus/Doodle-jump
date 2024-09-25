@@ -32,6 +32,6 @@
 
         public System.Collections.Generic.IReadOnlyList<IEnemyConfig> EnemyConfigs { get; }
 
-        public System.Collections.Generic.IReadOnlyList<IBoosterConfig> BoosterConfigs { get; }
+        public System.Collections.Generic.IReadOnlyList<IWorldBoosterConfig> WorldBoosterConfigs { get; }
     }
 }

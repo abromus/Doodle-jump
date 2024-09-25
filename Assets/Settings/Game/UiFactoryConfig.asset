@@ -15,3 +15,4 @@ MonoBehaviour:
   _uiFactories:
   - {fileID: 8607527081122845902, guid: cca61eb8ba468df4588c2b80c527f3e1, type: 3}
   - {fileID: 4255628555621804778, guid: 8afb4896bac28cc4da04fb3d89e14b61, type: 3}
+  - {fileID: 2447437977092821310, guid: 6a77e5d4ac4fbfd46845fe3b6318ba1d, type: 3}

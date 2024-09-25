@@ -12,14 +12,14 @@ namespace DoodleJump.Game.Factories
             _doodler = doodler;
         }
 
-        public IBoosterTrigger Create(IBoosterCollisionInfo info, IBooster booster, IBoosterConfig boosterConfig)
+        public IBoosterTrigger Create(IBoosterCollisionInfo info, IWorldBoosterConfig worldBoosterConfig)
         {
-            var triggerType = boosterConfig.TriggerType;
+            var triggerType = worldBoosterConfig.TriggerType;
 
             switch (triggerType)
             {
-                case BoosterTriggerType.Shield:
-                    return CreateShieldTrigger(booster);
+                case BoosterTriggerType.Collect:
+                    return CreateCollectTrigger(info);
                 default:
                     break;
             }
@@ -29,9 +29,9 @@ namespace DoodleJump.Game.Factories
 
         public void Destroy() { }
 
-        private IBoosterTrigger CreateShieldTrigger(IBooster booster)
+        private IBoosterTrigger CreateCollectTrigger(IBoosterCollisionInfo info)
         {
-            var trigger = new ShieldTrigger(_doodler, booster);
+            var trigger = new CollectTrigger(_doodler, info);
 
             return trigger;
         }

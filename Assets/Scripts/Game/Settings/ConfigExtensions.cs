@@ -9,6 +9,11 @@ namespace DoodleJump.Game.Settings
             return configStorage.GetConfig<IAudioConfig>();
         }
 
+        internal static IBoostersConfig GetBoostersConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IBoostersConfig>();
+        }
+
         internal static ICameraConfig GetCameraConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<ICameraConfig>();
@@ -32,6 +37,11 @@ namespace DoodleJump.Game.Settings
         internal static IGeneratorConfig GetGeneratorConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<IGeneratorConfig>();
+        }
+
+        internal static IScreenSystemConfig GetScreenSystemConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IScreenSystemConfig>();
         }
     }
 }

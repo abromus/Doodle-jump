@@ -8,7 +8,7 @@ namespace DoodleJump.Game.Worlds
     internal sealed class BoosterTriggerExecutor : IBoosterTriggerExecutor
     {
         private readonly IBoosterTriggerFactory _factory;
-        private readonly Dictionary<IBooster, IBoosterTrigger> _triggers = new(16);
+        private readonly Dictionary<IWorldBooster, IBoosterTrigger> _triggers = new(16);
 
         internal BoosterTriggerExecutor(IBoosterTriggerFactory factory)
         {
@@ -24,11 +24,11 @@ namespace DoodleJump.Game.Worlds
 
         private IBoosterTrigger GetTrigger(IProgressInfo currentProgress, IBoosterCollisionInfo info)
         {
-            var booster = info.Booster;
+            var booster = info.WorldBooster;
 
             if (_triggers.ContainsKey(booster) == false)
             {
-                var newTrigger = CreateTrigger(currentProgress, info, booster);
+                var newTrigger = CreateTrigger(currentProgress, info);
 
                 return newTrigger;
             }
@@ -39,17 +39,18 @@ namespace DoodleJump.Game.Worlds
             return trigger;
         }
 
-        private IBoosterTrigger CreateTrigger(IProgressInfo currentProgress, IBoosterCollisionInfo info, IBooster booster)
+        private IBoosterTrigger CreateTrigger(IProgressInfo currentProgress, IBoosterCollisionInfo info)
         {
+            var booster = info.WorldBooster;
             var boosterId = booster.Id;
-            var configs = currentProgress.BoosterConfigs;
+            var configs = currentProgress.WorldBoosterConfigs;
 
             foreach (var config in configs)
             {
-                if (config.BoosterPrefab.Id.Equals(boosterId) == false)
+                if (config.WorldBoosterPrefab.Id.Equals(boosterId) == false)
                     continue;
 
-                var trigger = _factory.Create(info, booster, config);
+                var trigger = _factory.Create(info, config);
 
                 _triggers.Add(booster, trigger);
 

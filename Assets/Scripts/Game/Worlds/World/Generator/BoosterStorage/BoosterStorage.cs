@@ -22,6 +22,7 @@ namespace DoodleJump.Game.Worlds
 
         private readonly IGameData _gameData;
         private readonly IWorldFactory _worldFactory;
+        private readonly Transform _boostersContainer;
         private readonly Rect _screenRect;
         private readonly IPlatformStorage _platformStorage;
         private readonly Transform _doodlerTransform;
@@ -29,22 +30,23 @@ namespace DoodleJump.Game.Worlds
         private readonly Vector3 _startPosition;
         private readonly IProgressInfo[] _progressInfos;
 
-        private readonly List<IBoosterConfig> _boosterConfigs = new(16);
-        private readonly List<IBooster> _boosters = new(256);
-        private readonly Dictionary<IPlatform, IBooster> _platforms = new(256);
+        private readonly List<IWorldBoosterConfig> _worldBoosterConfigs = new(16);
+        private readonly List<IWorldBooster> _worldBoosters = new(256);
+        private readonly Dictionary<IPlatform, IWorldBooster> _platforms = new(256);
         private readonly List<IPlatform> _removedPlatforms = new(256);
-        private readonly Dictionary<int, IObjectPool<IBooster>> _pools = new(16);
+        private readonly Dictionary<int, IObjectPool<IWorldBooster>> _pools = new(16);
 
         public float HighestBoosterY => _highestBoosterY;
 
-        public IReadOnlyList<IBooster> Boosters => _boosters;
+        public IReadOnlyList<IWorldBooster> WorldBoosters => _worldBoosters;
 
         public event System.Action<IProgressInfo, IBoosterCollisionInfo> Collided;
 
-        public BoosterStorage(IGameData gameData, WorldArgs args, Rect screenRect, IPlatformStorage platformStorage)
+        public BoosterStorage(IGameData gameData, WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
+            _boostersContainer = boostersContainer;
             _screenRect = screenRect;
             _platformStorage = platformStorage;
             _doodlerTransform = args.Doodler.GameObject.transform;
@@ -84,10 +86,10 @@ namespace DoodleJump.Game.Worlds
                     TryGenerateBooster();
         }
 
-        public void DestroyBooster(IBooster booster)
+        public void DestroyBooster(IWorldBooster worldBooster)
         {
             foreach (var platformInfo in _platforms)
-                if (platformInfo.Value == booster)
+                if (platformInfo.Value == worldBooster)
                     _removedPlatforms.Add(platformInfo.Key);
 
             foreach (var platform in _removedPlatforms)
@@ -95,27 +97,27 @@ namespace DoodleJump.Game.Worlds
 
             _removedPlatforms.Clear();
 
-            booster.Collided -= OnCollided;
-            booster.Destroyed -= OnDestroyed;
-            booster.Clear();
+            worldBooster.Collided -= OnCollided;
+            worldBooster.Destroyed -= OnDestroyed;
+            worldBooster.Clear();
 
-            _pools[booster.Id].Release(booster);
-            _boosters.Remove(booster);
+            _pools[worldBooster.Id].Release(worldBooster);
+            _worldBoosters.Remove(worldBooster);
         }
 
         public void Destroy()
         {
-            var count = _boosters.Count;
+            var count = _worldBoosters.Count;
 
             for (int i = count - 1; 0 < i + 1; i--)
-                DestroyBooster(_boosters[i]);
+                DestroyBooster(_worldBoosters[i]);
         }
 
         private void InitBoosterConfigs()
         {
-            _boosterConfigs.Clear();
+            _worldBoosterConfigs.Clear();
 
-            var configs = _currentProgress.BoosterConfigs;
+            var configs = _currentProgress.WorldBoosterConfigs;
 
             if (configs == null)
                 return;
@@ -126,14 +128,14 @@ namespace DoodleJump.Game.Worlds
             {
                 spawnChanceSum += config.SpawnChance;
 
-                _boosterConfigs.Add(config);
+                _worldBoosterConfigs.Add(config);
             }
 
             _spawnChanceFactor = 1f / spawnChanceSum;
-            _boosterConfigs.Sort(SortByChance);
+            _worldBoosterConfigs.Sort(SortByChance);
 
             [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            static int SortByChance(IBoosterConfig x, IBoosterConfig y)
+            static int SortByChance(IWorldBoosterConfig x, IWorldBoosterConfig y)
             {
                 return x.SpawnChance.CompareTo(y.SpawnChance);
             }
@@ -141,43 +143,44 @@ namespace DoodleJump.Game.Worlds
 
         private void InitPools()
         {
-            var configs = _currentProgress.BoosterConfigs;
+            var configs = _currentProgress.WorldBoosterConfigs;
 
             foreach (var config in configs)
             {
-                var prefab = config.BoosterPrefab;
+                var prefab = config.WorldBoosterPrefab;
+                var prefabId = prefab.Id;
 
-                if (_pools.ContainsKey(prefab.Id))
+                if (_pools.ContainsKey(prefabId))
                     continue;
 
                 var boosterMaxCount = _currentProgress.BoosterMaxCount;
                 var capacity = 64;
 
-                _pools.Add(prefab.Id, new ObjectPool<IBooster>(() => CreateBooster(prefab), boosterMaxCount < 0 ? capacity : boosterMaxCount));
+                _pools.Add(prefabId, new ObjectPool<IWorldBooster>(() => CreateBooster(prefab), boosterMaxCount < 0 ? capacity : boosterMaxCount));
             }
         }
 
-        private IBooster CreateBooster(Booster boosterPrefab)
+        private IWorldBooster CreateBooster<T>(T worldBoosterPrefab) where T : MonoBehaviour, IWorldBooster
         {
-            var booster = _worldFactory.CreateBooster(boosterPrefab);
+            var booster = _worldFactory.CreateBooster(worldBoosterPrefab, _boostersContainer);
             booster.Init(_gameData);
 
             return booster;
         }
 
-        private Booster GetBoosterPrefab()
+        private WorldBooster GetWorldBoosterPrefab()
         {
             var spawnChance = Random.value;
 
-            foreach (var config in _boosterConfigs)
+            foreach (var config in _worldBoosterConfigs)
             {
                 if (config.SpawnChance * _spawnChanceFactor < spawnChance)
                     continue;
 
-                return config.BoosterPrefab;
+                return config.WorldBoosterPrefab;
             }
 
-            return _boosterConfigs[_boosterConfigs.Count - 1].BoosterPrefab;
+            return _worldBoosterConfigs[^1].WorldBoosterPrefab;
         }
 
         private void CheckCurrentProgress()
@@ -242,16 +245,16 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
-        private IBooster GenerateBooster(Booster boosterPrefab)
+        private IWorldBooster GenerateWorldBooster(WorldBooster worldBoosterPrefab)
         {
-            var booster = _pools[boosterPrefab.Id].Get();
+            var booster = _pools[worldBoosterPrefab.Id].Get();
             booster.InitPosition(_currentBoosterPosition);
             booster.Collided += OnCollided;
             booster.Destroyed += OnDestroyed;
 
             ++_generatedBoostersCount;
 
-            _boosters.Add(booster);
+            _worldBoosters.Add(booster);
 
             return booster;
         }
@@ -263,19 +266,19 @@ namespace DoodleJump.Game.Worlds
 
             if (CanGenerateBooster())
             {
-                var boosterPrefab = GetBoosterPrefab();
+                var worldBoosterPrefab = GetWorldBoosterPrefab();
 
-                if (boosterPrefab == null || TryGetIntersectedPlatform(_currentBoosterPosition, boosterPrefab.Size, out var platforms) == false)
+                if (worldBoosterPrefab == null || TryGetIntersectedPlatform(_currentBoosterPosition, worldBoosterPrefab.Size, out var platforms) == false)
                     return;
 
-                var booster = GenerateBooster(boosterPrefab);
+                var worldBooster = GenerateWorldBooster(worldBoosterPrefab);
 
                 var platformIndex = Random.Range(0, platforms.Count);
                 var platform = platforms[platformIndex];
-                platform.InitBooster(booster);
+                platform.InitBooster(worldBooster);
                 platform.Destroyed += OnPlatformDestroyed;
 
-                _platforms.Add(platform, booster);
+                _platforms.Add(platform, worldBooster);
 
                 CheckHighestPosition(_currentBoosterPosition.y);
             }
@@ -309,9 +312,9 @@ namespace DoodleJump.Game.Worlds
             Collided.SafeInvoke(_currentProgress, info);
         }
 
-        private void OnDestroyed(IBooster booster)
+        private void OnDestroyed(IWorldBooster wprldBooster)
         {
-            DestroyBooster(booster);
+            DestroyBooster(wprldBooster);
         }
 
         private void OnPlatformDestroyed(IPlatform platform)
@@ -320,7 +323,7 @@ namespace DoodleJump.Game.Worlds
             platform.Destroyed -= OnPlatformDestroyed;
 
             DestroyBooster(booster);
-            
+
             _platforms.Remove(platform);
         }
     }

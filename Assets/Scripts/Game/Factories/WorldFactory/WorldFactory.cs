@@ -60,7 +60,7 @@ namespace DoodleJump.Game.Factories
             return world;
         }
 
-        public Worlds.Platforms.IPlatform CreatePlatform(Worlds.Platforms.Platform prefab, UnityEngine.Transform container)
+        public Worlds.Platforms.IPlatform CreatePlatform<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Platforms.IPlatform
         {
             var platform = Instantiate(prefab, container);
             platform.gameObject.RemoveCloneSuffix();
@@ -68,7 +68,7 @@ namespace DoodleJump.Game.Factories
             return platform;
         }
 
-        public Worlds.Entities.IEnemy CreateEnemy(Worlds.Entities.Enemy prefab, UnityEngine.Transform container)
+        public Worlds.Entities.IEnemy CreateEnemy<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Entities.IEnemy
         {
             var enemy = Instantiate(prefab, container);
             enemy.gameObject.RemoveCloneSuffix();
@@ -76,9 +76,9 @@ namespace DoodleJump.Game.Factories
             return enemy;
         }
 
-        public Worlds.Boosters.IBooster CreateBooster(Worlds.Boosters.Booster prefab)
+        public Worlds.Boosters.IWorldBooster CreateBooster<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Boosters.IWorldBooster
         {
-            var booster = Instantiate(prefab);
+            var booster = Instantiate(prefab, container);
             booster.gameObject.RemoveCloneSuffix();
 
             return booster;

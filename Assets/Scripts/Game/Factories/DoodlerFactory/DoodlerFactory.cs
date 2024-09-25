@@ -20,8 +20,15 @@ namespace DoodleJump.Game.Factories
 
         public IDoodler Create()
         {
-            var doodler = Instantiate(_doodler);
+            var doodler = InstantiateDoodler(_doodler);
             doodler.Init(_args);
+
+            return doodler;
+        }
+
+        private IDoodler InstantiateDoodler<T>(T prefab) where T : MonoBehaviour, IDoodler
+        {
+            var doodler = Instantiate(prefab);
             doodler.gameObject.RemoveCloneSuffix();
 
             return doodler;

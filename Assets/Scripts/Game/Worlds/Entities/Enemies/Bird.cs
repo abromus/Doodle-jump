@@ -1,5 +1,3 @@
-using System;
-using DoodleJump.Core;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
@@ -15,10 +13,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private float _direction;
         private float _speed;
         private bool _isPaused;
-
-        public override event Action<IEnemyCollisionInfo> Collided;
-
-        public override event Action<IEnemy> Destroyed;
 
         public override void InitPosition(Vector3 position)
         {
@@ -43,48 +37,14 @@ namespace DoodleJump.Game.Worlds.Entities
             _isPaused = isPaused;
         }
 
-        public override void Destroy()
+        protected override IEnemyCollisionInfo GetCollisionInfo()
         {
-            base.Destroy();
-
-            Destroyed.SafeInvoke(this);
+            return _info;
         }
 
         private void Awake()
         {
             _info = new BirdCollisionInfo(this);
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            var transform = collision.transform;
-
-            if (transform.TryGetComponent<IDoodler>(out var doodler))
-            {
-                Collided.SafeInvoke(_info);
-
-                PlayTriggerSound();
-            }
-            else if (transform.TryGetComponent<IProjectile>(out var projectile))
-            {
-                Destroyed.SafeInvoke(this);
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            var transform = collision.transform;
-
-            if (transform.TryGetComponent<IDoodler>(out var doodler))
-            {
-                Collided.SafeInvoke(_info);
-
-                PlayTriggerSound();
-            }
-            else if (transform.TryGetComponent<IProjectile>(out var projectile))
-            {
-                Destroyed.SafeInvoke(this);
-            }
         }
 
         private float GetDirection()

@@ -8,10 +8,10 @@
         internal const float Forward = 1f;
         internal const float Back = -1f;
 
-        internal static float Left = -1f;
-        internal static float Right = 1f;
+        internal const float Left = -1f;
+        internal const float Right = 1f;
 
-        internal static float ActiveSpeed = 1f;
-        internal static float PauseSpeed = 0f;
+        internal const float ActiveSpeed = 1f;
+        internal const float PauseSpeed = 0f;
     }
 }

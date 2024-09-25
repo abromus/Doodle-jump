@@ -1,14 +1,12 @@
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
-using Mono.Data.Sqlite;
 
 namespace DoodleJump.Game.Services
 {
-    internal sealed class SaveLoadService : ISaveLoadService, ILateUpdatable
+    internal sealed class SaveLoadService : ISaveLoadService, ILateUpdatable, IPausable
     {
         private readonly IUpdater _updater;
         private readonly IPersistentDataStorage _persistentDataStorage;
-        private readonly SqliteConnection _connection;
 
         public IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
 
@@ -16,16 +14,19 @@ namespace DoodleJump.Game.Services
         {
             _updater = updater;
 
-            _connection = new SqliteConnection($"URI=file:{UnityEngine.Application.persistentDataPath}/SaveLoadService.db");
-            _connection.Open();
-
             _persistentDataStorage = new PersistentDataStorage();
-            _persistentDataStorage.Init(_connection);
+            _persistentDataStorage.Init();
 
             _updater.AddLateUpdatable(this);
+            _updater.AddPausable(this);
         }
 
         public void LateTick(float deltaTime)
+        {
+            Save();
+        }
+
+        public void SetPause(bool isPaused)
         {
             Save();
         }
@@ -35,9 +36,9 @@ namespace DoodleJump.Game.Services
             Save();
 
             _persistentDataStorage.Dispose();
-            _connection.Close();
 
             _updater.RemoveLateUpdatable(this);
+            _updater.RemovePausable(this);
         }
 
         private void Save()

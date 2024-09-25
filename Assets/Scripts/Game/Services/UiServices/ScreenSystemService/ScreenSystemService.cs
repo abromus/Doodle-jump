@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
+using DoodleJump.Game.Settings;
 using DoodleJump.Game.UI;
 using DoodleJump.Game.Worlds;
 using UnityEngine;
@@ -15,14 +16,19 @@ namespace DoodleJump.Game.Services
 
         private IGameData _gameData;
         private IWorldData _worldData;
+        private IScreenSystemConfig _config;
+
         private readonly Dictionary<ScreenType, ScreenBase> _screens = new(8);
 
         public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
+
+        public IScreenSystemConfig Config => _config;
 
         public void Init(IGameData gameData, IWorldData worldData)
         {
             _gameData = gameData;
             _worldData = worldData;
+            _config = gameData.ConfigStorage.GetScreenSystemConfig();
 
             var camera = gameData.CoreData.ServiceStorage.GetCameraService().Camera;
 

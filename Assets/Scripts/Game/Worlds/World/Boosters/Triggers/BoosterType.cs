@@ -1,0 +1,8 @@
+﻿namespace DoodleJump.Game.Worlds.Boosters
+{
+    internal enum BoosterType
+    {
+        None = 0,
+        Shield = 1,
+    }
+}

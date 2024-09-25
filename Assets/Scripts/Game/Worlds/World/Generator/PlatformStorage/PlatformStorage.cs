@@ -146,7 +146,7 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
-        private IPlatform CreatePlatform(Platform platformPrefab)
+        private IPlatform CreatePlatform<T>(T platformPrefab) where T : MonoBehaviour, IPlatform
         {
             var platform = _worldFactory.CreatePlatform(platformPrefab, _platformsContainer);
             platform.Init(_gameData);
@@ -169,7 +169,7 @@ namespace DoodleJump.Game.Worlds
                 return;
             }
 
-            platformConfig = _platformConfigs[_platformConfigs.Count - 1];
+            platformConfig = _platformConfigs[^1];
             platform = platformConfig.PlatformPrefab;
         }
 

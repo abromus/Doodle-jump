@@ -17,10 +17,10 @@ namespace DoodleJump.Game.Data
             };
         }
 
-        public void Init(Mono.Data.Sqlite.SqliteConnection connection)
+        public void Init()
         {
             foreach (var data in _data.Values)
-                data.Init(connection);
+                data.Init();
         }
 
         public void Save()

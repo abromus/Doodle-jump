@@ -2,13 +2,17 @@ namespace DoodleJump.Game.Worlds.Boosters
 {
     internal sealed class ShieldCollisionInfo : IBoosterCollisionInfo
     {
-        private readonly IBooster _booster;
+        private readonly IWorldBooster _worldBooster;
+        private readonly Settings.IShieldBoosterConfig _config;
 
-        public IBooster Booster => _booster;
+        public IWorldBooster WorldBooster => _worldBooster;
 
-        public ShieldCollisionInfo(IBooster booster)
+        public Settings.IBoosterConfig Config => _config;
+
+        public ShieldCollisionInfo(IWorldBooster worldBooster, Settings.IShieldBoosterConfig config)
         {
-            _booster = booster;
+            _worldBooster = worldBooster;
+            _config = config;
         }
     }
 }

@@ -3,17 +3,19 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal interface IBooster : Core.IDestroyable, Core.Services.IUpdatable, Core.Services.IPausable, Core.IPoolable
+    internal interface IWorldBooster : Core.IDestroyable, Core.Services.IUpdatable, Core.Services.IPausable, Core.IPoolable
     {
         public int Id { get; }
 
         public GameObject GameObject { get; }
 
+        public BoosterType BoosterType { get; }
+
         public Vector3 Position { get; }
 
         public abstract event Action<IBoosterCollisionInfo> Collided;
 
-        public abstract event Action<IBooster> Destroyed;
+        public abstract event Action<IWorldBooster> Destroyed;
 
         public void Init(Data.IGameData gameData);
 

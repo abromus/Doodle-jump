@@ -16,7 +16,13 @@ namespace DoodleJump.Game.Worlds
         private readonly IEnemyTriggerExecutor _enemyTriggerExecutor;
         private readonly IBoosterTriggerExecutor _boosterTriggerExecutor;
 
-        internal Generator(Data.IGameData gameData, WorldArgs args, Rect screenRect, Transform platformsContainer, Transform enemiesContainer)
+        internal Generator(
+            Data.IGameData gameData,
+            WorldArgs args,
+            Rect screenRect,
+            Transform platformsContainer,
+            Transform enemiesContainer,
+            Transform boostersContainer)
         {
             _screenRect = screenRect;
 
@@ -28,7 +34,7 @@ namespace DoodleJump.Game.Worlds
             _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect);
             _enemyStorage.Collided += OnEnemyCollided;
 
-            _boosterStorage = new BoosterStorage(gameData, args, _screenRect, _platformStorage);
+            _boosterStorage = new BoosterStorage(gameData, args, boostersContainer, _screenRect, _platformStorage);
             _boosterStorage.Collided += OnBoosterCollided;
 
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
@@ -78,6 +84,7 @@ namespace DoodleJump.Game.Worlds
 
             ClearPlatforms(doodlerPosition, screenHeight);
             ClearEnemies(doodlerPosition, screenHeight);
+            ClearBoosters(doodlerPosition, screenHeight);
 
             _platformStorage.GeneratePlatforms();
             _enemyStorage.GenerateEnemies();
@@ -114,7 +121,7 @@ namespace DoodleJump.Game.Worlds
 
         private void ClearBoosters(float doodlerPosition, float screenHeight)
         {
-            var boosters = _boosterStorage.Boosters;
+            var boosters = _boosterStorage.WorldBoosters;
             var count = boosters.Count;
 
             for (int i = count - 1; 0 < i + 1; i--)
@@ -136,9 +143,9 @@ namespace DoodleJump.Game.Worlds
             _enemyTriggerExecutor.Execute(currentProgress, info);
         }
 
-        private void OnBoosterCollided(IProgressInfo currentProgress, Boosters.IBoosterCollisionInfo booster)
+        private void OnBoosterCollided(IProgressInfo currentProgress, Boosters.IBoosterCollisionInfo info)
         {
-            _boosterTriggerExecutor.Execute(currentProgress, booster);
+            _boosterTriggerExecutor.Execute(currentProgress, info);
         }
     }
 }

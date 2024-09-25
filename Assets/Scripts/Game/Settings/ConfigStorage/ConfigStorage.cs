@@ -14,6 +14,8 @@ namespace DoodleJump.Game.Settings
         [SerializeField] private DoodlerConfig _doodlerConfig;
         [SerializeField] private GeneratorConfig _generatorConfig;
         [SerializeField] private AudioConfig _audioConfig;
+        [SerializeField] private ScreenSystemConfig _screenSystemConfig;
+        [SerializeField] private BoostersConfig _boostersConfig;
 
         private Dictionary<Type, IConfig> _configs;
 
@@ -27,6 +29,8 @@ namespace DoodleJump.Game.Settings
                 [typeof(IDoodlerConfig)] = _doodlerConfig,
                 [typeof(IGeneratorConfig)] = _generatorConfig,
                 [typeof(IAudioConfig)] = _audioConfig,
+                [typeof(IScreenSystemConfig)] = _screenSystemConfig,
+                [typeof(IBoostersConfig)] = _boostersConfig,
             };
         }
 

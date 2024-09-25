@@ -18,3 +18,5 @@ MonoBehaviour:
   _doodlerConfig: {fileID: 11400000, guid: 3499118bf17427e4698307ae9ad12f36, type: 2}
   _generatorConfig: {fileID: 11400000, guid: 07a6e6ad90aa60f4885bf4ec0bdad24a, type: 2}
   _audioConfig: {fileID: 11400000, guid: 31852994c14d69d42bc79ead040a7656, type: 2}
+  _screenSystemConfig: {fileID: 11400000, guid: 2c27323230f04594596526e70505fb06, type: 2}
+  _boostersConfig: {fileID: 11400000, guid: 24a490e004b66c24f84e810d030a2cc2, type: 2}

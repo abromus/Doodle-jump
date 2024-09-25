@@ -10,6 +10,7 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private BoxCollider2D _collider;
         [SerializeField] private Vector2 _size;
         [SerializeField] private Projectile _projectilePrefab;
+        [SerializeField] private Transform _boosterContainer;
 
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
@@ -18,6 +19,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private IDoodlerShooting _shooting;
         private IDoodlerCameraFollower _cameraFollower;
         private IDoodlerAnimator _animator;
+        private IDoodlerBoosterStorage _doodlerBoosterStorage;
 
         public GameObject GameObject => gameObject;
 
@@ -37,9 +39,14 @@ namespace DoodleJump.Game.Worlds.Entities
             _movement.Jump(height);
         }
 
-        public void AddBooster(Boosters.IBooster booster)
+        public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info)
         {
+            _doodlerBoosterStorage.Add(info);
+        }
 
+        public bool HasBooster(Worlds.Boosters.BoosterType boosterType)
+        {
+            return _doodlerBoosterStorage.Has(boosterType);
         }
 
         public void SetProjectileContainer(Transform projectilesContainer)
@@ -83,6 +90,8 @@ namespace DoodleJump.Game.Worlds.Entities
         public void Destroy()
         {
             Unsubscribe();
+
+            _doodlerBoosterStorage.Destroy();
         }
 
         private void InitServices(DoodlerArgs args)
@@ -100,6 +109,9 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting = new DoodlerShooting(doodlerShootingArgs);
             _cameraFollower = new DoodlerCameraFollower(transform, camera.transform);
             _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
+
+            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_boosterContainer, _updater, args.BoosterFactory, args.PlayerData, args.BoostersConfig);
+            _doodlerBoosterStorage = new DoodlerBoosterStorage(doodlerBoosterStorageArgs);
         }
 
         private void Subscribe()
