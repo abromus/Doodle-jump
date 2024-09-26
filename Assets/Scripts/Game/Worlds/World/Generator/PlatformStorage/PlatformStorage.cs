@@ -26,6 +26,7 @@ namespace DoodleJump.Game.Worlds
         private readonly int _platformStartCount;
         private readonly IProgressInfo[] _progressInfos;
 
+        private readonly List<IProbable> _probables = new(16);
         private readonly List<IPlatformConfig> _platformConfigs = new(16);
         private readonly List<IPlatform> _platforms = new(256);
         private readonly Dictionary<int, IObjectPool<IPlatform>> _pools = new(16);
@@ -110,6 +111,7 @@ namespace DoodleJump.Game.Worlds
         private void InitPlatformConfigs()
         {
             _platformConfigs.Clear();
+            _probables.Clear();
 
             var configs = _currentProgress.PlatformConfigs;
             var spawnChanceSum = 0f;
@@ -123,6 +125,7 @@ namespace DoodleJump.Game.Worlds
 
             _spawnChanceFactor = 1f / spawnChanceSum;
             _platformConfigs.Sort(SortByChance);
+            _probables.AddRange(_platformConfigs);
 
             [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
             static int SortByChance(IPlatformConfig x, IPlatformConfig y)
@@ -156,20 +159,9 @@ namespace DoodleJump.Game.Worlds
 
         private void GetPlatformPrefab(out IPlatformConfig platformConfig, out Platform platform)
         {
-            var spawnChance = Random.value;
+            var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
-            foreach (var config in _platformConfigs)
-            {
-                if (config.SpawnChance * _spawnChanceFactor < spawnChance)
-                    continue;
-
-                platformConfig = config;
-                platform = platformConfig.PlatformPrefab;
-
-                return;
-            }
-
-            platformConfig = _platformConfigs[^1];
+            platformConfig = _platformConfigs[index];
             platform = platformConfig.PlatformPrefab;
         }
 

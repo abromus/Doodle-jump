@@ -30,6 +30,7 @@ namespace DoodleJump.Game.Worlds
         private readonly Vector3 _startPosition;
         private readonly IProgressInfo[] _progressInfos;
 
+        private readonly List<IProbable> _probables = new(16);
         private readonly List<IWorldBoosterConfig> _worldBoosterConfigs = new(16);
         private readonly List<IWorldBooster> _worldBoosters = new(256);
         private readonly Dictionary<IPlatform, IWorldBooster> _platforms = new(256);
@@ -116,6 +117,7 @@ namespace DoodleJump.Game.Worlds
         private void InitBoosterConfigs()
         {
             _worldBoosterConfigs.Clear();
+            _probables.Clear();
 
             var configs = _currentProgress.WorldBoosterConfigs;
 
@@ -133,6 +135,7 @@ namespace DoodleJump.Game.Worlds
 
             _spawnChanceFactor = 1f / spawnChanceSum;
             _worldBoosterConfigs.Sort(SortByChance);
+            _probables.AddRange(_worldBoosterConfigs);
 
             [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
             static int SortByChance(IWorldBoosterConfig x, IWorldBoosterConfig y)
@@ -170,17 +173,9 @@ namespace DoodleJump.Game.Worlds
 
         private WorldBooster GetWorldBoosterPrefab()
         {
-            var spawnChance = Random.value;
+            var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
-            foreach (var config in _worldBoosterConfigs)
-            {
-                if (config.SpawnChance * _spawnChanceFactor < spawnChance)
-                    continue;
-
-                return config.WorldBoosterPrefab;
-            }
-
-            return _worldBoosterConfigs[^1].WorldBoosterPrefab;
+            return _worldBoosterConfigs[index].WorldBoosterPrefab;
         }
 
         private void CheckCurrentProgress()

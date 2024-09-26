@@ -1,5 +1,3 @@
-using DoodleJump.Game.Worlds.Boosters;
-
 namespace DoodleJump.Game.Settings
 {
     internal interface IBoostersConfig : Core.Settings.IConfig

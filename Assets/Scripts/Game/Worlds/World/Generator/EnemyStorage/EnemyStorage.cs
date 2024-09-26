@@ -28,6 +28,7 @@ namespace DoodleJump.Game.Worlds
         private readonly Vector3 _startPosition;
         private readonly IProgressInfo[] _progressInfos;
 
+        private readonly List<IProbable> _probables = new(16);
         private readonly List<IEnemyConfig> _enemyConfigs = new(16);
         private readonly List<IEnemy> _enemies = new(256);
         private readonly Dictionary<int, IObjectPool<IEnemy>> _pools = new(16);
@@ -100,6 +101,7 @@ namespace DoodleJump.Game.Worlds
         private void InitEnemyConfigs()
         {
             _enemyConfigs.Clear();
+            _probables.Clear();
 
             var configs = _currentProgress.EnemyConfigs;
 
@@ -117,6 +119,7 @@ namespace DoodleJump.Game.Worlds
 
             _spawnChanceFactor = 1f / spawnChanceSum;
             _enemyConfigs.Sort(SortByChance);
+            _probables.AddRange(_enemyConfigs);
 
             [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
             static int SortByChance(IEnemyConfig x, IEnemyConfig y)
@@ -143,7 +146,7 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
-        private IEnemy CreateEnemy<T>(T enemyPrefab) where T : MonoBehaviour, IEnemy 
+        private IEnemy CreateEnemy<T>(T enemyPrefab) where T : MonoBehaviour, IEnemy
         {
             var enemy = _worldFactory.CreateEnemy(enemyPrefab, _enemiesContainer);
             enemy.Init(_gameData);
@@ -153,17 +156,9 @@ namespace DoodleJump.Game.Worlds
 
         private Enemy GetEnemyPrefab()
         {
-            var spawnChance = Random.value;
+            var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
-            foreach (var config in _enemyConfigs)
-            {
-                if (config.SpawnChance * _spawnChanceFactor < spawnChance)
-                    continue;
-
-                return config.EnemyPrefab;
-            }
-
-            return _enemyConfigs[_enemyConfigs.Count - 1].EnemyPrefab;
+            return _enemyConfigs[index].EnemyPrefab;
         }
 
         private void CheckCurrentProgress()
