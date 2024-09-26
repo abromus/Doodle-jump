@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds.Entities
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;
+        [SerializeField] private float _repulsiveForce;
         [SerializeField] private EnemyClipType _clipType;
         [SerializeField] private EnemyTriggerClipType _triggerClipType;
         [SerializeField] private Animator _animator;
@@ -131,13 +132,22 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             var transform = collision.transform;
 
-            if (transform.TryGetComponent<IDoodler>(out var doodler) && doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+            if (transform.TryGetComponent<IDoodler>(out var doodler))
             {
-                var collisionInfo = GetCollisionInfo();
+                if (collision.relativeVelocity.y < 0f)
+                {
+                    doodler.Jump(_repulsiveForce);
 
-                Collided.SafeInvoke(collisionInfo);
+                    Destroyed.SafeInvoke(this);
+                }
+                else if (doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+                {
+                    var collisionInfo = GetCollisionInfo();
 
-                PlayTriggerSound();
+                    Collided.SafeInvoke(collisionInfo);
+
+                    PlayTriggerSound();
+                }
             }
             else if (transform.TryGetComponent<IProjectile>(out var projectile))
             {

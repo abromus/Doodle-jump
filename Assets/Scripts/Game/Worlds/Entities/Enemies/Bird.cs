@@ -20,7 +20,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _startPosition = transform.position;
             _direction = GetDirection();
-            _speed = UnityEngine.Random.Range(_minSpeed, _maxSpeed);
+            _speed = Random.Range(_minSpeed, _maxSpeed);
 
             SetLocalScale(_direction);
         }

@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   _size: {x: 1.1, y: 0.75}
+  _repulsiveForce: 16
   _clipType: 1
   _triggerClipType: 1
   _animator: {fileID: 1554169636435041937}
