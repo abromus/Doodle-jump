@@ -18,6 +18,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private IAudioService _audioService;
         private IUpdater _updater;
         private Camera _camera;
+        private IShootingStrategy _shootingStrategy;
         private bool _initialized;
         private Vector3 _direction;
         private float _movingTime;
@@ -27,32 +28,22 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event Action<IProjectile> Destroyed;
 
-        public void Init(IAudioService audioService, IUpdater updater, ICameraService cameraService)
+        public void Init(IAudioService audioService, IUpdater updater, ICameraService cameraService, IShootingStrategy shootingStrategy)
         {
             _audioService = audioService;
             _updater = updater;
             _camera = cameraService.Camera;
+            _shootingStrategy = shootingStrategy;
         }
 
-        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition, bool canShootAround)
+        public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition)
         {
             doodlerPosition.x += doodlerDirection * _offset.x;
             doodlerPosition.y += _offset.y;
             transform.position = doodlerPosition;
             gameObject.SetActive(true);
 
-            if (canShootAround)
-            {
-                var shootWorldPosition = _camera.ScreenToWorldPoint(shootPosition);
-                shootWorldPosition.z = 0f;
-
-                _direction = (shootWorldPosition - doodlerPosition).normalized;
-            }
-            else
-            {
-                _direction = Vector3.up;
-            }
-
+            _direction = _shootingStrategy.GetDirection(doodlerPosition, shootPosition);
             _movingTime = 0f;
             _audioService.PlaySound(_projectileMovingClipType);
 
@@ -72,7 +63,6 @@ namespace DoodleJump.Game.Worlds.Entities
                 transform.position += _speed * deltaTime * _direction;
             else
                 Destroyed.SafeInvoke(this);
-
         }
 
         public void SetPause(bool isPaused)
@@ -82,11 +72,17 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Clear()
         {
+            Destroy();
+
+            _audioService.PlaySound(_projectileDestroyedClipType);
+        }
+
+        public void Destroy()
+        {
             Unsubscribe();
 
             gameObject.SetActive(false);
 
-            _audioService.PlaySound(_projectileDestroyedClipType);
             _movingTime = 0f;
             _initialized = false;
         }

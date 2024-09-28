@@ -1,0 +1,16 @@
+{
+    "name": "Game.Settings.Editor",
+    "rootNamespace": "DoodleJump.Game.Settings.Editor",
+    "references": [
+        "Game"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

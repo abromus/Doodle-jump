@@ -85,6 +85,8 @@ namespace DoodleJump.Game.Worlds.Entities
             _rigidbody.velocity = Vector3.zero;
 
             transform.position = Vector3.zero;
+
+            _shooting.Restart();
         }
 
         public void Destroy()
@@ -92,6 +94,7 @@ namespace DoodleJump.Game.Worlds.Entities
             Unsubscribe();
 
             _doodlerBoosterStorage.Destroy();
+            _shooting.Destroy();
         }
 
         private void InitServices(DoodlerArgs args)
@@ -103,7 +106,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerInput = new DoodlerInput(inputService);
 
             var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, doodlerConfig);
-            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, doodlerConfig.CanShootAround, _projectilePrefab);
+            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, doodlerConfig, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(doodlerShootingArgs);

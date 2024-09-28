@@ -1,5 +1,6 @@
 ﻿using DoodleJump.Core.Services;
 using DoodleJump.Game.Services;
+using DoodleJump.Game.Settings;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
@@ -11,7 +12,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IAudioService _audioService;
         private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
-        private readonly bool _canShootAround;
+        private readonly IDoodlerConfig _doodlerConfig;
         private readonly Projectile _projectilePrefab;
 
         internal Transform DoodlerTransform => _doodlerTransform;
@@ -24,7 +25,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         internal IUpdater Updater => _updater;
 
-        internal bool CanShootAround => _canShootAround;
+        internal IDoodlerConfig DoodlerConfig => _doodlerConfig;
 
         internal Projectile ProjectilePrefab => _projectilePrefab;
 
@@ -34,7 +35,7 @@ namespace DoodleJump.Game.Worlds.Entities
             IAudioService audioService,
             ICameraService cameraService,
             IUpdater updater,
-            bool canShootAround,
+            IDoodlerConfig doodlerConfig,
             Projectile projectilePrefab)
         {
             _doodlerTransform = doodlerTransform;
@@ -42,7 +43,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _audioService = audioService;
             _cameraService = cameraService;
             _updater = updater;
-            _canShootAround = canShootAround;
+            _doodlerConfig = doodlerConfig;
             _projectilePrefab = projectilePrefab;
         }
     }

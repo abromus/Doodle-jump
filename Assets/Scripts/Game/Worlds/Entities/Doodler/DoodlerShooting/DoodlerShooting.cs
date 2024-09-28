@@ -16,11 +16,11 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IAudioService _audioService;
         private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
-        private readonly bool _canShootAround;
         private readonly Projectile _projectilePrefab;
 
         private readonly IObjectPool<IProjectile> _projectilePool;
         private readonly List<IProjectile> _projectiles = new(32);
+        private readonly IShootingStrategyResolver _shootingStrategyResolver;
 
         internal DoodlerShooting(DoodlerShootingArgs args)
         {
@@ -29,15 +29,28 @@ namespace DoodleJump.Game.Worlds.Entities
             _audioService = args.AudioService;
             _cameraService = args.CameraService;
             _updater = args.Updater;
-            _canShootAround = args.CanShootAround;
             _projectilePrefab = args.ProjectilePrefab;
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
+            _shootingStrategyResolver = new ShootingStrategyResolver(_cameraService, args.DoodlerConfig);
         }
 
         public void SetProjectileContainer(Transform projectilesContainer)
         {
             _projectilesContainer = projectilesContainer;
+        }
+
+        public void Restart()
+        {
+            foreach (var projectile in _projectiles)
+            {
+                projectile.Destroyed -= OnProjectileDestroyed;
+                projectile.Destroy();
+
+                _projectilePool.Release(projectile);
+            }
+
+            _projectiles.Clear();
         }
 
         public void Tick(float deltaTime)
@@ -73,7 +86,7 @@ namespace DoodleJump.Game.Worlds.Entities
             var doodlerPosition = _doodlerTransform.position;
             var shootPosition = _doodlerInput.ShootPosition;
             var projectile = _projectilePool.Get();
-            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition, _canShootAround);
+            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
 
             _projectiles.Add(projectile);
         }
@@ -81,7 +94,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private IProjectile CreateProjectile()
         {
             var projectile = Object.Instantiate(_projectilePrefab, _projectilesContainer);
-            projectile.Init(_audioService, _updater, _cameraService);
+            projectile.Init(_audioService, _updater, _cameraService, _shootingStrategyResolver.ShootingStrategy);
             projectile.GameObject.RemoveCloneSuffix();
             projectile.Destroyed += OnProjectileDestroyed;
 
