@@ -134,7 +134,17 @@ namespace DoodleJump.Game.UI
         {
             if (_boosters.ContainsKey(boosterType))
             {
-                _boosters[boosterType].UpdateCount(count);
+                var booster = _boosters[boosterType];
+
+                booster.UpdateCount(count);
+
+                if (count == 0)
+                {
+                    booster.Clear();
+
+                    _boosterPools[boosterType].Release(booster);
+                    _boosters.Remove(boosterType);
+                }
             }
             else if (0 < count)
             {

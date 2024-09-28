@@ -2,7 +2,7 @@
 
 namespace DoodleJump.Game.UI
 {
-    internal sealed class UiBooster : UnityEngine.MonoBehaviour, IUiBooster
+    internal sealed class UiBooster : UnityEngine.MonoBehaviour, IUiBooster, IPoolable
     {
         [UnityEngine.SerializeField] private UnityEngine.UI.Button _button;
         [UnityEngine.SerializeField] private TMPro.TMP_Text _countText;

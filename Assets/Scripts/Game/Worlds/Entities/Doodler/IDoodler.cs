@@ -9,6 +9,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public Vector2 Size { get; }
 
+        public event System.Action Jumped;
+
         public void Init(DoodlerArgs args);
 
         public void Jump(float height);

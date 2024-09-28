@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DoodleJump.Game.Settings
 {
     [System.Serializable]
-    internal struct JumpWorldBoostConfig : IWorldBoosterConfig
+    internal struct JumpWorldBoosterConfig : IWorldBoosterConfig
     {
         [SerializeField] private WorldBooster _worldBoosterPrefab;
         [SerializeField] private float _spawnChance;

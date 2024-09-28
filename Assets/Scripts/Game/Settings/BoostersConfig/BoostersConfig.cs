@@ -27,7 +27,8 @@ namespace DoodleJump.Game.Settings
             var configs = GetAllConfigs(typeof(IBoosterConfig));
 
             foreach (var config in configs)
-                menu.AddItem(new UnityEngine.GUIContent((System.Activator.CreateInstance(config) as IBoosterConfig)?.Title), false, AddBoosterConfig, config);
+                if (config.IsClass || config.IsValueType && config.IsEnum == false)
+                    menu.AddItem(new UnityEngine.GUIContent((System.Activator.CreateInstance(config) as IBoosterConfig)?.Title), false, AddBoosterConfig, config);
 
             menu.ShowAsContext();
         }

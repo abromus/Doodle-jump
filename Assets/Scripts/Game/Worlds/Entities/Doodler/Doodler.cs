@@ -1,3 +1,4 @@
+using DoodleJump.Core;
 using DoodleJump.Core.Services;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ namespace DoodleJump.Game.Worlds.Entities
         public GameObject GameObject => gameObject;
 
         public Vector2 Size => _size;
+
+        public event System.Action Jumped;
 
         public void Init(DoodlerArgs args)
         {
@@ -109,12 +112,12 @@ namespace DoodleJump.Game.Worlds.Entities
             var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, doodlerConfig, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
-            _shooting = new DoodlerShooting(doodlerShootingArgs);
+            _shooting = new DoodlerShooting(in doodlerShootingArgs);
             _cameraFollower = new DoodlerCameraFollower(transform, camera.transform);
             _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
 
-            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_boosterContainer, _updater, args.BoosterFactory, args.PlayerData, args.BoostersConfig);
-            _doodlerBoosterStorage = new DoodlerBoosterStorage(doodlerBoosterStorageArgs);
+            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_updater, args.BoosterFactory, args.PlayerData, args.BoostersConfig, _boosterContainer, this, _rigidbody);
+            _doodlerBoosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
         }
 
         private void Subscribe()
@@ -123,6 +126,8 @@ namespace DoodleJump.Game.Worlds.Entities
             _updater.AddFixedUpdatable(this);
             _updater.AddLateUpdatable(this);
             _updater.AddPausable(this);
+
+            _movement.Jumped += OnJumped;
         }
 
         private void Unsubscribe()
@@ -131,6 +136,13 @@ namespace DoodleJump.Game.Worlds.Entities
             _updater.RemoveFixedUpdatable(this);
             _updater.RemoveLateUpdatable(this);
             _updater.RemovePausable(this);
+
+            _movement.Jumped -= OnJumped;
+        }
+
+        private void OnJumped()
+        {
+            Jumped.SafeInvoke();
         }
     }
 }

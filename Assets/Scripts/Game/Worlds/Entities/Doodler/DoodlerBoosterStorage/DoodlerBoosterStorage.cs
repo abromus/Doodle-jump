@@ -6,11 +6,11 @@
 
         private readonly IDoodlerBoosterExecutor _doodlerBoosterExecutor;
 
-        internal DoodlerBoosterStorage(DoodlerBoosterStorageArgs args)
+        internal DoodlerBoosterStorage(in DoodlerBoosterStorageArgs args)
         {
             _playerData = args.PlayerData;
 
-            _doodlerBoosterExecutor = new DoodlerBoosterExecutor(args.BoosterContainer, args.Updater, args.BoosterFactory, args.BoostersConfig);
+            _doodlerBoosterExecutor = new DoodlerBoosterExecutor(in args);
 
             _playerData.BoosterUsed += OnBoosterUsed;
         }

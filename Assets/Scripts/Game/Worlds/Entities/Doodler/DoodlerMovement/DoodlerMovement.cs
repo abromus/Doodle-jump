@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DoodleJump.Core;
+using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
@@ -15,12 +16,15 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public Vector2 Velocity => _velocity.Velocity;
 
+        public event System.Action Jumped;
+
         internal DoodlerMovement(in DoodlerMovementArgs args)
         {
             _rigidbody = args.Rigidbody;
 
             _velocity = new DoodlerVelocity(in args);
             _jump = new DoodlerJump(in args);
+            _jump.Jumped += OnJumped;
         }
 
         public void Jump(float height)
@@ -56,6 +60,11 @@ namespace DoodleJump.Game.Worlds.Entities
                 _rigidbody.isKinematic = false;
                 _currentVelocity = _zero;
             }
+        }
+
+        private void OnJumped()
+        {
+            Jumped.SafeInvoke();
         }
     }
 }

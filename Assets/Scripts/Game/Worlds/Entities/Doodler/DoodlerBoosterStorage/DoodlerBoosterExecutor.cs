@@ -4,20 +4,21 @@ namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerBoosterExecutor : IDoodlerBoosterExecutor
     {
-        private readonly UnityEngine.Transform _boosterContainer;
+        private readonly DoodlerBoosterStorageArgs _args;
         private readonly Core.Services.IUpdater _updater;
         private readonly Factories.IBoosterFactory _factory;
         private readonly Settings.IBoostersConfig _boostersConfig;
+        private readonly UnityEngine.Transform _boosterContainer;
         private readonly List<Boosters.IBooster> _boosters = new(16);
         private readonly List<Boosters.IBooster> _executingBoosters = new(16);
         private readonly Dictionary<Worlds.Boosters.BoosterType, Core.IObjectPool<Boosters.IBooster>> _pools = new(16);
 
-        internal DoodlerBoosterExecutor(UnityEngine.Transform boosterContainer, Core.Services.IUpdater updater, Factories.IBoosterFactory factory, Settings.IBoostersConfig boostersConfig)
+        internal DoodlerBoosterExecutor(in DoodlerBoosterStorageArgs args)
         {
-            _boosterContainer = boosterContainer;
-            _updater = updater;
-            _factory = factory;
-            _boostersConfig = boostersConfig;
+            _args = args;
+            _factory = _args.BoosterFactory;
+            _boosterContainer = _args.BoosterContainer;
+            _boostersConfig = _args.BoostersConfig;
 
             InitPools();
         }
@@ -33,7 +34,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _boosters.Add(booster);
             _executingBoosters.Add(booster);
 
-            booster.Execute(_updater);
+            booster.Execute();
 
             return true;
         }
@@ -86,7 +87,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private Boosters.IBooster CreateBooster<T>(Settings.IBoosterConfig config, T prefab) where T : UnityEngine.MonoBehaviour, Boosters.IBooster
         {
             var booster = _factory.Create(prefab, _boosterContainer);
-            booster.Init(config);
+            booster.Init(config, in _args);
 
             return booster;
         }

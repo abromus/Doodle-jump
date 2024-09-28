@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boosterConfigs:
   - rid: 4237770114046361600
+  - rid: 4237770253560184834
   references:
     version: 2
     RefIds:
@@ -23,3 +24,10 @@ MonoBehaviour:
         _boosterType: 1
         _boosterPrefab: {fileID: -7167054754417323269, guid: bb2fdee87de84e041af677349e2344d4, type: 3}
         _existenseTime: 5
+    - rid: 4237770253560184834
+      type: {class: JumpBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _boosterType: 2
+        _boosterPrefab: {fileID: -3276872899531816179, guid: 976d5d2f506eb77478e3e0aa8d45f08d, type: 3}
+        _existenseTime: 5
+        _jumpForceFactor: 3

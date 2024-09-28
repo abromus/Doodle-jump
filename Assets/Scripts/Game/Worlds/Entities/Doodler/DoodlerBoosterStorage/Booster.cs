@@ -11,9 +11,9 @@
 
         public abstract event System.Action<IBooster> Executed;
 
-        public abstract void Init(Settings.IBoosterConfig config);
+        public abstract void Init(Settings.IBoosterConfig config, in DoodlerBoosterStorageArgs args);
 
-        public abstract void Execute(Core.Services.IUpdater updater);
+        public abstract void Execute();
 
         public abstract void Destroy();
     }

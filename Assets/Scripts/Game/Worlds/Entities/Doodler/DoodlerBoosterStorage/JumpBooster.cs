@@ -2,25 +2,31 @@
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class ShieldBooster : Boosters.Booster, Core.Services.IUpdatable, Core.Services.IPausable
+    internal sealed class JumpBooster : Boosters.Booster, Core.Services.IUpdatable, Core.Services.IPausable
     {
-        private Settings.IShieldBoosterConfig _config;
+        private Settings.IJumpBoosterConfig _config;
         private Core.Services.IUpdater _updater;
+        private IDoodler _doodler;
+        private UnityEngine.Rigidbody2D _rigidbody;
 
         private bool _isPaused;
         private float _currentTime;
+        private float _jumpForceFactor;
 
         public override event System.Action<Boosters.IBooster> Executed;
 
         public override void Init(Settings.IBoosterConfig boosterConfig, in DoodlerBoosterStorageArgs args)
         {
-            _config = (Settings.IShieldBoosterConfig)boosterConfig;
+            _config = (Settings.IJumpBoosterConfig)boosterConfig;
             _updater = args.Updater;
+            _doodler = args.Doodler;
+            _rigidbody = args.Rigidbody;
         }
 
         public override void Execute()
         {
             _currentTime = _config.ExistenseTime;
+            _jumpForceFactor = _config.JumpForceFactor;
 
             transform.localPosition = UnityEngine.Vector3.zero;
 
@@ -75,12 +81,23 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _updater.AddUpdatable(this);
             _updater.AddPausable(this);
+
+            _doodler.Jumped += OnJumped;
         }
 
         private void Unsubscribe()
         {
             _updater.RemoveUpdatable(this);
             _updater.RemovePausable(this);
+
+            _doodler.Jumped -= OnJumped;
+        }
+
+        private void OnJumped()
+        {
+            var velocity = _rigidbody.velocity;
+            velocity.y *= _jumpForceFactor;
+            _rigidbody.velocity = velocity;
         }
     }
 }

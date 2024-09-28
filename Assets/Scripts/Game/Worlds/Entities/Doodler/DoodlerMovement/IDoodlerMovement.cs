@@ -4,6 +4,8 @@
     {
         public UnityEngine.Vector2 Velocity { get; }
 
+        public event System.Action Jumped;
+
         public void Jump(float height);
 
         public void Tick(float deltaTime);

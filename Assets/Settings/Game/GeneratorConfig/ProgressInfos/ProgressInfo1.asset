@@ -36,6 +36,7 @@ MonoBehaviour:
   - rid: 4237769769900572677
   _worldBoosterConfigs:
   - rid: 4237769953162559489
+  - rid: 4237770253560184833
   references:
     version: 2
     RefIds:
@@ -77,7 +78,13 @@ MonoBehaviour:
       type: {class: ShieldWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _worldBoosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
-        _spawnChance: 1
+        _spawnChance: 0.5
+        _triggerType: 1
+    - rid: 4237770253560184833
+      type: {class: JumpWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: -3633072006385200957, guid: 2e0d8ef64f2b1f644b894f025df32371, type: 3}
+        _spawnChance: 0.5
         _triggerType: 1
     - rid: 5398419703851646976
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}

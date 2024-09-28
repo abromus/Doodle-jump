@@ -22,7 +22,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly List<IProjectile> _projectiles = new(32);
         private readonly IShootingStrategyResolver _shootingStrategyResolver;
 
-        internal DoodlerShooting(DoodlerShootingArgs args)
+        internal DoodlerShooting(in DoodlerShootingArgs args)
         {
             _doodlerTransform = args.DoodlerTransform;
             _doodlerInput = args.DoodlerInput;
