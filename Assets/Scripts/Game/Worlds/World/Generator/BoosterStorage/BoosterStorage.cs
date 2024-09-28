@@ -220,38 +220,18 @@ namespace DoodleJump.Game.Worlds
             _currentBoosterPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
         }
 
-        private bool TryGetIntersectedPlatform(Vector3 currentBoosterPosition, Vector2 size, out List<IPlatform> intersectedPlatforms)
-        {
-            var platforms = _platformStorage.Platforms;
-            size.x = _screenRect.width;
-
-            intersectedPlatforms = new(16);
-
-            foreach (var platform in platforms)
-            {
-                if (platform.IsIntersectedArea(currentBoosterPosition, size) == false)
-                    continue;
-
-                intersectedPlatforms.Add(platform);
-
-                return true;
-            }
-
-            return false;
-        }
-
         private IWorldBooster GenerateWorldBooster(WorldBooster worldBoosterPrefab)
         {
-            var booster = _pools[worldBoosterPrefab.Id].Get();
-            booster.InitPosition(_currentBoosterPosition);
-            booster.Collided += OnCollided;
-            booster.Destroyed += OnDestroyed;
+            var worldBooster = _pools[worldBoosterPrefab.Id].Get();
+            worldBooster.InitPosition(_currentBoosterPosition);
+            worldBooster.Collided += OnCollided;
+            worldBooster.Destroyed += OnDestroyed;
 
             ++_generatedBoostersCount;
 
-            _worldBoosters.Add(booster);
+            _worldBoosters.Add(worldBooster);
 
-            return booster;
+            return worldBooster;
         }
 
         private void TryGenerateBooster()
@@ -289,6 +269,26 @@ namespace DoodleJump.Game.Worlds
             return _currentProgress.BoosterSpawnProbability < _boosterSpawnProbability + Random.value;
         }
 
+        private bool TryGetIntersectedPlatform(Vector3 currentBoosterPosition, Vector2 size, out List<IPlatform> intersectedPlatforms)
+        {
+            var platforms = _platformStorage.Platforms;
+            size.x = _screenRect.width;
+
+            intersectedPlatforms = new(16);
+
+            foreach (var platform in platforms)
+            {
+                if (platform.IsIntersectedArea(currentBoosterPosition, size) == false || _platforms.ContainsKey(platform))
+                    continue;
+
+                intersectedPlatforms.Add(platform);
+
+                return true;
+            }
+
+            return false;
+        }
+
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void UpdateBoosterSpawnProbability()
         {
@@ -307,9 +307,9 @@ namespace DoodleJump.Game.Worlds
             Collided.SafeInvoke(_currentProgress, info);
         }
 
-        private void OnDestroyed(IWorldBooster wprldBooster)
+        private void OnDestroyed(IWorldBooster worldBooster)
         {
-            DestroyBooster(wprldBooster);
+            DestroyBooster(worldBooster);
         }
 
         private void OnPlatformDestroyed(IPlatform platform)

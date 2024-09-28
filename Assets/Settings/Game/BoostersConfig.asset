@@ -15,6 +15,7 @@ MonoBehaviour:
   _boosterConfigs:
   - rid: 4237770114046361600
   - rid: 4237770253560184834
+  - rid: 4237770253560184836
   references:
     version: 2
     RefIds:
@@ -31,3 +32,10 @@ MonoBehaviour:
         _boosterPrefab: {fileID: -3276872899531816179, guid: 976d5d2f506eb77478e3e0aa8d45f08d, type: 3}
         _existenseTime: 5
         _jumpForceFactor: 3
+    - rid: 4237770253560184836
+      type: {class: JetpackBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _boosterType: 3
+        _boosterPrefab: {fileID: 2499519043973175884, guid: ab4ac39df7e8419469404fc3abdeb6c2, type: 3}
+        _existenseTime: 7
+        _jumpForce: 15

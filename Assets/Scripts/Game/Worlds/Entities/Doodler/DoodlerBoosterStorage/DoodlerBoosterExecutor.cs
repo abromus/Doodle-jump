@@ -25,7 +25,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public bool Execute(Worlds.Boosters.BoosterType boosterType)
         {
-            if (Has(boosterType))
+            if (CanUse(boosterType) == false)
                 return false;
 
             var booster = GetBooster(boosterType);
@@ -97,6 +97,26 @@ namespace DoodleJump.Game.Worlds.Entities
             var booster = _pools[boosterType].Get();
 
             return booster;
+        }
+
+        private bool CanUse(Worlds.Boosters.BoosterType boosterType)
+        {
+            if (Has(boosterType))
+                return false;
+
+            switch (boosterType)
+            {
+                case Worlds.Boosters.BoosterType.Shield:
+                    return Has(Worlds.Boosters.BoosterType.Jump) == false && Has(Worlds.Boosters.BoosterType.Jetpack) == false;
+                case Worlds.Boosters.BoosterType.Jump:
+                    return Has(Worlds.Boosters.BoosterType.Jetpack) == false;
+                case Worlds.Boosters.BoosterType.Jetpack:
+                    return Has(Worlds.Boosters.BoosterType.Jump) == false;
+                default:
+                    break;
+            }
+
+            return true;
         }
 
         private void OnExecuted(Boosters.IBooster booster)

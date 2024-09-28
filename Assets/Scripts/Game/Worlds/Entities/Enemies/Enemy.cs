@@ -140,7 +140,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
                     Destroyed.SafeInvoke(this);
                 }
-                else if (doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+                else if (doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false && doodler.HasBooster(Worlds.Boosters.BoosterType.Jetpack) == false)
                 {
                     var collisionInfo = GetCollisionInfo();
 
@@ -159,7 +159,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             var transform = collision.transform;
 
-            if (transform.TryGetComponent<IDoodler>(out var doodler) && doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false)
+            if (transform.TryGetComponent<IDoodler>(out var doodler) && doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false && doodler.HasBooster(Worlds.Boosters.BoosterType.Jetpack) == false)
             {
                 var collisionInfo = GetCollisionInfo();
 

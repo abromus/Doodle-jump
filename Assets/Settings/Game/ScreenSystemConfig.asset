@@ -18,3 +18,5 @@ MonoBehaviour:
       _uiBoosterPrefab: {fileID: -2743371698468334331, guid: edc6442b357a2784d9e9739de0c897e0, type: 3}
     - _boosterType: 2
       _uiBoosterPrefab: {fileID: -2743371698468334331, guid: 609b42377b5656f46a71d92461eac3b8, type: 3}
+    - _boosterType: 3
+      _uiBoosterPrefab: {fileID: -2743371698468334331, guid: debab8c7b8dcd414cbe8ee17ef896fbd, type: 3}
