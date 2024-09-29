@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3598513395358511191}
-  - component: {fileID: 3303718742097364025}
+  - component: {fileID: 3498653942645677641}
   - component: {fileID: 8434426235515494239}
   - component: {fileID: -5959755124139277439}
   m_Layer: 6
-  m_Name: ShieldWorldBooster
+  m_Name: MoneyWorldBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3303718742097364025
+--- !u!114 &3498653942645677641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,14 +44,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 797443898825584434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ca9b1f4625c004f97633c1d58058d2, type: 3}
+  m_Script: {fileID: 11500000, guid: eea99aea6fd116143b1f81b7e23b8af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 1
-  _size: {x: 2, y: 2}
-  _boosterType: 1
-  _clipType: 1
+  _id: 4
+  _size: {x: 0, y: 0}
+  _boosterType: 0
+  _clipType: 4
   _animator: {fileID: -5959755124139277439}
+  _money: 10
 --- !u!61 &8434426235515494239
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -173,7 +174,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 434b17f5006145048af1a2f26616d8a5, type: 3}
-  m_Color: {r: 0.11372546, g: 0.62651277, b: 0.9607843, a: 1}
+  m_Color: {r: 0.9607843, g: 0.25490198, b: 0.11372549, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

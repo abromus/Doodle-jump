@@ -5,6 +5,8 @@ namespace DoodleJump.Game.Worlds
 {
     internal sealed class DoodlerChecker : IDoodlerChecker
     {
+        private int _maxHeight;
+
         private readonly IWorldData _worldData;
         private readonly IPlayerData _playerData;
         private readonly Transform _doodlerTransform;
@@ -34,6 +36,7 @@ namespace DoodleJump.Game.Worlds
 
         public void Restart()
         {
+            _maxHeight = 0;
             _playerData.SetCurrentScore(0);
         }
 
@@ -58,8 +61,12 @@ namespace DoodleJump.Game.Worlds
         {
             var cameraPosition = Mathf.FloorToInt(_cameraTransform.position.y);
 
-            if (_playerData.CurrentScore < cameraPosition + 1)
-                _playerData.SetCurrentScore(cameraPosition);
+            if (cameraPosition < _maxHeight + 1)
+                return;
+
+            var delta = cameraPosition - _maxHeight;
+            _maxHeight = cameraPosition;
+            _playerData.SetCurrentScore(_playerData.CurrentScore + delta);
         }
 
         private void ChangeXPosition(Transform transform, float offset)

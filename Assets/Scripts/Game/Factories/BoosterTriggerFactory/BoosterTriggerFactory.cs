@@ -1,3 +1,4 @@
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds.Boosters;
 
@@ -6,9 +7,11 @@ namespace DoodleJump.Game.Factories
     internal sealed class BoosterTriggerFactory : IBoosterTriggerFactory
     {
         private Worlds.Entities.IDoodler _doodler;
+        private IPlayerData _playerData;
 
-        public void Init(Worlds.Entities.IDoodler doodler)
+        public void Init(IPersistentDataStorage persistentDataStorage, Worlds.Entities.IDoodler doodler)
         {
+            _playerData = persistentDataStorage.GetPlayerData();
             _doodler = doodler;
         }
 
@@ -18,8 +21,10 @@ namespace DoodleJump.Game.Factories
 
             switch (triggerType)
             {
-                case BoosterTriggerType.Collect:
-                    return CreateCollectTrigger(info);
+                case BoosterTriggerType.Collectable:
+                    return CreateCollectableTrigger(info);
+                case BoosterTriggerType.Money:
+                    return CreateMoneyTrigger(info);
                 default:
                     break;
             }
@@ -29,9 +34,16 @@ namespace DoodleJump.Game.Factories
 
         public void Destroy() { }
 
-        private IBoosterTrigger CreateCollectTrigger(IBoosterCollisionInfo info)
+        private IBoosterTrigger CreateCollectableTrigger(IBoosterCollisionInfo info)
         {
-            var trigger = new CollectTrigger(_doodler, info);
+            var trigger = new CollectableTrigger(_doodler, info);
+
+            return trigger;
+        }
+
+        private IBoosterTrigger CreateMoneyTrigger(IBoosterCollisionInfo info)
+        {
+            var trigger = new MoneyTrigger(_playerData, info);
 
             return trigger;
         }

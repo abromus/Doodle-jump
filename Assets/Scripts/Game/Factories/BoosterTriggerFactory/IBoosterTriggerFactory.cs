@@ -6,7 +6,7 @@ namespace DoodleJump.Game.Factories
 {
     internal interface IBoosterTriggerFactory : IFactory
     {
-        public void Init(Worlds.Entities.IDoodler doodler);
+        public void Init(Data.IPersistentDataStorage persistentDataStorage, Worlds.Entities.IDoodler doodler);
 
         public IBoosterTrigger Create(IBoosterCollisionInfo info, IWorldBoosterConfig worldBoosterConfig);
     }

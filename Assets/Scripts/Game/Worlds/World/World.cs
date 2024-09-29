@@ -99,7 +99,7 @@ namespace DoodleJump.Game.Worlds
         {
             _args.PlatformTriggerFactory.Init(_doodler);
             _args.EnemyTriggerFactory.Init(_doodler, _worldData);
-            _args.BoosterTriggerFactory.Init(_doodler);
+            _args.BoosterTriggerFactory.Init(_persistentDataStorage, _doodler);
         }
 
         private void InitDoodlerChecker(Transform doodlerTransform, Transform cameraTransform)

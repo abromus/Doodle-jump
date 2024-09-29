@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 3
-  _size: {x: 0, y: 0}
+  _size: {x: 2, y: 2}
   _boosterType: 3
   _clipType: 3
   _animator: {fileID: -5959755124139277439}
