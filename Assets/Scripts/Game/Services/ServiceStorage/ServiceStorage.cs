@@ -73,7 +73,8 @@ namespace DoodleJump.Game.Services
 
         private ISaveLoadService InitSaveLoadService(IUpdater updater)
         {
-            var saveLoadService = new SaveLoadService(updater);
+            var doodlerConfig = _configStorage.GetDoodlerConfig();
+            var saveLoadService = new SaveLoadService(updater, doodlerConfig);
 
             return saveLoadService;
         }

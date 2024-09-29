@@ -7,9 +7,9 @@ namespace DoodleJump.Game.Data
     {
         private readonly Dictionary<Type, IPersistentData> _data;
 
-        public PersistentDataStorage()
+        public PersistentDataStorage(Settings.IDoodlerConfig doodlerConfig)
         {
-            var playerData = new PlayerData() as IPlayerData;
+            var playerData = new PlayerData(doodlerConfig) as IPlayerData;
 
             _data = new(8)
             {

@@ -8,7 +8,13 @@
         {
             var config = (DoodlerConfig)target;
 
+            UnityEditor.Undo.RecordObject(config, $"Modify {nameof(DoodlerConfig)}");
+
+            serializedObject.Update();
+
             config.SetMovementVelocity(UnityEditor.EditorGUILayout.FloatField(nameof(config.MovementVelocity), config.MovementVelocity));
+            config.SetMaxShots(UnityEditor.EditorGUILayout.IntField(nameof(config.MaxShots), config.MaxShots));
+
             var mode = (Worlds.Entities.ShootingMode)UnityEditor.EditorGUILayout.EnumPopup(nameof(config.ShootingMode), config.ShootingMode);
             config.SetShootingMode(mode);
 
@@ -21,6 +27,9 @@
                 config.SetMaxAngle(angle);
 
             serializedObject.ApplyModifiedProperties();
+
+            if (UnityEngine.GUI.changed)
+                UnityEditor.EditorUtility.SetDirty(config);
         }
     }
 #endif

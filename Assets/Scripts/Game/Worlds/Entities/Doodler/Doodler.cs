@@ -105,18 +105,19 @@ namespace DoodleJump.Game.Worlds.Entities
             var inputService = args.InputService;
             var doodlerConfig = args.DoodlerConfig;
             var camera = _cameraService.Camera;
+            var playerData = args.PlayerData;
 
             _doodlerInput = new DoodlerInput(inputService);
 
             var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, doodlerConfig);
-            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, doodlerConfig, _projectilePrefab);
+            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, playerData, doodlerConfig, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(in doodlerShootingArgs);
             _cameraFollower = new DoodlerCameraFollower(transform, camera.transform);
             _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
 
-            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_updater, args.BoosterFactory, args.PlayerData, args.BoostersConfig, _boosterContainer, this, _rigidbody);
+            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_updater, args.BoosterFactory, playerData, args.BoostersConfig, _boosterContainer, this, _rigidbody);
             _doodlerBoosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
         }
 

@@ -5,6 +5,7 @@ namespace DoodleJump.Game.Data
 {
     internal sealed class SimpleDataStorage : ISimpleDataStorage
     {
+        private bool _isFirstSession = true;
         private SimpleInfo _info = new();
         private int _saveableMarker;
 
@@ -16,9 +17,15 @@ namespace DoodleJump.Game.Data
         private readonly SaveableInfo[] _saveableInfos = new SaveableInfo[32];
         private readonly int _defaultId = 1;
 
+        public bool IsFirstSession => _isFirstSession;
+
         public SimpleInfo Info => _info;
 
         public event System.Action ScoreChanged;
+
+        public event System.Action<int, int> ShotsChanged;
+
+        public event System.Action<int, int> MaxShotsChanged;
 
         public SimpleDataStorage(SqliteConnection connection)
         {
@@ -31,11 +38,12 @@ namespace DoodleJump.Game.Data
             _dbParameters.Add(ParameterKeys.Id, new SqliteParameter(ParameterKeys.Id, System.Data.DbType.Int32));
             _dbParameters.Add(ParameterKeys.CurrentScore, new SqliteParameter(ParameterKeys.CurrentScore, System.Data.DbType.Int32));
             _dbParameters.Add(ParameterKeys.MaxScore, new SqliteParameter(ParameterKeys.MaxScore, System.Data.DbType.Boolean));
+            _dbParameters.Add(ParameterKeys.CurrentShots, new SqliteParameter(ParameterKeys.CurrentShots, System.Data.DbType.Int32));
+            _dbParameters.Add(ParameterKeys.MaxShots, new SqliteParameter(ParameterKeys.MaxShots, System.Data.DbType.Boolean));
 
             _commandInsertInfo = GetCommandInsertInfo();
             _commandUpdateInfo = GetCommandUpdateInfo();
             _commandSelectInfo = GetCommandSelectInfo();
-
         }
 
         public void Init()
@@ -56,6 +64,8 @@ namespace DoodleJump.Game.Data
                 parameters[ParameterKeys.Id].Value = info.Id;
                 parameters[ParameterKeys.CurrentScore].Value = info.CurrentScore;
                 parameters[ParameterKeys.MaxScore].Value = info.MaxScore;
+                parameters[ParameterKeys.CurrentShots].Value = info.CurrentShots;
+                parameters[ParameterKeys.MaxShots].Value = info.MaxShots;
 
                 command.ExecuteNonQuery();
             }
@@ -75,14 +85,46 @@ namespace DoodleJump.Game.Data
             if (_info.CurrentScore == score)
                 return;
 
-            var info = _info;
-            info.CurrentScore = score;
+            _info.CurrentScore = score;
 
             if (_info.MaxScore < score)
-                info.MaxScore = score;
+                _info.MaxScore = score;
 
-            _info = info;
+            MarkSaveInfo();
 
+            ScoreChanged.SafeInvoke();
+        }
+
+        public void SetCurrentShots(int shots)
+        {
+            if (_info.CurrentShots == shots)
+                return;
+
+            var previousShots = _info.CurrentShots;
+
+            _info.CurrentShots = shots;
+
+            MarkSaveInfo();
+
+            ShotsChanged.SafeInvoke(previousShots, shots);
+        }
+
+        public void SetMaxShots(int maxShots)
+        {
+            if (_info.MaxShots == maxShots)
+                return;
+
+            var previousMaxShots = _info.MaxShots;
+
+            _info.MaxShots = maxShots;
+
+            MarkSaveInfo();
+
+            MaxShotsChanged.SafeInvoke(previousMaxShots, maxShots);
+        }
+
+        private void MarkSaveInfo()
+        {
             _saveableInfos[_saveableMarker] = new SaveableInfo(_info, _commandUpdateInfo);
 
 #if UNITY_EDITOR
@@ -90,8 +132,6 @@ namespace DoodleJump.Game.Data
 #else
             ++_saveableMarker;
 #endif
-
-            ScoreChanged.SafeInvoke();
         }
 
         private SqliteCommand GetCommandInsertInfo()
@@ -103,6 +143,8 @@ namespace DoodleJump.Game.Data
             command.Parameters.Add(_dbParameters[ParameterKeys.Id]);
             command.Parameters.Add(_dbParameters[ParameterKeys.CurrentScore]);
             command.Parameters.Add(_dbParameters[ParameterKeys.MaxScore]);
+            command.Parameters.Add(_dbParameters[ParameterKeys.CurrentShots]);
+            command.Parameters.Add(_dbParameters[ParameterKeys.MaxShots]);
 
             return command;
         }
@@ -116,6 +158,8 @@ namespace DoodleJump.Game.Data
             command.Parameters.Add(_dbParameters[ParameterKeys.Id]);
             command.Parameters.Add(_dbParameters[ParameterKeys.CurrentScore]);
             command.Parameters.Add(_dbParameters[ParameterKeys.MaxScore]);
+            command.Parameters.Add(_dbParameters[ParameterKeys.CurrentShots]);
+            command.Parameters.Add(_dbParameters[ParameterKeys.MaxShots]);
 
             return command;
         }
@@ -146,13 +190,14 @@ namespace DoodleJump.Game.Data
             {
                 if (reader.Read())
                 {
+                    _isFirstSession = false;
+
                     hasData = true;
 
-                    var info = _info;
-                    info.Id = reader.GetInt32(0);
-                    info.MaxScore = reader.GetInt32(2);
-
-                    _info = info;
+                    _info.Id = reader.GetInt32(0);
+                    _info.MaxScore = reader.GetInt32(2);
+                    _info.CurrentShots = reader.GetInt32(3);
+                    _info.MaxShots = reader.GetInt32(4);
                 }
             }
 
@@ -175,22 +220,39 @@ namespace DoodleJump.Game.Data
                 $"CREATE TABLE IF NOT EXISTS {TableName} " +
                 $"({ParameterKeys.Id} INTEGER NOT NULL, " +
                 $"{ParameterKeys.CurrentScore} INTEGER NOT NULL, " +
-                $"{ParameterKeys.MaxScore} INTEGER NOT NULL);";
+                $"{ParameterKeys.MaxScore} INTEGER NOT NULL, " +
+                $"{ParameterKeys.CurrentShots} INTEGER NOT NULL, " +
+                $"{ParameterKeys.MaxShots} INTEGER NOT NULL);";
 
             internal static readonly string CommandInsertInfo =
                 $"INSERT OR IGNORE INTO {TableName} " +
-                $"({ParameterKeys.Id}, {ParameterKeys.CurrentScore}, {ParameterKeys.MaxScore}) " +
-                $"VALUES (@{ParameterKeys.Id}, 0, 0);";
+                $"({ParameterKeys.Id}, " +
+                $"{ParameterKeys.CurrentScore}, " +
+                $"{ParameterKeys.MaxScore}, " +
+                $"{ParameterKeys.CurrentShots}, " +
+                $"{ParameterKeys.MaxShots}) " +
+                $"VALUES " +
+                $"(@{ParameterKeys.Id}, " +
+                $"0, " +
+                $"0, " +
+                $"0, " +
+                $"0);";
 
             internal static readonly string CommandUpdateInfo =
                 $"UPDATE {TableName} SET " +
                 $"{ParameterKeys.CurrentScore} = @{ParameterKeys.CurrentScore}, " +
-                $"{ParameterKeys.MaxScore} = @{ParameterKeys.MaxScore} " +
+                $"{ParameterKeys.MaxScore} = @{ParameterKeys.MaxScore}, " +
+                $"{ParameterKeys.CurrentShots} = @{ParameterKeys.CurrentShots}, " +
+                $"{ParameterKeys.MaxShots} = @{ParameterKeys.MaxShots} " +
                 $"WHERE {ParameterKeys.Id} = @{ParameterKeys.Id}";
 
             internal static readonly string CommandSelectInfo =
                 $"SELECT " +
-                $"{ParameterKeys.Id}, {ParameterKeys.CurrentScore}, {ParameterKeys.MaxScore} " +
+                $"{ParameterKeys.Id}, " +
+                $"{ParameterKeys.CurrentScore}, " +
+                $"{ParameterKeys.MaxScore}, " +
+                $"{ParameterKeys.CurrentShots}, " +
+                $"{ParameterKeys.MaxShots} " +
                 $"FROM {TableName};";
         }
 
@@ -199,6 +261,8 @@ namespace DoodleJump.Game.Data
             internal static readonly string Id = "Id";
             internal static readonly string CurrentScore = "CurrentScore";
             internal static readonly string MaxScore = "MaxScore";
+            internal static readonly string CurrentShots = "CurrentShots";
+            internal static readonly string MaxShots = "MaxShots";
         }
 
         [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]

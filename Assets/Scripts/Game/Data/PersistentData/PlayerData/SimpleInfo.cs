@@ -8,5 +8,9 @@
         public int CurrentScore { get; set; }
 
         public int MaxScore { get; set; }
+
+        public int CurrentShots { get; set; }
+
+        public int MaxShots { get; set; }
     }
 }

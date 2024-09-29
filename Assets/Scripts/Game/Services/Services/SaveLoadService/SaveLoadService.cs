@@ -10,11 +10,11 @@ namespace DoodleJump.Game.Services
 
         public IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
 
-        internal SaveLoadService(IUpdater updater)
+        internal SaveLoadService(IUpdater updater, Settings.IDoodlerConfig doodlerConfig)
         {
             _updater = updater;
 
-            _persistentDataStorage = new PersistentDataStorage();
+            _persistentDataStorage = new PersistentDataStorage(doodlerConfig);
             _persistentDataStorage.Init();
 
             _updater.AddLateUpdatable(this);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DoodleJump.Core;
 using DoodleJump.Core.Services;
+using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IAudioService _audioService;
         private readonly ICameraService _cameraService;
         private readonly IUpdater _updater;
+        private readonly IPlayerData _playerData;
         private readonly Projectile _projectilePrefab;
 
         private readonly IObjectPool<IProjectile> _projectilePool;
@@ -29,10 +31,13 @@ namespace DoodleJump.Game.Worlds.Entities
             _audioService = args.AudioService;
             _cameraService = args.CameraService;
             _updater = args.Updater;
+            _playerData = args.PlayerData;
             _projectilePrefab = args.ProjectilePrefab;
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
             _shootingStrategyResolver = new ShootingStrategyResolver(_cameraService, args.DoodlerConfig);
+
+            UpdateCurrentShoots();
         }
 
         public void SetProjectileContainer(Transform projectilesContainer)
@@ -77,18 +82,21 @@ namespace DoodleJump.Game.Worlds.Entities
             _projectiles.Clear();
         }
 
+        private void UpdateCurrentShoots()
+        {
+            if (_playerData.IsFirstSession)
+                _playerData.SetCurrentShots(_playerData.MaxShots);
+        }
+
         private void TryShoot()
         {
-            if (_doodlerInput.IsShooting == false || _isPaused)
+            var currentShots = _playerData.CurrentShots;
+
+            if (_doodlerInput.IsShooting == false || _isPaused || currentShots == 0)
                 return;
 
-            var doodlerDirection = _doodlerTransform.localScale.x == Constants.Left ? Constants.Left : Constants.Right;
-            var doodlerPosition = _doodlerTransform.position;
-            var shootPosition = _doodlerInput.ShootPosition;
-            var projectile = _projectilePool.Get();
-            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
-
-            _projectiles.Add(projectile);
+            InitProjectilePosition();
+            UpdateShots(currentShots - 1);
         }
 
         private IProjectile CreateProjectile()
@@ -99,6 +107,22 @@ namespace DoodleJump.Game.Worlds.Entities
             projectile.Destroyed += OnProjectileDestroyed;
 
             return projectile;
+        }
+
+        private void InitProjectilePosition()
+        {
+            var doodlerDirection = _doodlerTransform.localScale.x == Constants.Left ? Constants.Left : Constants.Right;
+            var doodlerPosition = _doodlerTransform.position;
+            var shootPosition = _doodlerInput.ShootPosition;
+            var projectile = _projectilePool.Get();
+            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
+
+            _projectiles.Add(projectile);
+        }
+
+        private void UpdateShots(int currentShots)
+        {
+            _playerData.SetCurrentShots(currentShots);
         }
 
         private void OnProjectileDestroyed(IProjectile projectile)

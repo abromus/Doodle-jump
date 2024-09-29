@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DoodlerConfig
   m_EditorClassIdentifier: 
   _movementVelocity: 7.5
+  _maxShots: 120
   _shootingMode: 3
-  _angle: 45
+  _maxAngle: 45

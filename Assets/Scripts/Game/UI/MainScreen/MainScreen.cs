@@ -1,3 +1,4 @@
+using DG.Tweening;
 using DoodleJump.Core;
 using DoodleJump.Core.Services;
 using DoodleJump.Core.Settings;
@@ -18,6 +19,13 @@ namespace DoodleJump.Game.UI
         [SerializeField] private TMP_Text _currentScore;
         [SerializeField] private TMP_Text _maxScore;
         [SerializeField] private RectTransform _boostersContainer;
+        [Separator(CustomColor.Lime)]
+        [SerializeField] private TMP_Text _shots;
+        [SerializeField] private TMP_Text _diffShotsPrefab;
+        [SerializeField] private RectTransform _diffShotsContainer;
+        [SerializeField] private Vector2 _maxDiffShotsOffset;
+        [SerializeField] private float _diffShotsDuration;
+        [SerializeField] private Slider _shotsSlider;
 
         private IPlayerData _playerData;
         private IScreenSystemService _screenSystemService;
@@ -25,10 +33,12 @@ namespace DoodleJump.Game.UI
         private IInputService _inputService;
         private IAudioService _audioService;
         private IMainScreenConfig _config;
+        private IObjectPool<TMP_Text> _diffShotsPool;
         private bool _initialized;
 
         private readonly System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, IObjectPool<IUiBooster>> _boosterPools = new(16);
         private readonly System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, IUiBooster> _boosters = new(32);
+        private readonly System.Collections.Generic.List<TMP_Text> _diffShots = new(16);
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
         {
@@ -51,6 +61,7 @@ namespace DoodleJump.Game.UI
             InitPools();
             LoadBoosters();
             UpdateMaxScore(_playerData.MaxScore);
+            UpdateShots(_playerData.CurrentShots, _playerData.CurrentShots, _playerData.MaxShots);
             Subscribe();
 
             _initialized = true;
@@ -107,6 +118,8 @@ namespace DoodleJump.Game.UI
                 if (_boosterPools.ContainsKey(boosterType) == false)
                     _boosterPools.Add(boosterType, new ObjectPool<IUiBooster>(() => CreateUiBooster(uiBoosterPrefab)));
             }
+
+            _diffShotsPool = new ObjectPool<TMP_Text>(CreateDiffShots);
         }
 
         private void LoadBoosters()
@@ -122,12 +135,56 @@ namespace DoodleJump.Game.UI
             _maxScore.text = $"Max score: {maxScore}";
         }
 
+        private void UpdateShots(int previousShots, int currentShots, int maxShots)
+        {
+            _shots.text = $"{currentShots}/{maxShots}";
+            _shotsSlider.value = (float)currentShots / maxShots;
+
+            ShowDiffShots(previousShots, currentShots);
+        }
+
+        private void ShowDiffShots(int previousShots, int currentShots)
+        {
+            var diffShots = _diffShotsPool.Get();
+            diffShots.gameObject.SetActive(true);
+            diffShots.text = $"{currentShots - previousShots}";
+
+            var defaultLocalPosition = diffShots.transform.localPosition;
+            var x = Random.Range(-_maxDiffShotsOffset.x, _maxDiffShotsOffset.x);
+            var y = Random.Range(0f, _maxDiffShotsOffset.y);
+            var z = 0f;
+            var offset = new Vector3(x, y, z);
+
+            _diffShots.Add(diffShots);
+
+            DOTween.Sequence()
+                .Append(diffShots.transform.DOLocalMove(defaultLocalPosition + offset, _diffShotsDuration)
+                .OnKill(HideDiffShots));
+
+            void HideDiffShots()
+            {
+                diffShots.transform.localPosition = defaultLocalPosition;
+                diffShots.gameObject.SetActive(false);
+
+                _diffShots.Remove(diffShots);
+                _diffShotsPool.Release(diffShots);
+            }
+        }
+
         private IUiBooster CreateUiBooster<T>(T uiBoosterPrefab) where T : MonoBehaviour, IUiBooster
         {
             var uiBooster = Instantiate(uiBoosterPrefab, _boostersContainer);
             uiBooster.GameObject.RemoveCloneSuffix();
 
             return uiBooster;
+        }
+
+        private TMP_Text CreateDiffShots()
+        {
+            var diffShots = Instantiate(_diffShotsPrefab, _diffShotsContainer);
+            diffShots.gameObject.RemoveCloneSuffix();
+
+            return diffShots;
         }
 
         private void UpdateBooster(Worlds.Boosters.BoosterType boosterType, int count)
@@ -163,6 +220,7 @@ namespace DoodleJump.Game.UI
             if (_playerData != null)
             {
                 _playerData.ScoreChanged += OnScoreChanged;
+                _playerData.ShotsChanged += OnShotsChanged;
                 _playerData.BoosterChanged += OnBoosterChanged;
             }
         }
@@ -174,6 +232,7 @@ namespace DoodleJump.Game.UI
             if (_playerData != null)
             {
                 _playerData.ScoreChanged -= OnScoreChanged;
+                _playerData.ShotsChanged -= OnShotsChanged;
                 _playerData.BoosterChanged -= OnBoosterChanged;
             }
         }
@@ -192,6 +251,11 @@ namespace DoodleJump.Game.UI
 
             if (0 < maxScore)
                 UpdateMaxScore(maxScore);
+        }
+
+        private void OnShotsChanged(int previousShots, int currentShots)
+        {
+            UpdateShots(previousShots, currentShots, _playerData.MaxShots);
         }
 
         private void OnBoosterChanged(Worlds.Boosters.BoosterType boosterType, int count)
