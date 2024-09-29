@@ -14,9 +14,11 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public abstract event Action<IEnemyCollisionInfo> Collided;
 
+        public event Action<Worlds.Boosters.IWorldBooster, Worlds.Boosters.BoosterTriggerType> BoosterDropped;
+
         public abstract event Action<IEnemy> Destroyed;
 
-        public void Init(Data.IGameData gameData);
+        public void Init(Data.IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory);
 
         public void InitPosition(Vector3 position);
 

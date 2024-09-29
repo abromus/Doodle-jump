@@ -13,6 +13,8 @@ namespace DoodleJump.Game.Worlds.Boosters
 
         public Vector3 Position { get; }
 
+        public abstract IBoosterCollisionInfo Info { get; }
+
         public abstract event Action<IBoosterCollisionInfo> Collided;
 
         public abstract event Action<IWorldBooster> Destroyed;

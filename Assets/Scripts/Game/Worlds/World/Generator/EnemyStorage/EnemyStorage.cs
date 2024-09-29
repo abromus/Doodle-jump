@@ -23,6 +23,7 @@ namespace DoodleJump.Game.Worlds
         private readonly IWorldFactory _worldFactory;
         private readonly Transform _enemiesContainer;
         private readonly Rect _screenRect;
+        private readonly IBoosterTriggerFactory _boosterTriggerFactory;
         private readonly Transform _doodlerTransform;
 
         private readonly Vector3 _startPosition;
@@ -37,12 +38,15 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IEnemyCollisionInfo> Collided;
 
-        public EnemyStorage(IGameData gameData, WorldArgs args, Transform enemiesContainer, Rect screenRect)
+        public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
+
+        public EnemyStorage(IGameData gameData, WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
             _enemiesContainer = enemiesContainer;
             _screenRect = screenRect;
+            _boosterTriggerFactory = boosterTriggerFactory;
             _doodlerTransform = args.Doodler.GameObject.transform;
 
             var generatorConfig = args.GeneratorConfig;
@@ -83,6 +87,7 @@ namespace DoodleJump.Game.Worlds
         public void DestroyEnemy(IEnemy enemy)
         {
             enemy.Collided -= OnCollided;
+            enemy.BoosterDropped -= OnBoosterDropped;
             enemy.Destroyed -= OnDestroyed;
             enemy.Clear();
 
@@ -149,7 +154,7 @@ namespace DoodleJump.Game.Worlds
         private IEnemy CreateEnemy<T>(T enemyPrefab) where T : MonoBehaviour, IEnemy
         {
             var enemy = _worldFactory.CreateEnemy(enemyPrefab, _enemiesContainer);
-            enemy.Init(_gameData);
+            enemy.Init(_gameData, _boosterTriggerFactory);
 
             return enemy;
         }
@@ -217,6 +222,7 @@ namespace DoodleJump.Game.Worlds
             var enemy = _pools[enemyPrefab.Id].Get();
             enemy.InitPosition(_currentEnemyPosition);
             enemy.Collided += OnCollided;
+            enemy.BoosterDropped += OnBoosterDropped;
             enemy.Destroyed += OnDestroyed;
 
             ++_generatedEnemiesCount;
@@ -267,6 +273,11 @@ namespace DoodleJump.Game.Worlds
         private void OnCollided(IEnemyCollisionInfo info)
         {
             Collided.SafeInvoke(_currentProgress, info);
+        }
+
+        private void OnBoosterDropped(Boosters.IWorldBooster worldBooster, Boosters.BoosterTriggerType boosterTriggerType)
+        {
+            BoosterDropped.SafeInvoke(worldBooster, boosterTriggerType);
         }
 
         private void OnDestroyed(IEnemy enemy)

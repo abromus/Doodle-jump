@@ -5,5 +5,6 @@ namespace DoodleJump.Game.Worlds.Boosters
         None = 0,
         Collectable = 1,
         Money = 2,
+        Shots = 3,
     }
 }

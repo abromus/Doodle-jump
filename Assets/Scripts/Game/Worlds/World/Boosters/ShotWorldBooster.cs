@@ -4,10 +4,10 @@ using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal sealed class MoneyWorldBooster : WorldBooster
+    internal sealed class ShotWorldBooster : WorldBooster
     {
         private IBoosterCollisionInfo _info;
-        private IMoneyBoosterConfig _config;
+        private IShotBoosterConfig _config;
 
         public override IBoosterCollisionInfo Info => _info;
 
@@ -19,9 +19,9 @@ namespace DoodleJump.Game.Worlds.Boosters
         {
             base.Init(gameData);
 
-            _config = gameData.ConfigStorage.GetBoostersConfig().GetBoosterConfig<IMoneyBoosterConfig>();
+            _config = gameData.ConfigStorage.GetBoostersConfig().GetBoosterConfig<IShotBoosterConfig>();
 
-            _info = new MoneyCollisionInfo(this, _config);
+            _info = new ShotCollisionInfo(this, _config);
         }
 
         public override void Destroy()

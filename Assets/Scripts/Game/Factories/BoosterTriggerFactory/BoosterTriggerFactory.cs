@@ -17,14 +17,19 @@ namespace DoodleJump.Game.Factories
 
         public IBoosterTrigger Create(IBoosterCollisionInfo info, IWorldBoosterConfig worldBoosterConfig)
         {
-            var triggerType = worldBoosterConfig.TriggerType;
+            return Create(info, worldBoosterConfig.TriggerType);
+        }
 
+        public IBoosterTrigger Create(IBoosterCollisionInfo info, BoosterTriggerType triggerType)
+        {
             switch (triggerType)
             {
                 case BoosterTriggerType.Collectable:
                     return CreateCollectableTrigger(info);
                 case BoosterTriggerType.Money:
                     return CreateMoneyTrigger(info);
+                case BoosterTriggerType.Shots:
+                    return CreateShotsTrigger(info);
                 default:
                     break;
             }
@@ -44,6 +49,13 @@ namespace DoodleJump.Game.Factories
         private IBoosterTrigger CreateMoneyTrigger(IBoosterCollisionInfo info)
         {
             var trigger = new MoneyTrigger(_playerData, info);
+
+            return trigger;
+        }
+
+        private IBoosterTrigger CreateShotsTrigger(IBoosterCollisionInfo info)
+        {
+            var trigger = new ShotsTrigger(_playerData, info);
 
             return trigger;
         }

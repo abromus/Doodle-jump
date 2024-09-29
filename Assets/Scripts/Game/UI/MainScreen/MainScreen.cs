@@ -19,13 +19,15 @@ namespace DoodleJump.Game.UI
         [SerializeField] private TMP_Text _currentScore;
         [SerializeField] private TMP_Text _maxScore;
         [SerializeField] private RectTransform _boostersContainer;
-        [Separator(CustomColor.Lime)]
+        [Separator(CustomColor.MediumTurquoise)]
         [SerializeField] private TMP_Text _shots;
         [SerializeField] private TMP_Text _diffShotsPrefab;
         [SerializeField] private RectTransform _diffShotsContainer;
         [SerializeField] private Vector2 _maxDiffShotsOffset;
         [SerializeField] private float _diffShotsDuration;
         [SerializeField] private Slider _shotsSlider;
+        [SerializeField] private Color _positiveColor;
+        [SerializeField] private Color _negativeColor;
 
         private IPlayerData _playerData;
         private IScreenSystemService _screenSystemService;
@@ -145,9 +147,12 @@ namespace DoodleJump.Game.UI
 
         private void ShowDiffShots(int previousShots, int currentShots)
         {
+            var diff = previousShots - currentShots;
+            var isPositive = diff < 0;
             var diffShots = _diffShotsPool.Get();
             diffShots.gameObject.SetActive(true);
-            diffShots.text = $"{currentShots - previousShots}";
+            diffShots.text = isPositive ? $"+{-diff}" : $"-{diff}";
+            diffShots.color = isPositive ? _positiveColor : _negativeColor;
 
             var defaultLocalPosition = diffShots.transform.localPosition;
             var x = Random.Range(-_maxDiffShotsOffset.x, _maxDiffShotsOffset.x);

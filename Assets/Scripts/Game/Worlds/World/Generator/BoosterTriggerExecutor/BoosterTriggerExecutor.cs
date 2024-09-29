@@ -22,19 +22,41 @@ namespace DoodleJump.Game.Worlds
             trigger.Execute();
         }
 
+        public void Execute(IWorldBooster worldBooster, BoosterTriggerType boosterTriggerType)
+        {
+            var trigger = GetTrigger(worldBooster, boosterTriggerType);
+
+            trigger.Execute();
+        }
+
         private IBoosterTrigger GetTrigger(IProgressInfo currentProgress, IBoosterCollisionInfo info)
         {
-            var booster = info.WorldBooster;
+            var worldBooster = info.WorldBooster;
 
-            if (_triggers.ContainsKey(booster) == false)
+            if (_triggers.ContainsKey(worldBooster) == false)
             {
                 var newTrigger = CreateTrigger(currentProgress, info);
 
                 return newTrigger;
             }
 
-            var trigger = _triggers[booster];
+            var trigger = _triggers[worldBooster];
             trigger.UpdateInfo(info);
+
+            return trigger;
+        }
+
+        private IBoosterTrigger GetTrigger(IWorldBooster worldBooster, BoosterTriggerType boosterTriggerType)
+        {
+            if (_triggers.ContainsKey(worldBooster) == false)
+            {
+                var newTrigger = CreateTrigger(worldBooster, boosterTriggerType);
+
+                return newTrigger;
+            }
+
+            var trigger = _triggers[worldBooster];
+            trigger.UpdateInfo(worldBooster.Info);
 
             return trigger;
         }
@@ -58,6 +80,15 @@ namespace DoodleJump.Game.Worlds
             }
 
             return null;
+        }
+
+        private IBoosterTrigger CreateTrigger(IWorldBooster worldBooster, BoosterTriggerType boosterTriggerType)
+        {
+            var trigger = _factory.Create(worldBooster.Info, boosterTriggerType);
+
+            _triggers.Add(worldBooster, trigger);
+
+            return trigger;
         }
     }
 }

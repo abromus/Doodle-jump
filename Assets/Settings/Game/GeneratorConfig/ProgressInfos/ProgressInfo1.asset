@@ -39,6 +39,7 @@ MonoBehaviour:
   - rid: 4237770253560184833
   - rid: 4237770253560184835
   - rid: 4237770266528972800
+  - rid: 4237770271446794240
   references:
     version: 2
     RefIds:
@@ -80,26 +81,32 @@ MonoBehaviour:
       type: {class: ShieldWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _worldBoosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
-        _spawnChance: 0.125
+        _spawnChance: 0.2
         _triggerType: 1
     - rid: 4237770253560184833
       type: {class: JumpWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _worldBoosterPrefab: {fileID: -3633072006385200957, guid: 2e0d8ef64f2b1f644b894f025df32371, type: 3}
-        _spawnChance: 0.125
+        _spawnChance: 0.2
         _triggerType: 1
     - rid: 4237770253560184835
       type: {class: JetpackWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _worldBoosterPrefab: {fileID: 1040370156841023510, guid: 6b9eb542a7ec7f4478d63a464458abf6, type: 3}
-        _spawnChance: 0.125
+        _spawnChance: 0.2
         _triggerType: 1
     - rid: 4237770266528972800
       type: {class: MoneyWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _worldBoosterPrefab: {fileID: 3498653942645677641, guid: dbf0a86ebfacff54793836db94b3904e, type: 3}
-        _spawnChance: 0.625
+        _spawnChance: 0.2
         _triggerType: 2
+    - rid: 4237770271446794240
+      type: {class: ShotsWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: 1303088828375876354, guid: c9a1b89c403b0f0498a02fea0b0cb077, type: 3}
+        _spawnChance: 0.2
+        _triggerType: 3
     - rid: 5398419703851646976
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:

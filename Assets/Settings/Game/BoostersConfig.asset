@@ -16,6 +16,8 @@ MonoBehaviour:
   - rid: 4237770114046361600
   - rid: 4237770253560184834
   - rid: 4237770253560184836
+  - rid: 4237770271446794241
+  - rid: 4237770271446794242
   references:
     version: 2
     RefIds:
@@ -39,3 +41,15 @@ MonoBehaviour:
         _boosterPrefab: {fileID: 2499519043973175884, guid: ab4ac39df7e8419469404fc3abdeb6c2, type: 3}
         _existenseTime: 7
         _jumpForce: 15
+    - rid: 4237770271446794241
+      type: {class: MoneyBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _boosterType: 4
+        _boosterPrefab: {fileID: 0}
+        _count: 200
+    - rid: 4237770271446794242
+      type: {class: ShotBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _boosterType: 5
+        _boosterPrefab: {fileID: -3026741257712628285, guid: 1111428ac24cc1549b198d9688fb7fdc, type: 3}
+        _shotCount: 15

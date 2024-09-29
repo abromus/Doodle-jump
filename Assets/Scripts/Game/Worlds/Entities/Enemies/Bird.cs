@@ -49,7 +49,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private float GetDirection()
         {
-            var value = UnityEngine.Random.value;
+            var value = Random.value;
             var half = 0.5f;
 
             return value < half ? Constants.Left : Constants.Right;

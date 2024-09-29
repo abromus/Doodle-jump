@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DoodleJump.Core;
 using DoodleJump.Game.Settings;
@@ -10,7 +9,9 @@ namespace DoodleJump.Game.Worlds
     {
         public IReadOnlyList<IEnemy> Enemies { get; }
 
-        public event Action<IProgressInfo, IEnemyCollisionInfo> Collided;
+        public event System.Action<IProgressInfo, IEnemyCollisionInfo> Collided;
+
+        public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
         public void Clear();
 

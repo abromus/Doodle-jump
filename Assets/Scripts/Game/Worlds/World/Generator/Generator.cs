@@ -28,18 +28,21 @@ namespace DoodleJump.Game.Worlds
 
             _doodlerTransform = args.Doodler.GameObject.transform;
 
+            var boosterTriggerFactory = args.BoosterTriggerFactory;
+
             _platformStorage = new PlatformStorage(gameData, args, platformsContainer, _screenRect);
             _platformStorage.Collided += OnPlatformCollided;
 
-            _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect);
+            _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect, boosterTriggerFactory);
             _enemyStorage.Collided += OnEnemyCollided;
+            _enemyStorage.BoosterDropped += OnEnemyBoosterDropped;
 
             _boosterStorage = new BoosterStorage(gameData, args, boostersContainer, _screenRect, _platformStorage);
             _boosterStorage.Collided += OnBoosterCollided;
 
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
             _enemyTriggerExecutor = new EnemyTriggerExecutor(args.EnemyTriggerFactory);
-            _boosterTriggerExecutor = new BoosterTriggerExecutor(args.BoosterTriggerFactory);
+            _boosterTriggerExecutor = new BoosterTriggerExecutor(boosterTriggerFactory);
 
             Restart();
         }
@@ -68,6 +71,7 @@ namespace DoodleJump.Game.Worlds
             _platformStorage.Destroy();
 
             _enemyStorage.Collided -= OnEnemyCollided;
+            _enemyStorage.BoosterDropped -= OnEnemyBoosterDropped;
             _enemyStorage.Destroy();
 
             _boosterStorage.Collided -= OnBoosterCollided;
@@ -141,6 +145,11 @@ namespace DoodleJump.Game.Worlds
         private void OnEnemyCollided(IProgressInfo currentProgress, IEnemyCollisionInfo info)
         {
             _enemyTriggerExecutor.Execute(currentProgress, info);
+        }
+
+        private void OnEnemyBoosterDropped(Boosters.IWorldBooster worldBooster, Boosters.BoosterTriggerType boosterTriggerType)
+        {
+            _boosterTriggerExecutor.Execute(worldBooster, boosterTriggerType);
         }
 
         private void OnBoosterCollided(IProgressInfo currentProgress, Boosters.IBoosterCollisionInfo info)

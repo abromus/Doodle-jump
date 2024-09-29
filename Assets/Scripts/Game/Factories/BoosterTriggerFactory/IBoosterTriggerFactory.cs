@@ -8,6 +8,8 @@ namespace DoodleJump.Game.Factories
     {
         public void Init(Data.IPersistentDataStorage persistentDataStorage, Worlds.Entities.IDoodler doodler);
 
+        public IBoosterTrigger Create(IBoosterCollisionInfo info, BoosterTriggerType triggerType);
+
         public IBoosterTrigger Create(IBoosterCollisionInfo info, IWorldBoosterConfig worldBoosterConfig);
     }
 }

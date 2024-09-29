@@ -9,16 +9,16 @@ namespace DoodleJump.Game.Worlds.Entities
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
 
-        public override void Init(IGameData gameData)
+        public override void Init(IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory)
         {
-            base.Init(gameData);
+            base.Init(gameData, boosterTriggerFactory);
 
             _screenRect = gameData.CoreData.ServiceStorage.GetCameraService().GetScreenRect();
         }
 
         public override void InitPosition(Vector3 position)
         {
-            var value = UnityEngine.Random.value;
+            var value = Random.value;
             var half = 0.5f;
             var isRight = value < half;
             var localScale = Vector3.one;

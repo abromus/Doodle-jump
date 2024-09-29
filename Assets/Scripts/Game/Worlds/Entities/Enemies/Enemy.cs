@@ -14,16 +14,21 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private float _repulsiveForce;
         [SerializeField] private EnemyClipType _clipType;
         [SerializeField] private EnemyTriggerClipType _triggerClipType;
+        [SerializeField] private Worlds.Boosters.ShotWorldBooster _shotWorldBoosterPrefab;
+        [SerializeField] private Transform _shotWorldBoosterContainer;
         [SerializeField] private Animator _animator;
 
         private float _xMin;
         private float _xMax;
         private float _yMin;
         private float _yMax;
+        private IGameData _gameData;
         private IAudioService _audioService;
         private IUpdater _updater;
+        private Factories.IBoosterTriggerFactory _boosterTriggerFactory;
         private AudioSource _loopSound;
         private bool _initialized;
+        private Worlds.Boosters.IWorldBooster _shotWorldBooster;
 
         private readonly float _half = 0.5f;
 
@@ -35,12 +40,18 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event Action<IEnemyCollisionInfo> Collided;
 
+        public event Action<Worlds.Boosters.IWorldBooster, Worlds.Boosters.BoosterTriggerType> BoosterDropped;
+
         public event Action<IEnemy> Destroyed;
 
-        public virtual void Init(IGameData gameData)
+        public virtual void Init(IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory)
         {
-            _audioService = gameData.ServiceStorage.GetAudioService();
-            _updater = gameData.CoreData.ServiceStorage.GetUpdater();
+            _gameData = gameData;
+            _audioService = _gameData.ServiceStorage.GetAudioService();
+            _updater = _gameData.CoreData.ServiceStorage.GetUpdater();
+            _boosterTriggerFactory = boosterTriggerFactory;
+
+            CreateBooster();
 
             _initialized = true;
 
@@ -138,6 +149,9 @@ namespace DoodleJump.Game.Worlds.Entities
                 {
                     doodler.Jump(_repulsiveForce);
 
+                    if (_shotWorldBooster != null)
+                        BoosterDropped.SafeInvoke(_shotWorldBooster, Worlds.Boosters.BoosterTriggerType.Shots);
+
                     Destroyed.SafeInvoke(this);
                 }
                 else if (doodler.HasBooster(Worlds.Boosters.BoosterType.Shield) == false && doodler.HasBooster(Worlds.Boosters.BoosterType.Jetpack) == false)
@@ -180,6 +194,15 @@ namespace DoodleJump.Game.Worlds.Entities
             Gizmos.DrawWireCube(Position, Size);
         }
 #endif
+
+        private void CreateBooster()
+        {
+            if (_shotWorldBoosterPrefab == null)
+                return;
+
+            _shotWorldBooster = Instantiate(_shotWorldBoosterPrefab, _shotWorldBoosterContainer);
+            _shotWorldBooster.Init(_gameData);
+        }
 
         private void StopLoopSound()
         {

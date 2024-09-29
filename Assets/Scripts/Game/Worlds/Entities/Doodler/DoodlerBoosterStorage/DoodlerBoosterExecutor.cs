@@ -75,6 +75,10 @@ namespace DoodleJump.Game.Worlds.Entities
             foreach (var boosterConfig in boosterConfigs)
             {
                 var prefab = boosterConfig.BoosterPrefab;
+
+                if (prefab ==  null)
+                    continue;
+
                 var boosterType = prefab.BoosterType;
 
                 if (_pools.ContainsKey(boosterType))

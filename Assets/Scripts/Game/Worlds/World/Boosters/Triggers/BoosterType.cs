@@ -6,5 +6,7 @@
         Shield = 1,
         Jump = 2,
         Jetpack = 3,
+        Money = 4,
+        Shots = 5,
     }
 }

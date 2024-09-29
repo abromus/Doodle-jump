@@ -30,6 +30,8 @@ namespace DoodleJump.Game.Worlds.Boosters
 
         public Vector3 Position => transform.position;
 
+        public abstract IBoosterCollisionInfo Info { get; }
+
         protected BoosterClipType ClipType => _clipType;
 
         public abstract event Action<IBoosterCollisionInfo> Collided;
@@ -81,7 +83,7 @@ namespace DoodleJump.Game.Worlds.Boosters
             _loopSound = _audioService.PlayLoopSound(type);
         }
 
-        protected virtual void Awake()
+        private void Awake()
         {
             _defaultParent = transform.parent;
         }

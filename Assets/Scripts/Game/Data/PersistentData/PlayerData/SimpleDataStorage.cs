@@ -101,6 +101,10 @@ namespace DoodleJump.Game.Data
                 return;
 
             var previousShots = _info.CurrentShots;
+            var maxShots = _info.MaxShots;
+
+            if (maxShots < shots)
+                shots = maxShots;
 
             _info.CurrentShots = shots;
 

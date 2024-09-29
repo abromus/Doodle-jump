@@ -886,6 +886,8 @@ MonoBehaviour:
   _maxDiffShotsOffset: {x: 35, y: 50}
   _diffShotsDuration: 0.25
   _shotsSlider: {fileID: 5681753370226466574}
+  _positiveColor: {r: 0.4035615, g: 0.764151, b: 0.06127627, a: 1}
+  _negativeColor: {r: 0.9245283, g: 0.28346387, b: 0.30310005, a: 1}
 --- !u!1 &6379104260535531950
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 ﻿using System;
 using DoodleJump.Core;
-using DoodleJump.Game.Data;
 using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds.Boosters
@@ -10,15 +9,19 @@ namespace DoodleJump.Game.Worlds.Boosters
         private IBoosterCollisionInfo _info;
         private IJetpackBoosterConfig _config;
 
+        public override IBoosterCollisionInfo Info => _info;
+
         public override event Action<IBoosterCollisionInfo> Collided;
 
         public override event Action<IWorldBooster> Destroyed;
 
-        public override void Init(IGameData gameData)
+        public override void Init(Data.IGameData gameData)
         {
             base.Init(gameData);
 
             _config = gameData.ConfigStorage.GetBoostersConfig().GetBoosterConfig<IJetpackBoosterConfig>();
+
+            _info = new JetpackCollisionInfo(this, _config);
         }
 
         public override void Destroy()
@@ -26,13 +29,6 @@ namespace DoodleJump.Game.Worlds.Boosters
             base.Destroy();
 
             Destroyed.SafeInvoke(this);
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _info = new JetpackCollisionInfo(this, _config);
         }
 
         private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
