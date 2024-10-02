@@ -43,8 +43,6 @@ namespace DoodleJump.Game.Worlds
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
             _enemyTriggerExecutor = new EnemyTriggerExecutor(args.EnemyTriggerFactory);
             _boosterTriggerExecutor = new BoosterTriggerExecutor(boosterTriggerFactory);
-
-            Restart();
         }
 
         public void Restart()

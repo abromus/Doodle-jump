@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal interface IDoodler : IEntity, IFixedUpdatable, ILateUpdatable
+    internal interface IDoodler : IEntity, IFixedUpdatable
     {
         public GameObject GameObject { get; }
 

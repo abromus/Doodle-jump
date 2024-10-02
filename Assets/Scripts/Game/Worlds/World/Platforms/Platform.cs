@@ -19,8 +19,6 @@ namespace DoodleJump.Game.Worlds.Platforms
         private float _yMax;
         private IAudioService _audioService;
 
-        private readonly float _half = 0.5f;
-
         public int Id => _id;
 
         public Vector2 Size => _platformSize;
@@ -53,8 +51,8 @@ namespace DoodleJump.Game.Worlds.Platforms
 
             var xCenter = position.x;
             var yCenter = position.y;
-            var xOffset = Size.x * _half;
-            var yOffset = Size.y * _half;
+            var xOffset = Size.x * Constants.Half;
+            var yOffset = Size.y * Constants.Half;
 
             _xMin = xCenter - xOffset;
             _xMax = xCenter + xOffset;
@@ -68,8 +66,8 @@ namespace DoodleJump.Game.Worlds.Platforms
         {
             var xCenter = center.x;
             var yCenter = center.y;
-            var xOffset = size.x * _half;
-            var yOffset = size.y * _half;
+            var xOffset = size.x * Constants.Half;
+            var yOffset = size.y * Constants.Half;
 
             var xMin = Mathf.Max(_xMin, xCenter - xOffset);
             var xMax = Mathf.Min(_xMax, xCenter + xOffset);

@@ -10,22 +10,20 @@ namespace DoodleJump.Game.Worlds
         private readonly IWorldData _worldData;
         private readonly IPlayerData _playerData;
         private readonly Transform _doodlerTransform;
-        private readonly float _doodlerSize;
+        private readonly float _doodlerWidth;
         private readonly Transform _cameraTransform;
         private readonly Rect _screenRect;
         private readonly float _offset;
 
-        private readonly float _half = 0.5f;
-
-        internal DoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerSize, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, Rect screenRect)
         {
             _worldData = worldData;
             _playerData = persistentDataStorage.GetPlayerData();
             _doodlerTransform = doodlerTransform;
-            _doodlerSize = doodlerSize;
+            _doodlerWidth = doodlerWidth;
             _cameraTransform = cameraTransform;
             _screenRect = screenRect;
-            _offset = _screenRect.height * _half;
+            _offset = _screenRect.height * Constants.Half;
         }
 
         public void Tick()
@@ -51,7 +49,7 @@ namespace DoodleJump.Game.Worlds
             else if (_screenRect.xMax < doodlerXPosition)
                 ChangeXPosition(_doodlerTransform, -width);
 
-            if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerSize)
+            if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerWidth)
                 return;
 
             _worldData.Restart();

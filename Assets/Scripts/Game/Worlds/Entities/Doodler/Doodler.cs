@@ -18,9 +18,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private ICameraService _cameraService;
         private IDoodlerMovement _movement;
         private IDoodlerShooting _shooting;
-        private IDoodlerCameraFollower _cameraFollower;
         private IDoodlerAnimator _animator;
-        private IDoodlerBoosterStorage _doodlerBoosterStorage;
+        private IDoodlerBoosterStorage _boosterStorage;
 
         public GameObject GameObject => gameObject;
 
@@ -44,12 +43,12 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info)
         {
-            _doodlerBoosterStorage.Add(info);
+            _boosterStorage.Add(info);
         }
 
         public bool HasBooster(Worlds.Boosters.BoosterType boosterType)
         {
-            return _doodlerBoosterStorage.Has(boosterType);
+            return _boosterStorage.Has(boosterType);
         }
 
         public void SetProjectileContainer(Transform projectilesContainer)
@@ -68,11 +67,6 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _movement.FixedTick(deltaTime);
             _animator.FixedTick(deltaTime);
-        }
-
-        public void LateTick(float deltaTime)
-        {
-            _cameraFollower.LateTick(deltaTime);
         }
 
         public void SetPause(bool isPaused)
@@ -96,7 +90,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             Unsubscribe();
 
-            _doodlerBoosterStorage.Destroy();
+            _boosterStorage.Destroy();
             _shooting.Destroy();
         }
 
@@ -114,18 +108,16 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(in doodlerShootingArgs);
-            _cameraFollower = new DoodlerCameraFollower(transform, camera.transform);
             _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
 
             var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_updater, args.BoosterFactory, playerData, args.BoostersConfig, _boosterContainer, this, _rigidbody);
-            _doodlerBoosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
+            _boosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
         }
 
         private void Subscribe()
         {
             _updater.AddUpdatable(this);
             _updater.AddFixedUpdatable(this);
-            _updater.AddLateUpdatable(this);
             _updater.AddPausable(this);
 
             _movement.Jumped += OnJumped;
@@ -135,7 +127,6 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _updater.RemoveUpdatable(this);
             _updater.RemoveFixedUpdatable(this);
-            _updater.RemoveLateUpdatable(this);
             _updater.RemovePausable(this);
 
             _movement.Jumped -= OnJumped;

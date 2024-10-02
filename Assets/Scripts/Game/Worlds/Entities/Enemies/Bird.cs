@@ -50,9 +50,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private float GetDirection()
         {
             var value = Random.value;
-            var half = 0.5f;
 
-            return value < half ? Constants.Left : Constants.Right;
+            return value < Constants.Half ? Constants.Left : Constants.Right;
         }
 
         private void Move(float deltaTime)

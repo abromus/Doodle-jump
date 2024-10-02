@@ -29,6 +29,7 @@ namespace DoodleJump.Game
             CreateDoodler(factoryStorage);
             CreateWorld(factoryStorage);
             ShowMainScreen();
+            StartGame();
         }
 
         public void Destroy()
@@ -58,6 +59,12 @@ namespace DoodleJump.Game
         {
             _screenSystemService = _gameData.ServiceStorage.GetScreenSystemService();
             _screenSystemService.ShowScreen(UI.ScreenType.Main);
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        private void StartGame()
+        {
+            _world.Restart();
         }
 
         private void DestroyWorld()

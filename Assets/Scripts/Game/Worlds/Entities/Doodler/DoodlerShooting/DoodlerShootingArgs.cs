@@ -17,21 +17,21 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IDoodlerConfig _doodlerConfig;
         private readonly Projectile _projectilePrefab;
 
-        internal Transform DoodlerTransform => _doodlerTransform;
+        internal readonly Transform DoodlerTransform => _doodlerTransform;
 
-        internal IDoodlerInput DoodlerInput => _doodlerInput;
+        internal readonly IDoodlerInput DoodlerInput => _doodlerInput;
 
-        internal IAudioService AudioService => _audioService;
+        internal readonly IAudioService AudioService => _audioService;
 
-        internal ICameraService CameraService => _cameraService;
+        internal readonly ICameraService CameraService => _cameraService;
 
-        internal IUpdater Updater => _updater;
+        internal readonly IUpdater Updater => _updater;
 
-        internal IPlayerData PlayerData => _playerData;
+        internal readonly IPlayerData PlayerData => _playerData;
 
-        internal IDoodlerConfig DoodlerConfig => _doodlerConfig;
+        internal readonly IDoodlerConfig DoodlerConfig => _doodlerConfig;
 
-        internal Projectile ProjectilePrefab => _projectilePrefab;
+        internal readonly Projectile ProjectilePrefab => _projectilePrefab;
 
         internal DoodlerShootingArgs(
             Transform doodlerTransform,

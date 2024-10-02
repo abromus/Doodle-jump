@@ -93,9 +93,8 @@ namespace DoodleJump.Game.Worlds.Platforms
         private float GetDirection()
         {
             var value = UnityEngine.Random.value;
-            var half = 0.5f;
 
-            return value < half ? _left : _right;
+            return value < Constants.Half ? _left : _right;
         }
 
         private void Move(float deltaTime)

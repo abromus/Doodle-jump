@@ -19,10 +19,9 @@ namespace DoodleJump.Game.Worlds.Entities
         public override void InitPosition(Vector3 position)
         {
             var value = Random.value;
-            var half = 0.5f;
-            var isRight = value < half;
+            var isRight = value < Constants.Half;
             var localScale = Vector3.one;
-            var halfSize = localScale.x * half;
+            var halfSize = localScale.x * Constants.Half;
 
             position.x = isRight ? _screenRect.xMin + halfSize : _screenRect.xMax - halfSize;
             localScale.x = isRight ? Constants.Left : Constants.Right;

@@ -18,8 +18,6 @@ namespace DoodleJump.Game.Worlds.Platforms
         private float _springPosition;
         private Vector2 _springPositionRange;
 
-        private readonly float _half = 0.5f;
-
         public override event Action<IPlatformCollisionInfo> Collided;
 
         public override event Action<IPlatform> Destroyed;
@@ -40,7 +38,7 @@ namespace DoodleJump.Game.Worlds.Platforms
         {
             _info = new SpringJumpPlatformCollisionInfo(this);
 
-            var offset = (Size.x - _springSize - _springOffset) * _half;
+            var offset = (Size.x - _springSize - _springOffset) * Constants.Half;
             _springPositionRange = new Vector2(-offset, offset);
         }
 
@@ -50,7 +48,7 @@ namespace DoodleJump.Game.Worlds.Platforms
                 return;
 
             var doodlerPosition = doodler.GameObject.transform.position.x;
-            var doodlerSize = doodler.Size.x * _half;
+            var doodlerSize = doodler.Size.x * Constants.Half;
             var isSpringCollided = doodlerPosition - doodlerSize < _springPosition + _springSize && _springPosition - _springSize < doodlerPosition + doodlerSize;
             _info.SetIsSpringCollided(isSpringCollided);
 

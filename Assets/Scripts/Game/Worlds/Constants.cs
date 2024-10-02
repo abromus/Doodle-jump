@@ -13,5 +13,7 @@
 
         internal const float ActiveSpeed = 1f;
         internal const float PauseSpeed = 0f;
+
+        internal const float Half = 0.5f;
     }
 }

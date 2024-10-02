@@ -1,7 +1,5 @@
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
-using DoodleJump.Game.Services;
-using DoodleJump.Game.Settings;
 using DoodleJump.Game.Worlds.Entities;
 using UnityEngine;
 
@@ -15,44 +13,41 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private Transform _projectilesContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
 
-        private IGameData _gameData;
-        private IWorldData _worldData;
-        private WorldArgs _args;
-        private IEventSystemService _eventSystemService;
-        private IScreenSystemService _screenSystemService;
-        private IAudioService _audioService;
-        private IDoodler _doodler;
+        private IUpdater _updater;
         private ICameraService _cameraService;
-        private ICameraConfig _cameraConfig;
-        private IPersistentDataStorage _persistentDataStorage;
+        private IDoodler _doodler;
+        private IWorldInitializer _worldInitializer;
+        private IWorldData _worldData;
         private IDoodlerChecker _doodlerChecker;
         private IGenerator _generator;
         private IBackgroundChecker _backgroundChecker;
-        private Rect _screenRect;
+        private ICameraFollower _cameraFollower;
 
         public void Init(IGameData gameData, WorldArgs args)
         {
-            _gameData = gameData;
-            _args = args;
-            _eventSystemService = args.EventSystemService;
-            _screenSystemService = args.ScreenSystemService;
-            _audioService = args.AudioService;
-            _doodler = _args.Doodler;
-            _cameraService = _args.CameraService;
-            _cameraConfig = args.CameraConfig;
-            _persistentDataStorage = _args.PersistentDataStorage;
+            _updater = args.Updater;
+            _cameraService = args.CameraService;
+            _doodler = args.Doodler;
 
-            var doodlerTransform = _doodler.GameObject.transform;
-            var cameraTransform = _cameraService.Camera.transform;
+            var worldInitializerArgs = new WorldInitializerArgs(gameData, args, transform, _platformsContainer, _enemiesContainer, _boostersContainer, _projectilesContainer, _backgrounds, _doodler);
 
-            InitWorldData();
-            InitDoodler(doodlerTransform);
-            InitUi();
-            InitTriggerFactories();
-            InitDoodlerChecker(doodlerTransform, cameraTransform);
-            InitGenerator();
-            InitBackgroundChecker(cameraTransform);
+            _worldInitializer = new WorldInitializer(in worldInitializerArgs);
+            _worldData = _worldInitializer.WorldData;
+            _doodlerChecker = _worldInitializer.DoodlerChecker;
+            _generator = _worldInitializer.Generator;
+            _backgroundChecker = _worldInitializer.BackgroundChecker;
+            _cameraFollower = _worldInitializer.CameraFollower;
+
             Subscribe();
+        }
+
+        public void Restart()
+        {
+            _cameraFollower.Restart();
+            _doodler.Restart();
+            _generator.Restart();
+            _doodlerChecker.Restart();
+            _backgroundChecker.Restart();
         }
 
         public void Tick(float deltaTime)
@@ -62,6 +57,11 @@ namespace DoodleJump.Game.Worlds
             _backgroundChecker.Tick();
         }
 
+        public void LateTick(float deltaTime)
+        {
+            _cameraFollower.LateTick(deltaTime);
+        }
+
         public void Destroy()
         {
             Unsubscribe();
@@ -69,93 +69,25 @@ namespace DoodleJump.Game.Worlds
             _cameraService?.Detach();
         }
 
-        private void InitWorldData()
-        {
-            _worldData = new WorldData();
-        }
-
-        private void InitDoodler(Transform doodlerTransform)
-        {
-            doodlerTransform.SetParent(transform);
-            doodlerTransform.localPosition = Vector3.zero;
-
-            _doodler.SetProjectileContainer(_projectilesContainer);
-        }
-
-        private void InitUi()
-        {
-            InitCamera();
-
-            _eventSystemService.AddTo(gameObject.scene);
-            _screenSystemService.AttachTo(transform);
-            _screenSystemService.Init(_gameData, _worldData);
-
-            _screenRect = _cameraService.GetScreenRect();
-
-            _audioService.PlayBackground(BackgroundType.World);
-        }
-
-        private void InitTriggerFactories()
-        {
-            _args.PlatformTriggerFactory.Init(_doodler);
-            _args.EnemyTriggerFactory.Init(_doodler, _worldData);
-            _args.BoosterTriggerFactory.Init(_persistentDataStorage, _doodler);
-        }
-
-        private void InitDoodlerChecker(Transform doodlerTransform, Transform cameraTransform)
-        {
-            _doodlerChecker = new DoodlerChecker(_worldData, _persistentDataStorage, doodlerTransform, _doodler.Size.x, cameraTransform, _screenRect);
-        }
-
-        private void InitBackgroundChecker(Transform cameraTransform)
-        {
-            _backgroundChecker = new BackgroundChecker(cameraTransform, _screenRect, _backgrounds);
-        }
-
-        private void InitGenerator()
-        {
-            _generator = new Generator(_gameData, _args, _screenRect, _platformsContainer, _enemiesContainer, _boostersContainer);
-        }
-
-        private void InitCamera()
-        {
-            _cameraService.AttachTo(transform);
-
-            ResetCamera();
-        }
-
-        private void RestartGame()
-        {
-            ResetCamera();
-
-            _doodler.Restart();
-            _generator.Restart();
-            _doodlerChecker.Restart();
-            _backgroundChecker.Restart();
-        }
-
-        private void ResetCamera()
-        {
-            var cameraTransform = _cameraService.Camera.transform;
-            cameraTransform.localScale = Vector3.one;
-            cameraTransform.position = _cameraConfig.Offset;
-        }
-
         private void Subscribe()
         {
-            _args.Updater.AddUpdatable(this);
+            _updater.AddUpdatable(this);
+            _updater.AddLateUpdatable(this);
+
             _worldData.GameOver += OnGameOver;
         }
 
         private void Unsubscribe()
         {
-            _args.Updater.RemoveUpdatable(this);
+            _updater.RemoveUpdatable(this);
+            _updater.RemoveLateUpdatable(this);
+
             _worldData.GameOver -= OnGameOver;
         }
 
         private void OnGameOver()
         {
-            RestartGame();
+            Restart();
         }
     }
 }
