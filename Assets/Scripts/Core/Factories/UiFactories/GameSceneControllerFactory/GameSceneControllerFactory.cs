@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace DoodleJump.Core.Factories
 {
-    internal sealed class GameSceneControllerFactory : UiFactory, IGameSceneControllerFactory
+    internal sealed class GameSceneControllerFactory : BaseUiFactory, IGameSceneControllerFactory
     {
-        [SerializeField] private SceneController _gameSceneControllerPrefab;
+        [SerializeField] private BaseSceneController _gameSceneControllerPrefab;
 
         public override UiFactoryType UiFactoryType => UiFactoryType.GameSceneControllerFactory;
 
-        public SceneController Create()
+        public BaseSceneController Create()
         {
             var gameController = Instantiate(_gameSceneControllerPrefab);
             gameController.gameObject.RemoveCloneSuffix();

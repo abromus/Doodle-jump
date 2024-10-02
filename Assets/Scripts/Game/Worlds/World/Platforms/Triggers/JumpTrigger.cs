@@ -9,17 +9,19 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
-        public JumpTrigger(IDoodler doodler, float jumpForce)
+        internal JumpTrigger(IDoodler doodler, float jumpForce)
         {
             _doodler = doodler;
             _jumpForce = jumpForce;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public readonly void Execute()
         {
             _doodler.Jump(_jumpForce);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateInfo(IPlatformCollisionInfo info) { }
     }
 }

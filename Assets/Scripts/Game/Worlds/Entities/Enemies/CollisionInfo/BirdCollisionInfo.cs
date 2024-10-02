@@ -6,7 +6,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public IEnemy Enemy => _enemy;
 
-        public BirdCollisionInfo(IEnemy enemy)
+        internal BirdCollisionInfo(IEnemy enemy)
         {
             _enemy = enemy;
         }

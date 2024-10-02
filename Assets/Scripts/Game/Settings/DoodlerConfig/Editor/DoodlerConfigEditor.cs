@@ -2,7 +2,7 @@
 {
 #if UNITY_EDITOR
     [UnityEditor.CustomEditor(typeof(DoodlerConfig))]
-    public class DoodlerConfigEditor : UnityEditor.Editor
+    internal sealed class DoodlerConfigEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

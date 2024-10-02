@@ -2,7 +2,7 @@ using DoodleJump.Core;
 
 namespace DoodleJump.Game.Factories
 {
-    internal sealed class WorldFactory : Core.Factories.UiFactory, IWorldFactory
+    internal sealed class WorldFactory : Core.Factories.BaseUiFactory, IWorldFactory
     {
         [UnityEngine.SerializeField] private Worlds.World _world;
 

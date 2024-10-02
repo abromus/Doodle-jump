@@ -14,7 +14,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IDoodlerMovement _movement;
         private readonly IDoodlerInput _doodlerInput;
 
-        public DoodlerAnimator(Transform doodler, Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
+        internal DoodlerAnimator(Transform doodler, Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
         {
             _doodler = doodler;
             _animator = animator;
@@ -41,6 +41,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _animator.speed = _isPaused ? Constants.PauseSpeed : Constants.ActiveSpeed;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void SetGrounded(bool isCollided)
         {
             ChangeTrigger(AnimationKeys.TriggerKeys.Collided, isCollided);

@@ -21,11 +21,13 @@ namespace DoodleJump.Game.Services
             _updater.AddPausable(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void LateTick(float deltaTime)
         {
             Save();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetPause(bool isPaused)
         {
             Save();
@@ -41,6 +43,7 @@ namespace DoodleJump.Game.Services
             _updater.RemovePausable(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Save()
         {
             _persistentDataStorage.Save();

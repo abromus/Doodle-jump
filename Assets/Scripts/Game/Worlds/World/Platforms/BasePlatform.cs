@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal abstract class Platform : MonoBehaviour, IPlatform
+    internal abstract class BasePlatform : MonoBehaviour, IPlatform
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _platformSize;
@@ -77,6 +77,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             return xMin <= xMax && yMin <= yMax;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Clear()
         {
             gameObject.SetActive(false);

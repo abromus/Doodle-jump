@@ -6,7 +6,7 @@
 
         public IEnemy Enemy => _enemy;
 
-        public InkBlotCollisionInfo(IEnemy enemy)
+        internal InkBlotCollisionInfo(IEnemy enemy)
         {
             _enemy = enemy;
         }

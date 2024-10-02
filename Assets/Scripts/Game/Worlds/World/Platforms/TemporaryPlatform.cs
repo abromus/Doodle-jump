@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class TemporaryPlatform : Platform, IUpdatable
+    internal sealed class TemporaryPlatform : BasePlatform, IUpdatable
     {
         private bool _initialized;
         private bool _triggered;
@@ -60,6 +60,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             Destroy();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);
@@ -98,11 +99,13 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info.UpdateTime(_existenceTime);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Subscribe()
         {
             _updater.AddUpdatable(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Unsubscribe()
         {
             _updater.RemoveUpdatable(this);

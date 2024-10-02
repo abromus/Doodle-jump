@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class InkBlot : Enemy
+    internal sealed class InkBlot : BaseEnemy
     {
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
@@ -30,6 +30,7 @@ namespace DoodleJump.Game.Worlds.Entities
             base.InitPosition(position);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         protected override IEnemyCollisionInfo GetCollisionInfo()
         {
             return _info;

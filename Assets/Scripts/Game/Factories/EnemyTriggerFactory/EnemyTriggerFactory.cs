@@ -30,6 +30,7 @@ namespace DoodleJump.Game.Factories
             return null;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Destroy() { }
 
         private IEnemyTrigger CreateDestroyTrigger(IEnemy enemy)

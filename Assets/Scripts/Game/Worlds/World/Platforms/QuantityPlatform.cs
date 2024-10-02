@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class QuantityPlatform : Platform
+    internal sealed class QuantityPlatform : BasePlatform
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
@@ -36,6 +36,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             UpdateColor(_maxAlpha);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);

@@ -9,7 +9,7 @@
 
         public Settings.IBoosterConfig Config => _config;
 
-        public JumpCollisionInfo(IWorldBooster worldBooster, Settings.IJumpBoosterConfig config)
+        internal JumpCollisionInfo(IWorldBooster worldBooster, Settings.IJumpBoosterConfig config)
         {
             _worldBooster = worldBooster;
             _config = config;

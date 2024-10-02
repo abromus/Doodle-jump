@@ -2,7 +2,7 @@
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class ShotsBooster : Boosters.Booster
+    internal sealed class ShotsBooster : Boosters.BaseBooster
     {
         private Settings.IShotBoosterConfig _config;
         private Data.IPlayerData _playerData;
@@ -26,16 +26,19 @@ namespace DoodleJump.Game.Worlds.Entities
             Executed.SafeInvoke(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Hide();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Show()
         {
             SpriteRenderer.enabled = true;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Hide()
         {
             SpriteRenderer.enabled = false;

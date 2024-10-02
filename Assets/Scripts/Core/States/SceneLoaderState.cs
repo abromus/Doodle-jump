@@ -11,11 +11,13 @@ namespace DoodleJump.Core.States
             _sceneLoader = sceneLoader;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Enter(SceneInfo sceneInfo)
         {
             _sceneLoader.Load(sceneInfo);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Exit() { }
     }
 }

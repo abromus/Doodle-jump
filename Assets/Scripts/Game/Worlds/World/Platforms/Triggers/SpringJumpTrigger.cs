@@ -11,7 +11,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
-        public SpringJumpTrigger(IPlatformCollisionInfo info, IDoodler doodler, float jumpForce, float springJumpForce)
+        internal SpringJumpTrigger(IPlatformCollisionInfo info, IDoodler doodler, float jumpForce, float springJumpForce)
         {
             _doodler = doodler;
             _jumpForce = jumpForce;
@@ -19,6 +19,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             _isSpringCollided = (info as SpringJumpPlatformCollisionInfo).IsSpringCollided;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public readonly void Execute()
         {
             _doodler.Jump(_isSpringCollided ? _springJumpForce : _jumpForce);

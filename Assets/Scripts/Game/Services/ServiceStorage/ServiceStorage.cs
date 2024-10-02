@@ -47,6 +47,7 @@ namespace DoodleJump.Game.Services
                 _services.Add(type, service);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public TService GetService<TService>() where TService : class, IService
         {
             return _services[typeof(TService)] as TService;
@@ -64,7 +65,7 @@ namespace DoodleJump.Game.Services
         private IAudioService InitAudioService(IUpdater updater, IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var audioServicePrefab = uiServices.GetAudioService();
-            var audioServiceObject = InstantiateUiService(audioServicePrefab as UiService, container);
+            var audioServiceObject = InstantiateUiService(audioServicePrefab as BaseUiService, container);
             var audioService = audioServiceObject as IAudioService;
             audioService.Init(updater);
 
@@ -82,13 +83,13 @@ namespace DoodleJump.Game.Services
         private IScreenSystemService InitScreenSystemService(IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var screenSystemServicePrefab = uiServices.GetScreenSystemService();
-            var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as UiService, container);
+            var screenSystemServiceObject = InstantiateUiService(screenSystemServicePrefab as BaseUiService, container);
             var screenSystemService = screenSystemServiceObject as IScreenSystemService;
 
             return screenSystemService;
         }
 
-        private UiService InstantiateUiService(UiService uiServicePrefab, Transform container)
+        private BaseUiService InstantiateUiService(BaseUiService uiServicePrefab, Transform container)
         {
             var uiService = UnityEngine.Object.Instantiate(uiServicePrefab, container);
             uiService.gameObject.RemoveCloneSuffix();

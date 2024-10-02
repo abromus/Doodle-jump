@@ -6,7 +6,7 @@ namespace DoodleJump.Game.Settings
     {
         public string Title { get; }
 
-        public Enemy EnemyPrefab { get; }
+        public BaseEnemy EnemyPrefab { get; }
 
         public EnemyTriggerType TriggerType { get; }
     }

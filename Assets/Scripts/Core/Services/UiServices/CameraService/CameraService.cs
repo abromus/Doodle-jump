@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DoodleJump.Core.Services
 {
-    internal sealed class CameraService : UiService, ICameraService
+    internal sealed class CameraService : BaseUiService, ICameraService
     {
         [SerializeField] private Camera _cameraPrefab;
 

@@ -6,30 +6,29 @@ namespace DoodleJump.Game.Settings
     [System.Serializable]
     internal struct ShieldWorldBoosterConfig : IWorldBoosterConfig
     {
-        [SerializeField] private WorldBooster _worldBoosterPrefab;
+        [SerializeField] private BaseWorldBooster _worldBoosterPrefab;
         [SerializeField] private float _spawnChance;
         [SerializeField] private BoosterTriggerType _triggerType;
 
         public readonly string Title => "Конфиг щита";
 
-        public readonly WorldBooster WorldBoosterPrefab => _worldBoosterPrefab;
+        public readonly BaseWorldBooster WorldBoosterPrefab => _worldBoosterPrefab;
 
         public readonly float SpawnChance => _spawnChance;
 
         public readonly BoosterTriggerType TriggerType => _triggerType;
 
 #if UNITY_EDITOR
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void ChangeSpawnChance(float factor)
         {
             _spawnChance *= factor;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetSpawnChance(float chance)
         {
             _spawnChance = chance;
-
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
         }
 #endif
     }

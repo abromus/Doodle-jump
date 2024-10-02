@@ -10,12 +10,13 @@
 
         public float ExistenceTime => _existenceTime;
 
-        public TemporaryPlatformCollisionInfo(IPlatform platform, float existenceTime)
+        internal TemporaryPlatformCollisionInfo(IPlatform platform, float existenceTime)
         {
             _platform = platform;
             _existenceTime = existenceTime;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateTime(float existenceTime)
         {
             _existenceTime = existenceTime;

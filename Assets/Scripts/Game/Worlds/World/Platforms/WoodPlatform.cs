@@ -3,7 +3,7 @@ using DoodleJump.Core;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class WoodPlatform : Platform
+    internal sealed class WoodPlatform : BasePlatform
     {
         private IPlatformCollisionInfo _info;
 
@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public override event Action<IPlatform> Destroyed;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);

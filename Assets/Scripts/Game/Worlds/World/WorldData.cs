@@ -7,6 +7,7 @@ namespace DoodleJump.Game.Worlds
     {
         public event Action GameOver;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Restart()
         {
             GameOver.SafeInvoke();

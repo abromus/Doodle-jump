@@ -27,16 +27,19 @@ namespace DoodleJump.Game.Worlds.Entities
             _jump.Jumped += OnJumped;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Jump(float height)
         {
             _jump.Do(height);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick(float deltaTime)
         {
             _velocity.Tick();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void FixedTick(float deltaTime)
         {
             _velocity.FixedTick(deltaTime);

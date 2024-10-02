@@ -24,11 +24,13 @@ namespace DoodleJump.Game.Worlds
             InitBackgrounds();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick()
         {
             CheckDoodlerPosition();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Restart()
         {
             ResetPositions();

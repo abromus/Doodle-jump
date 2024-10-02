@@ -24,11 +24,13 @@ namespace DoodleJump.Game.Worlds.Entities
             _inputService = inputService;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick(float deltaTime)
         {
             CheckInput();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetPause(bool isPaused)
         {
             _isPaused = isPaused;

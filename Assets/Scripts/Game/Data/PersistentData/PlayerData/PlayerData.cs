@@ -31,7 +31,7 @@ namespace DoodleJump.Game.Data
 
         public event System.Action<Worlds.Boosters.BoosterType> BoosterUsed;
 
-        public PlayerData(Settings.IDoodlerConfig doodlerConfig)
+        internal PlayerData(Settings.IDoodlerConfig doodlerConfig)
         {
             _doodlerConfig = doodlerConfig;
             _connection = new Mono.Data.Sqlite.SqliteConnection($"URI=file:{UnityEngine.Application.persistentDataPath}/PlayerData.db");
@@ -68,31 +68,37 @@ namespace DoodleJump.Game.Data
             _connection.Close();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetCurrentScore(int score)
         {
             _simpleDataStorage.SetCurrentScore(score);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetCurrentShots(int shots)
         {
             _simpleDataStorage.SetCurrentShots(shots);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetMaxShots(int shots)
         {
             _simpleDataStorage.SetMaxShots(shots);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info, int count)
         {
             _complexDataStorage.AddBooster(info, count);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void RemoveBooster(Worlds.Boosters.BoosterType boosterType, int count = 1)
         {
             _complexDataStorage.UseBooster(boosterType, count);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UseBooster(Worlds.Boosters.BoosterType boosterType, int count = 1)
         {
             BoosterUsed.SafeInvoke(boosterType);
@@ -102,6 +108,7 @@ namespace DoodleJump.Game.Data
         {
             _simpleDataStorage.ScoreChanged += OnScoreChanged;
             _simpleDataStorage.ShotsChanged += OnShotsChanged;
+            _simpleDataStorage.MaxShotsChanged += OnMaxShotsChanged;
             _complexDataStorage.BoosterChanged += OnBoosterChanged;
         }
 
@@ -109,6 +116,7 @@ namespace DoodleJump.Game.Data
         {
             _simpleDataStorage.ScoreChanged -= OnScoreChanged;
             _simpleDataStorage.ShotsChanged -= OnShotsChanged;
+            _simpleDataStorage.MaxShotsChanged -= OnMaxShotsChanged;
             _complexDataStorage.BoosterChanged -= OnBoosterChanged;
         }
 

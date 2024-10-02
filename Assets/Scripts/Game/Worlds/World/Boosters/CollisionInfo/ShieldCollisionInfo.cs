@@ -9,7 +9,7 @@ namespace DoodleJump.Game.Worlds.Boosters
 
         public Settings.IBoosterConfig Config => _config;
 
-        public ShieldCollisionInfo(IWorldBooster worldBooster, Settings.IShieldBoosterConfig config)
+        internal ShieldCollisionInfo(IWorldBooster worldBooster, Settings.IShieldBoosterConfig config)
         {
             _worldBooster = worldBooster;
             _config = config;

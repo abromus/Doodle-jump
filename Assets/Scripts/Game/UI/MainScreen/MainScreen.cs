@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace DoodleJump.Game.UI
 {
-    internal sealed class MainScreen : ScreenBase
+    internal sealed class MainScreen : BaseScreen
     {
         [Separator(CustomColor.Lime)]
         [SerializeField] private Button _buttonPause;

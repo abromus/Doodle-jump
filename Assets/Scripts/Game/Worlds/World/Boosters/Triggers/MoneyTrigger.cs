@@ -8,7 +8,7 @@
 
         public readonly BoosterTriggerType TriggerType => BoosterTriggerType.Money;
 
-        public MoneyTrigger(Data.IPlayerData playerData, IBoosterCollisionInfo info)
+        internal MoneyTrigger(Data.IPlayerData playerData, IBoosterCollisionInfo info)
         {
             _playerData = playerData;
             _info = info;
@@ -21,6 +21,7 @@
             _info.WorldBooster.Destroy();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateInfo(IBoosterCollisionInfo info) { }
     }
 }

@@ -6,7 +6,7 @@ namespace DoodleJump.Game.Settings
     {
         public string Title { get; }
 
-        public WorldBooster WorldBoosterPrefab { get; }
+        public BaseWorldBooster WorldBoosterPrefab { get; }
 
         public BoosterTriggerType TriggerType { get; }
     }

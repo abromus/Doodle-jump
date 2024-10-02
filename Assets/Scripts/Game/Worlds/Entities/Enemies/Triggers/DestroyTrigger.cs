@@ -7,7 +7,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public readonly EnemyTriggerType TriggerType => EnemyTriggerType.Destroy;
 
-        public DestroyTrigger(IWorldData worldData, IEnemy enemy)
+        internal DestroyTrigger(IWorldData worldData, IEnemy enemy)
         {
             _worldData = worldData;
             _enemy = enemy;
@@ -19,6 +19,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _worldData.Restart();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateInfo(IEnemyCollisionInfo info) { }
     }
 }

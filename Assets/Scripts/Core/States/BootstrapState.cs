@@ -21,6 +21,7 @@ namespace DoodleJump.Core.States
             _stateMachine.Enter<SceneLoaderState, SceneInfo>(coreSceneInfo);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Exit() { }
 
         private void OnSceneLoad()

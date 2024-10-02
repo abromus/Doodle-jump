@@ -13,11 +13,13 @@ namespace DoodleJump.Core.Factories
             return null;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         internal static IGameSceneControllerFactory GetGameSceneControllerFactory(this IFactoryStorage factoryStorage)
         {
             return factoryStorage.GetFactory<IGameSceneControllerFactory>();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         internal static IGameSceneControllerFactory GetGameSceneControllerFactory(this IReadOnlyList<IUiFactory> uiFactories)
         {
             return uiFactories.GetFactory<IGameSceneControllerFactory>(UiFactoryType.GameSceneControllerFactory);

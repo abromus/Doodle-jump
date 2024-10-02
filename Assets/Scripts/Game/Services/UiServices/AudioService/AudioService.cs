@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Services
 {
-    internal sealed class AudioService : UiService, IAudioService
+    internal sealed class AudioService : BaseUiService, IAudioService
     {
         [SerializeField] private AudioSource _backgroundMusic;
         [SerializeField] private AudioSource _oneShotSounds;
@@ -273,11 +273,13 @@ namespace DoodleJump.Game.Services
             return null;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Subscribe()
         {
             _updater.AddPausable(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Unsubscribe()
         {
             _updater.RemovePausable(this);

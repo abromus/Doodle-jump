@@ -33,6 +33,7 @@ namespace DoodleJump.Core.Settings
                 _configs.Add(type, config);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public TConfig GetConfig<TConfig>() where TConfig : class, IConfig
         {
             return _configs[typeof(TConfig)] as TConfig;

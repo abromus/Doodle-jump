@@ -10,12 +10,13 @@
 
         public int Quantity => _quantity;
 
-        public QuantityPlatformCollisionInfo(IPlatform platform, int quantity)
+        internal QuantityPlatformCollisionInfo(IPlatform platform, int quantity)
         {
             _platform = platform;
             _quantity = quantity;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateQuantity(int quantity)
         {
             _quantity = quantity;

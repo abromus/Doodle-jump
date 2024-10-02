@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Factories
 {
-    internal sealed class DoodlerFactory : UiFactory, IDoodlerFactory
+    internal sealed class DoodlerFactory : BaseUiFactory, IDoodlerFactory
     {
         [SerializeField] private Doodler _doodler;
 
@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Factories
 
         public override UiFactoryType UiFactoryType => UiFactoryType.DoodlerFactory;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Init(DoodlerArgs args)
         {
             _args = args;

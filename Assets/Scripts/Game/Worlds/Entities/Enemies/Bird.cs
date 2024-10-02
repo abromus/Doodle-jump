@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class Bird : Enemy
+    internal sealed class Bird : BaseEnemy
     {
         [SerializeField] private float _xOffset;
         [SerializeField] private float _minSpeed;
@@ -25,6 +25,7 @@ namespace DoodleJump.Game.Worlds.Entities
             SetLocalScale(_direction);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Tick(float deltaTime)
         {
             Move(deltaTime);
@@ -37,6 +38,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _isPaused = isPaused;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         protected override IEnemyCollisionInfo GetCollisionInfo()
         {
             return _info;

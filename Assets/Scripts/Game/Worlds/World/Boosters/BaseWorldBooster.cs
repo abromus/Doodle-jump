@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal abstract class WorldBooster : MonoBehaviour, IWorldBooster
+    internal abstract class BaseWorldBooster : MonoBehaviour, IWorldBooster
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;

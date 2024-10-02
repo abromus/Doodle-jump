@@ -4,7 +4,7 @@ using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal sealed class JetpackWorldBooster : WorldBooster
+    internal sealed class JetpackWorldBooster : BaseWorldBooster
     {
         private IBoosterCollisionInfo _info;
         private IJetpackBoosterConfig _config;

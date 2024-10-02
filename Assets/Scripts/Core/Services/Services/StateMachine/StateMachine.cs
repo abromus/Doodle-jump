@@ -50,6 +50,7 @@ namespace DoodleJump.Core.Services
             return state;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private TState GetState<TState>() where TState : class, IState
         {
             return _states[typeof(TState)] as TState;

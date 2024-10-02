@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class EarthPlatform : Platform
+    internal sealed class EarthPlatform : BasePlatform
     {
         private IPlatformCollisionInfo _info;
 
@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         public override event Action<IPlatform> Destroyed;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);

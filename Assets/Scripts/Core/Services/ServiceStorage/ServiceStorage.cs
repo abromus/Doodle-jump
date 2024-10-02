@@ -91,7 +91,7 @@ namespace DoodleJump.Core.Services
         private ICameraService InitCameraService(IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var cameraServicePrefab = uiServices.GetCameraService();
-            var cameraServiceObject = InstantiateUiService(cameraServicePrefab as UiService, container);
+            var cameraServiceObject = InstantiateUiService(cameraServicePrefab as BaseUiService, container);
 
             var cameraService = cameraServiceObject as ICameraService;
             cameraService.Init(container);
@@ -102,12 +102,12 @@ namespace DoodleJump.Core.Services
         private IEventSystemService InitEventSystemService(IReadOnlyList<IUiService> uiServices, Transform container)
         {
             var eventSystemServicePrefab = uiServices.GetEventSystemService();
-            var eventSystemService = InstantiateUiService(eventSystemServicePrefab as UiService, container);
+            var eventSystemService = InstantiateUiService(eventSystemServicePrefab as BaseUiService, container);
 
             return eventSystemService as IEventSystemService;
         }
 
-        private UiService InstantiateUiService(UiService uiServicePrefab, Transform container)
+        private BaseUiService InstantiateUiService(BaseUiService uiServicePrefab, Transform container)
         {
             var uiService = UnityEngine.Object.Instantiate(uiServicePrefab, container);
             uiService.gameObject.RemoveCloneSuffix();

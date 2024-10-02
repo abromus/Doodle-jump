@@ -40,6 +40,7 @@ namespace DoodleJump.Game.Worlds.Entities
             UpdateCurrentShoots();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetProjectileContainer(Transform projectilesContainer)
         {
             _projectilesContainer = projectilesContainer;
@@ -58,11 +59,13 @@ namespace DoodleJump.Game.Worlds.Entities
             _projectiles.Clear();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick(float deltaTime)
         {
             TryShoot();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetPause(bool isPaused)
         {
             _isPaused = isPaused;
@@ -120,6 +123,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _projectiles.Add(projectile);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void UpdateShots(int currentShots)
         {
             _playerData.SetCurrentShots(currentShots);

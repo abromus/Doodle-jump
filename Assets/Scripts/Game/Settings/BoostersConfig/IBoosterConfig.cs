@@ -6,6 +6,6 @@
 
         public Worlds.Boosters.BoosterType BoosterType { get; }
 
-        public Worlds.Entities.Boosters.Booster BoosterPrefab { get; }
+        public Worlds.Entities.Boosters.BaseBooster BoosterPrefab { get; }
     }
 }

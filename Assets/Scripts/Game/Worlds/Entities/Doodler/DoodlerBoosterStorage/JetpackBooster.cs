@@ -2,7 +2,7 @@
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal sealed class JetpackBooster : Boosters.Booster, Core.Services.IUpdatable, Core.Services.IPausable
+    internal sealed class JetpackBooster : Boosters.BaseBooster, Core.Services.IUpdatable, Core.Services.IPausable
     {
         private Settings.IJetpackBoosterConfig _config;
         private Core.Services.IUpdater _updater;
@@ -53,16 +53,19 @@ namespace DoodleJump.Game.Worlds.Entities
             CheckTime();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetPause(bool isPaused)
         {
             _isPaused = isPaused;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Show()
         {
             SpriteRenderer.enabled = true;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Hide()
         {
             SpriteRenderer.enabled = false;

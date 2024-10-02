@@ -4,7 +4,7 @@ using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal sealed class ShotWorldBooster : WorldBooster
+    internal sealed class ShotWorldBooster : BaseWorldBooster
     {
         private IBoosterCollisionInfo _info;
         private IShotBoosterConfig _config;

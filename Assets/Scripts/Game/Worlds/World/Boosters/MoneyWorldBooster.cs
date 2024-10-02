@@ -4,7 +4,7 @@ using DoodleJump.Game.Settings;
 
 namespace DoodleJump.Game.Worlds.Boosters
 {
-    internal sealed class MoneyWorldBooster : WorldBooster
+    internal sealed class MoneyWorldBooster : BaseWorldBooster
     {
         private IBoosterCollisionInfo _info;
         private IMoneyBoosterConfig _config;

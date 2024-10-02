@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class EarthSpringPlatform : Platform
+    internal sealed class EarthSpringPlatform : BasePlatform
     {
         [SerializeField] private Transform _spring;
         [SerializeField] private float _springSize;
@@ -29,6 +29,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             UpdateSpringPosition();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);

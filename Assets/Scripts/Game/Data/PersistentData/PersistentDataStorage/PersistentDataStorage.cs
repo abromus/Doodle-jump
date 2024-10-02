@@ -7,7 +7,7 @@ namespace DoodleJump.Game.Data
     {
         private readonly Dictionary<Type, IPersistentData> _data;
 
-        public PersistentDataStorage(Settings.IDoodlerConfig doodlerConfig)
+        internal PersistentDataStorage(Settings.IDoodlerConfig doodlerConfig)
         {
             var playerData = new PlayerData(doodlerConfig) as IPlayerData;
 
@@ -35,6 +35,7 @@ namespace DoodleJump.Game.Data
                 data.Dispose();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public TData GetData<TData>() where TData : class, IPersistentData
         {
             return _data[typeof(TData)] as TData;

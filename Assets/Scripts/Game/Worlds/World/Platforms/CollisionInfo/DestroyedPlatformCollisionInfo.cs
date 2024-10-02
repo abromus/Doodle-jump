@@ -6,7 +6,7 @@
 
         public IPlatform Platform => _platform;
 
-        public DestroyedPlatformCollisionInfo(IPlatform platform)
+        internal DestroyedPlatformCollisionInfo(IPlatform platform)
         {
             _platform = platform;
         }

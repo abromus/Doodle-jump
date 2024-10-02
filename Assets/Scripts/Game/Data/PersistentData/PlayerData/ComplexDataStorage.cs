@@ -21,7 +21,7 @@ namespace DoodleJump.Game.Data
 
         public event System.Action<Worlds.Boosters.BoosterType, int> BoosterChanged;
 
-        public ComplexDataStorage(SqliteConnection connection)
+        internal ComplexDataStorage(SqliteConnection connection)
         {
             _connection = connection;
 
@@ -203,7 +203,7 @@ namespace DoodleJump.Game.Data
             public readonly ComplexInfo Info;
             public readonly SqliteCommand Command;
 
-            public SaveableInfo(ComplexInfo info, SqliteCommand command)
+            internal SaveableInfo(ComplexInfo info, SqliteCommand command)
             {
                 Info = info;
                 Command = command;

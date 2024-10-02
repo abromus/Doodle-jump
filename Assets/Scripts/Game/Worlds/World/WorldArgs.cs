@@ -23,31 +23,31 @@ namespace DoodleJump.Game.Worlds
         private readonly IGeneratorConfig _generatorConfig;
         private readonly IPersistentDataStorage _persistentDataStorage;
 
-        internal IUpdater Updater => _updater;
+        internal readonly IUpdater Updater => _updater;
 
-        internal ICameraService CameraService => _cameraService;
+        internal readonly ICameraService CameraService => _cameraService;
 
-        internal IEventSystemService EventSystemService => _eventSystemService;
+        internal readonly IEventSystemService EventSystemService => _eventSystemService;
 
-        internal IScreenSystemService ScreenSystemService => _screenSystemService;
+        internal readonly IScreenSystemService ScreenSystemService => _screenSystemService;
 
-        internal IAudioService AudioService => _audioService;
+        internal readonly IAudioService AudioService => _audioService;
 
-        internal IWorldFactory WorldFactory => _worldFactory;
+        internal readonly IWorldFactory WorldFactory => _worldFactory;
 
-        internal IPlatformTriggerFactory PlatformTriggerFactory => _platformTriggerFactory;
+        internal readonly IPlatformTriggerFactory PlatformTriggerFactory => _platformTriggerFactory;
 
-        internal IEnemyTriggerFactory EnemyTriggerFactory => _enemyTriggerFactory;
+        internal readonly IEnemyTriggerFactory EnemyTriggerFactory => _enemyTriggerFactory;
 
-        internal IBoosterTriggerFactory BoosterTriggerFactory => _boosterTriggerFactory;
+        internal readonly IBoosterTriggerFactory BoosterTriggerFactory => _boosterTriggerFactory;
 
-        internal IDoodler Doodler => _doodler;
+        internal readonly IDoodler Doodler => _doodler;
 
-        internal ICameraConfig CameraConfig => _cameraConfig;
+        internal readonly ICameraConfig CameraConfig => _cameraConfig;
 
-        internal IGeneratorConfig GeneratorConfig => _generatorConfig;
+        internal readonly IGeneratorConfig GeneratorConfig => _generatorConfig;
 
-        internal IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
+        internal readonly IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
 
         internal WorldArgs(
             IUpdater updater,

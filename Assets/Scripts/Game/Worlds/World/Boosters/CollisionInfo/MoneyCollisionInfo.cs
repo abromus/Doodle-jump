@@ -9,7 +9,7 @@
 
         public Settings.IBoosterConfig Config => _config;
 
-        public MoneyCollisionInfo(IWorldBooster worldBooster, Settings.IMoneyBoosterConfig config)
+        internal MoneyCollisionInfo(IWorldBooster worldBooster, Settings.IMoneyBoosterConfig config)
         {
             _worldBooster = worldBooster;
             _config = config;

@@ -1,6 +1,6 @@
 ﻿namespace DoodleJump.Game.Worlds.Entities.Boosters
 {
-    internal abstract class Booster : UnityEngine.MonoBehaviour, IBooster
+    internal abstract class BaseBooster : UnityEngine.MonoBehaviour, IBooster
     {
         [UnityEngine.SerializeField] private UnityEngine.SpriteRenderer _spriteRenderer;
         [UnityEngine.SerializeField] private Worlds.Boosters.BoosterType _boosterType;

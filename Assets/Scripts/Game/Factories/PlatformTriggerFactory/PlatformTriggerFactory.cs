@@ -7,6 +7,7 @@ namespace DoodleJump.Game.Factories
     {
         private Worlds.Entities.IDoodler _doodler;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Init(Worlds.Entities.IDoodler doodler)
         {
             _doodler = doodler;
@@ -35,6 +36,7 @@ namespace DoodleJump.Game.Factories
             return null;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Destroy() { }
 
         private IPlatformTrigger CreateJumpTrigger(IPlatformConfig platformConfig)

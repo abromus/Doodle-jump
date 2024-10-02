@@ -19,16 +19,19 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerInput = args.DoodlerInput;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick()
         {
             CheckInput();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void FixedTick(float deltaTime)
         {
             Move(deltaTime);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void CheckInput()
         {
             _direction = _doodlerInput.MoveDirection;

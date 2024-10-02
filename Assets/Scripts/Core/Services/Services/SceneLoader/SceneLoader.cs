@@ -5,11 +5,13 @@ namespace DoodleJump.Core.Services
 {
     internal sealed class SceneLoader : ISceneLoader
     {
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Load(SceneInfo sceneInfo)
         {
             LoadScene(sceneInfo);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Destroy() { }
 
         private async void LoadScene(SceneInfo sceneInfo)

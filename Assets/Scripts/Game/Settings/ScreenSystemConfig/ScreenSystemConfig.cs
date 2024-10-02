@@ -3,7 +3,7 @@ using UnityEngine;
 namespace DoodleJump.Game.Settings
 {
     [CreateAssetMenu(fileName = nameof(ScreenSystemConfig), menuName = ConfigKeys.GamePathKey + nameof(ScreenSystemConfig))]
-    internal class ScreenSystemConfig : ScriptableObject, IScreenSystemConfig
+    internal sealed class ScreenSystemConfig : ScriptableObject, IScreenSystemConfig
     {
         [SerializeField] private MainScreenConfig _mainScreenConfig;
 

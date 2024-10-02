@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace DoodleJump.Core.Services
 {
-    internal sealed class EventSystemService : UiService, IEventSystemService
+    internal sealed class EventSystemService : BaseUiService, IEventSystemService
     {
         [SerializeField] private EventSystem _eventSystemPrefab;
 
@@ -25,11 +25,13 @@ namespace DoodleJump.Core.Services
             return true;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Detach(Scene scene)
         {
             _eventSystems.Remove(scene);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public EventSystem Get(Scene scene)
         {
             return _eventSystems.ContainsKey(scene) ? _eventSystems[scene] : null;

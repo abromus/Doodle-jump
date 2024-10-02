@@ -17,21 +17,21 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IBoostersConfig _boostersConfig;
         private readonly IPlayerData _playerData;
 
-        internal IUpdater Updater => _updater;
+        internal readonly IUpdater Updater => _updater;
 
-        internal IAudioService AudioService => _audioService;
+        internal readonly IAudioService AudioService => _audioService;
 
-        internal IInputService InputService => _inputService;
+        internal readonly IInputService InputService => _inputService;
 
-        internal ICameraService CameraService => _cameraService;
+        internal readonly ICameraService CameraService => _cameraService;
 
-        internal IBoosterFactory BoosterFactory => _boosterFactory;
+        internal readonly IBoosterFactory BoosterFactory => _boosterFactory;
 
-        internal IDoodlerConfig DoodlerConfig => _doodlerConfig;
+        internal readonly IDoodlerConfig DoodlerConfig => _doodlerConfig;
 
-        internal IBoostersConfig BoostersConfig => _boostersConfig;
+        internal readonly IBoostersConfig BoostersConfig => _boostersConfig;
 
-        internal IPlayerData PlayerData => _playerData;
+        internal readonly IPlayerData PlayerData => _playerData;
 
         internal DoodlerArgs(
             IUpdater updater,

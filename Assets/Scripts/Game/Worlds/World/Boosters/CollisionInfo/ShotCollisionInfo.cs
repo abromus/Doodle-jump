@@ -9,7 +9,7 @@
 
         public Settings.IBoosterConfig Config => _config;
 
-        public ShotCollisionInfo(IWorldBooster worldBooster, Settings.IShotBoosterConfig config)
+        internal ShotCollisionInfo(IWorldBooster worldBooster, Settings.IShotBoosterConfig config)
         {
             _worldBooster = worldBooster;
             _config = config;

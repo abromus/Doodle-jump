@@ -44,6 +44,7 @@ namespace DoodleJump.Game.UI
             _button.onClick.RemoveListener(OnClicked);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void UpdateCountView()
         {
             _countText.text = _count.ToString();

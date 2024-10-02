@@ -3,7 +3,12 @@ using UnityEngine;
 namespace DoodleJump.Game.Settings
 {
     [CreateAssetMenu(fileName = nameof(DoodlerConfig), menuName = ConfigKeys.GamePathKey + nameof(DoodlerConfig))]
+
+#if UNITY_EDITOR
     public sealed class DoodlerConfig : ScriptableObject, IDoodlerConfig
+#else
+    internal sealed class DoodlerConfig : ScriptableObject, IDoodlerConfig
+#endif
     {
         [SerializeField] private float _movementVelocity = 7.5f;
         [SerializeField] private int _maxShots = 120;
@@ -19,21 +24,25 @@ namespace DoodleJump.Game.Settings
         public float MaxAngle => _maxAngle;
 
 #if UNITY_EDITOR
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetMovementVelocity(float movementVelocity)
         {
             _movementVelocity = movementVelocity;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetMaxShots(int maxShots)
         {
             _maxShots = maxShots;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetShootingMode(Worlds.Entities.ShootingMode shootingMode)
         {
             _shootingMode = shootingMode;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetMaxAngle(float maxAngle)
         {
             _maxAngle = maxAngle;

@@ -38,6 +38,7 @@ namespace DoodleJump.Game.Factories
                 _factories.Add(type, factory);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public TFactory GetFactory<TFactory>() where TFactory : class, IFactory
         {
             return _factories[typeof(TFactory)] as TFactory;

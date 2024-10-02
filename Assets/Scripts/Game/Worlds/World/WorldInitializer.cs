@@ -25,7 +25,7 @@ namespace DoodleJump.Game.Worlds
 
         public ICameraFollower CameraFollower => _cameraFollower;
 
-        public WorldInitializer(in WorldInitializerArgs args)
+        internal WorldInitializer(in WorldInitializerArgs args)
         {
             var gameData = args.GameData;
             var worldArgs = args.WorldArgs;

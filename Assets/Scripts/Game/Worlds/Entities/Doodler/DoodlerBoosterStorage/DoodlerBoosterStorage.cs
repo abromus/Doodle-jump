@@ -15,11 +15,13 @@
             _playerData.BoosterUsed += OnBoosterUsed;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Add(Worlds.Boosters.IBoosterCollisionInfo info, int count = 1)
         {
             _playerData.AddBooster(info, count);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public bool Has(Worlds.Boosters.BoosterType boosterType)
         {
             return _doodlerBoosterExecutor.Has(boosterType);
@@ -32,6 +34,7 @@
             _doodlerBoosterExecutor.Destroy();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private bool Use(Worlds.Boosters.BoosterType boosterType)
         {
             return _doodlerBoosterExecutor.Execute(boosterType);

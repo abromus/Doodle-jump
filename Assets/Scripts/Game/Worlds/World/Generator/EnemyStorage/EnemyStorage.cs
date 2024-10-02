@@ -40,7 +40,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
-        public EnemyStorage(IGameData gameData, WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
+        internal EnemyStorage(IGameData gameData, WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -159,7 +159,7 @@ namespace DoodleJump.Game.Worlds
             return enemy;
         }
 
-        private Enemy GetEnemyPrefab()
+        private BaseEnemy GetEnemyPrefab()
         {
             var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
@@ -217,7 +217,7 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
-        private void GenerateEnemy(Enemy enemyPrefab)
+        private void GenerateEnemy(BaseEnemy enemyPrefab)
         {
             var enemy = _pools[enemyPrefab.Id].Get();
             enemy.InitPosition(_currentEnemyPosition);

@@ -57,6 +57,7 @@ namespace DoodleJump.Game.Worlds
             _backgroundChecker.Tick();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void LateTick(float deltaTime)
         {
             _cameraFollower.LateTick(deltaTime);

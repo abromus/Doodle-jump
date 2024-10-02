@@ -22,6 +22,7 @@ namespace DoodleJump.Core
             EnterInitState();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         internal void Destroy()
         {
             _coreData.Destroy();
@@ -62,6 +63,7 @@ namespace DoodleJump.Core
             Destroy();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void EnterInitState()
         {
             _coreData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();

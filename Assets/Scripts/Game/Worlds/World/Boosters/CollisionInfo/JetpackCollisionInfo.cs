@@ -9,7 +9,7 @@
 
         public Settings.IBoosterConfig Config => _config;
 
-        public JetpackCollisionInfo(IWorldBooster worldBooster, Settings.IJetpackBoosterConfig config)
+        internal JetpackCollisionInfo(IWorldBooster worldBooster, Settings.IJetpackBoosterConfig config)
         {
             _worldBooster = worldBooster;
             _config = config;

@@ -7,7 +7,7 @@ namespace DoodleJump.Game.Worlds.Boosters
 
         public readonly BoosterTriggerType TriggerType => BoosterTriggerType.Collectable;
 
-        public CollectableTrigger(Entities.IDoodler doodler, IBoosterCollisionInfo info)
+        internal CollectableTrigger(Entities.IDoodler doodler, IBoosterCollisionInfo info)
         {
             _doodler = doodler;
             _info = info;
@@ -19,6 +19,7 @@ namespace DoodleJump.Game.Worlds.Boosters
             _info.WorldBooster.Destroy();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void UpdateInfo(IBoosterCollisionInfo info) { }
     }
 }

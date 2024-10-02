@@ -10,13 +10,13 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IDoodlerInput _doodlerInput;
         private readonly IDoodlerConfig _doodlerConfig;
 
-        internal Transform Transform => _transform;
+        internal readonly Transform Transform => _transform;
 
-        internal Rigidbody2D Rigidbody => _rigidbody;
+        internal readonly Rigidbody2D Rigidbody => _rigidbody;
 
-        internal IDoodlerInput DoodlerInput => _doodlerInput;
+        internal readonly IDoodlerInput DoodlerInput => _doodlerInput;
 
-        internal IDoodlerConfig DoodlerConfig => _doodlerConfig;
+        internal readonly IDoodlerConfig DoodlerConfig => _doodlerConfig;
 
         internal DoodlerMovementArgs(
             Transform transform,

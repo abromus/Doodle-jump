@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace DoodleJump.Game.UI
 {
-    internal sealed class SettingsScreen : ScreenBase, IPausable
+    internal sealed class SettingsScreen : BaseScreen, IPausable
     {
         [Core.Separator(Core.CustomColor.Lime)]
         [SerializeField] private Button _buttonClose;
@@ -116,11 +116,13 @@ namespace DoodleJump.Game.UI
             _sliderXSensitivity.onValueChanged.RemoveListener(OnXSensitivityChanged);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void SubscribeUpdater()
         {
             _updater?.AddPausable(this);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void UnsubscribeUpdater()
         {
             _updater?.RemovePausable(this);

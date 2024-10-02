@@ -10,19 +10,19 @@
         private readonly IDoodler _doodler;
         private readonly UnityEngine.Rigidbody2D _rigidbody;
 
-        internal Core.Services.IUpdater Updater => _updater;
+        internal readonly Core.Services.IUpdater Updater => _updater;
 
-        internal Factories.IBoosterFactory BoosterFactory => _boosterFactory;
+        internal readonly Factories.IBoosterFactory BoosterFactory => _boosterFactory;
 
-        internal Data.IPlayerData PlayerData => _playerData;
+        internal readonly Data.IPlayerData PlayerData => _playerData;
 
-        internal Settings.IBoostersConfig BoostersConfig => _boostersConfig;
+        internal readonly Settings.IBoostersConfig BoostersConfig => _boostersConfig;
 
-        internal UnityEngine.Transform BoosterContainer => _boosterContainer;
+        internal readonly UnityEngine.Transform BoosterContainer => _boosterContainer;
 
-        internal IDoodler Doodler => _doodler;
+        internal readonly IDoodler Doodler => _doodler;
 
-        internal UnityEngine.Rigidbody2D Rigidbody => _rigidbody;
+        internal readonly UnityEngine.Rigidbody2D Rigidbody => _rigidbody;
 
         internal DoodlerBoosterStorageArgs(
             Core.Services.IUpdater updater,

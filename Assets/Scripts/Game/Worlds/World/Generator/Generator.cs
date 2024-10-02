@@ -58,6 +58,7 @@ namespace DoodleJump.Game.Worlds
             _boosterStorage.GenerateBoosters();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick()
         {
             CheckDoodlerPosition();

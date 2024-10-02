@@ -34,11 +34,13 @@ namespace DoodleJump.Core
             return value;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Release(T pooledObject)
         {
             _objects.Add(pooledObject);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
             _objects.Clear();

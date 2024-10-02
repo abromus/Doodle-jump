@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal sealed class IcePlatform : Platform, IUpdatable, IPausable
+    internal sealed class IcePlatform : BasePlatform, IUpdatable, IPausable
     {
         [SerializeField] private float _xOffset;
         [SerializeField] private float _minSpeed;
@@ -48,16 +48,19 @@ namespace DoodleJump.Game.Worlds.Platforms
             Subscribe();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick(float deltaTime)
         {
             Move(deltaTime);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetPause(bool isPaused)
         {
             _isPaused = isPaused;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             Destroyed.SafeInvoke(this);

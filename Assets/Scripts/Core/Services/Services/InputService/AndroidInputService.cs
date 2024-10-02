@@ -21,6 +21,7 @@ namespace DoodleJump.Core.Services
             InitAccelerometer();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public float GetHorizontalAxis()
         {
             return _isAccelerometerEnabled ? Input.acceleration.x : _zero;
@@ -37,11 +38,13 @@ namespace DoodleJump.Core.Services
             return direction;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetXSensitivity(float xSensitivity)
         {
             _xSensitivity = xSensitivity;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Destroy() { }
 
         private void InitAccelerometer()

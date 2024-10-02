@@ -36,21 +36,25 @@ namespace DoodleJump.Game.Worlds.Entities
             Subscribe();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Jump(float height)
         {
             _movement.Jump(height);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void AddBooster(Worlds.Boosters.IBoosterCollisionInfo info)
         {
             _boosterStorage.Add(info);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public bool HasBooster(Worlds.Boosters.BoosterType boosterType)
         {
             return _boosterStorage.Has(boosterType);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetProjectileContainer(Transform projectilesContainer)
         {
             _shooting.SetProjectileContainer(projectilesContainer);

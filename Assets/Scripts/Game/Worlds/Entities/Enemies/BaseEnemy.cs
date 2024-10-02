@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal abstract class Enemy : MonoBehaviour, IEnemy
+    internal abstract class BaseEnemy : MonoBehaviour, IEnemy
     {
         [SerializeField] private int _id;
         [SerializeField] private Vector2 _size;

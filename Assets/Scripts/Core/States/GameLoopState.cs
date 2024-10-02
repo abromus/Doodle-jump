@@ -21,6 +21,7 @@ namespace DoodleJump.Core.States
             gameSceneController.Run(_coreData);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Exit() { }
     }
 }

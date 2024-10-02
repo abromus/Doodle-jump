@@ -6,7 +6,7 @@ namespace DoodleJump.Game.Settings
     {
         public string Title { get; }
 
-        public Platform PlatformPrefab { get; }
+        public BasePlatform PlatformPrefab { get; }
 
         public PlatformTriggerType TriggerType { get; }
     }

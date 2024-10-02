@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Services
 {
-    internal sealed class ScreenSystemService : UiService, IScreenSystemService
+    internal sealed class ScreenSystemService : BaseUiService, IScreenSystemService
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private RectTransform _screenContainer;
@@ -18,7 +18,7 @@ namespace DoodleJump.Game.Services
         private IWorldData _worldData;
         private IScreenSystemConfig _config;
 
-        private readonly Dictionary<ScreenType, ScreenBase> _screens = new(8);
+        private readonly Dictionary<ScreenType, BaseScreen> _screens = new(8);
 
         public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
 
@@ -71,6 +71,7 @@ namespace DoodleJump.Game.Services
                 _screens[screenType].Hide();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void AttachTo(Transform parent)
         {
             transform.SetParent(parent);

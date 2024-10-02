@@ -6,7 +6,7 @@
 
         public IEnemy Enemy => _enemy;
 
-        public FlyingSaucerCollisionInfo(IEnemy enemy)
+        internal FlyingSaucerCollisionInfo(IEnemy enemy)
         {
             _enemy = enemy;
         }

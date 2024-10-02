@@ -43,7 +43,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IBoosterCollisionInfo> Collided;
 
-        public BoosterStorage(IGameData gameData, WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
+        internal BoosterStorage(IGameData gameData, WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -171,7 +171,7 @@ namespace DoodleJump.Game.Worlds
             return booster;
         }
 
-        private WorldBooster GetWorldBoosterPrefab()
+        private BaseWorldBooster GetWorldBoosterPrefab()
         {
             var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
@@ -220,7 +220,7 @@ namespace DoodleJump.Game.Worlds
             _currentBoosterPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
         }
 
-        private IWorldBooster GenerateWorldBooster(WorldBooster worldBoosterPrefab)
+        private IWorldBooster GenerateWorldBooster(BaseWorldBooster worldBoosterPrefab)
         {
             var worldBooster = _pools[worldBoosterPrefab.Id].Get();
             worldBooster.InitPosition(_currentBoosterPosition);

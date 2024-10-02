@@ -218,18 +218,21 @@ namespace DoodleJump.Game.Settings
         }
 
         [Core.Button]
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void NormalizePlatformSpawnChances()
         {
             NormalizeSpawnChances(_platformConfigs);
         }
 
         [Core.Button]
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void NormalizeEnemySpawnChances()
         {
             NormalizeSpawnChances(_enemyConfigs);
         }
 
         [Core.Button]
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void NormalizeBoosterSpawnChances()
         {
             NormalizeSpawnChances(_worldBoosterConfigs);

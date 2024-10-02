@@ -15,7 +15,7 @@ namespace DoodleJump.Core.Services
 
         internal readonly LoadSceneMode Mode => _mode;
 
-        internal bool IsLoadAsync => _isLoadAsync;
+        internal readonly bool IsLoadAsync => _isLoadAsync;
 
         internal readonly bool IsActive => _isActive;
 

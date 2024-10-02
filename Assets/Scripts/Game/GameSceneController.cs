@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game
 {
-    internal sealed class GameSceneController : SceneController
+    internal sealed class GameSceneController : BaseSceneController
     {
         [SerializeField] private ConfigStorage _configStorage;
         [SerializeField] private Transform _uiServicesContainer;
@@ -18,6 +18,7 @@ namespace DoodleJump.Game
             _game.Run();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
         {
             _game.Destroy();

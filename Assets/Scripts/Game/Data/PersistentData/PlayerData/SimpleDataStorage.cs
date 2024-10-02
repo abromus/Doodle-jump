@@ -27,7 +27,7 @@ namespace DoodleJump.Game.Data
 
         public event System.Action<int, int> MaxShotsChanged;
 
-        public SimpleDataStorage(SqliteConnection connection)
+        internal SimpleDataStorage(SqliteConnection connection)
         {
             _connection = connection;
 
@@ -272,10 +272,10 @@ namespace DoodleJump.Game.Data
         [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
         private readonly struct SaveableInfo
         {
-            public readonly SimpleInfo Info;
-            public readonly SqliteCommand Command;
+            internal readonly SimpleInfo Info;
+            internal readonly SqliteCommand Command;
 
-            public SaveableInfo(SimpleInfo info, SqliteCommand command)
+            internal SaveableInfo(SimpleInfo info, SqliteCommand command)
             {
                 Info = info;
                 Command = command;

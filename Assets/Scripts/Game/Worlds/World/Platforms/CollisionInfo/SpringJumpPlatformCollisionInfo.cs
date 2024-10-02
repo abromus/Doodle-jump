@@ -10,11 +10,12 @@
 
         public bool IsSpringCollided => _isSpringCollided;
 
-        public SpringJumpPlatformCollisionInfo(IPlatform platform)
+        internal SpringJumpPlatformCollisionInfo(IPlatform platform)
         {
             _platform = platform;
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void SetIsSpringCollided(bool isSpringCollided)
         {
             _isSpringCollided = isSpringCollided;

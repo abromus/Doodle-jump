@@ -37,7 +37,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IPlatformCollisionInfo> Collided;
 
-        public PlatformStorage(IGameData gameData, WorldArgs args, Transform platformsContainer, Rect screenRect)
+        internal PlatformStorage(IGameData gameData, WorldArgs args, Transform platformsContainer, Rect screenRect)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -157,7 +157,7 @@ namespace DoodleJump.Game.Worlds
             return platform;
         }
 
-        private void GetPlatformPrefab(out IPlatformConfig platformConfig, out Platform platform)
+        private void GetPlatformPrefab(out IPlatformConfig platformConfig, out BasePlatform platform)
         {
             var index = ProbableUtils.GetConfigIndex(_probables, _spawnChanceFactor);
 
@@ -208,7 +208,7 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
-        private void GeneratePlatform(IPlatformConfig platformConfig, Platform platformPrefab)
+        private void GeneratePlatform(IPlatformConfig platformConfig, BasePlatform platformPrefab)
         {
             var platform = _pools[platformPrefab.Id].Get();
             platform.InitConfig(platformConfig);
