@@ -12,6 +12,9 @@ namespace DoodleJump.Game.Worlds
         [SerializeField] private Transform _boostersContainer;
         [SerializeField] private Transform _projectilesContainer;
         [SerializeField] private SpriteRenderer[] _backgrounds;
+        [Core.Separator(Core.CustomColor.Lime)]
+        [SerializeField] private float _animationDelay;
+        [SerializeField] private float _animationDuration;
 
         private IUpdater _updater;
         private ICameraService _cameraService;
@@ -23,13 +26,17 @@ namespace DoodleJump.Game.Worlds
         private IBackgroundChecker _backgroundChecker;
         private ICameraFollower _cameraFollower;
 
-        public void Init(IGameData gameData, WorldArgs args)
+        private bool _canUpdate;
+
+        public IWorldData WorldData => _worldData;
+
+        public void Init(IGameData gameData, in WorldArgs args)
         {
             _updater = args.Updater;
             _cameraService = args.CameraService;
             _doodler = args.Doodler;
 
-            var worldInitializerArgs = new WorldInitializerArgs(gameData, args, transform, _platformsContainer, _enemiesContainer, _boostersContainer, _projectilesContainer, _backgrounds, _doodler);
+            var worldInitializerArgs = new WorldInitializerArgs(gameData, in args, transform, _platformsContainer, _enemiesContainer, _boostersContainer, _projectilesContainer, _backgrounds, _animationDelay, _animationDuration, _doodler);
 
             _worldInitializer = new WorldInitializer(in worldInitializerArgs);
             _worldData = _worldInitializer.WorldData;
@@ -41,8 +48,17 @@ namespace DoodleJump.Game.Worlds
             Subscribe();
         }
 
+        public void GameOver(GameOverType type)
+        {
+            _canUpdate = false;
+
+            _cameraFollower.GameOver(type);
+            _doodler.GameOver(type);
+        }
+
         public void Restart()
         {
+            _canUpdate = true;
             _cameraFollower.Restart();
             _doodler.Restart();
             _generator.Restart();
@@ -52,6 +68,9 @@ namespace DoodleJump.Game.Worlds
 
         public void Tick(float deltaTime)
         {
+            if (_canUpdate == false)
+                return;
+
             _doodlerChecker.Tick();
             _generator.Tick();
             _backgroundChecker.Tick();
@@ -74,21 +93,12 @@ namespace DoodleJump.Game.Worlds
         {
             _updater.AddUpdatable(this);
             _updater.AddLateUpdatable(this);
-
-            _worldData.GameOver += OnGameOver;
         }
 
         private void Unsubscribe()
         {
             _updater.RemoveUpdatable(this);
             _updater.RemoveLateUpdatable(this);
-
-            _worldData.GameOver -= OnGameOver;
-        }
-
-        private void OnGameOver()
-        {
-            Restart();
         }
     }
 }

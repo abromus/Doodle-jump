@@ -7,6 +7,7 @@ namespace DoodleJump.Game.Worlds
 {
     internal sealed class Generator : IGenerator
     {
+        private readonly Transform _cameraTransform;
         private readonly Transform _doodlerTransform;
         private readonly Rect _screenRect;
         private readonly IPlatformStorage _platformStorage;
@@ -18,7 +19,7 @@ namespace DoodleJump.Game.Worlds
 
         internal Generator(
             Data.IGameData gameData,
-            WorldArgs args,
+            in WorldArgs args,
             Rect screenRect,
             Transform platformsContainer,
             Transform enemiesContainer,
@@ -26,18 +27,19 @@ namespace DoodleJump.Game.Worlds
         {
             _screenRect = screenRect;
 
+            _cameraTransform = args.CameraService.Camera.transform;
             _doodlerTransform = args.Doodler.GameObject.transform;
 
             var boosterTriggerFactory = args.BoosterTriggerFactory;
 
-            _platformStorage = new PlatformStorage(gameData, args, platformsContainer, _screenRect);
+            _platformStorage = new PlatformStorage(gameData, in args, platformsContainer, _screenRect);
             _platformStorage.Collided += OnPlatformCollided;
 
-            _enemyStorage = new EnemyStorage(gameData, args, enemiesContainer, _screenRect, boosterTriggerFactory);
+            _enemyStorage = new EnemyStorage(gameData, in args, enemiesContainer, _screenRect, boosterTriggerFactory);
             _enemyStorage.Collided += OnEnemyCollided;
             _enemyStorage.BoosterDropped += OnEnemyBoosterDropped;
 
-            _boosterStorage = new BoosterStorage(gameData, args, boostersContainer, _screenRect, _platformStorage);
+            _boosterStorage = new BoosterStorage(gameData, in args, boostersContainer, _screenRect, _platformStorage);
             _boosterStorage.Collided += OnBoosterCollided;
 
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);
@@ -80,21 +82,27 @@ namespace DoodleJump.Game.Worlds
         private void CheckDoodlerPosition()
         {
             var doodlerPosition = _doodlerTransform.position.y;
-            var screenHeight = _screenRect.height;
+            var halfScreenHeight = _screenRect.height * Constants.Half;
+            var cameraPosition = _cameraTransform.position.y;
 
-            if (doodlerPosition + screenHeight < _platformStorage.HighestPlatformY)
+            if (doodlerPosition < cameraPosition)
                 return;
 
-            ClearPlatforms(doodlerPosition, screenHeight);
-            ClearEnemies(doodlerPosition, screenHeight);
-            ClearBoosters(doodlerPosition, screenHeight);
+            var minPosition = cameraPosition - halfScreenHeight;
+
+            ClearPlatforms(minPosition);
+            ClearEnemies(minPosition);
+            ClearBoosters(minPosition);
+
+            if (doodlerPosition + _screenRect.height < _platformStorage.HighestPlatformY)
+                return;
 
             _platformStorage.GeneratePlatforms();
             _enemyStorage.GenerateEnemies();
             _boosterStorage.GenerateBoosters();
         }
 
-        private void ClearPlatforms(float doodlerPosition, float screenHeight)
+        private void ClearPlatforms(float minPosition)
         {
             var platforms = _platformStorage.Platforms;
             var count = platforms.Count;
@@ -103,12 +111,12 @@ namespace DoodleJump.Game.Worlds
             {
                 var platform = platforms[i];
 
-                if (platform.Position.y < doodlerPosition - screenHeight)
+                if (platform.Position.y < minPosition)
                     _platformStorage.DestroyPlatform(platform);
             }
         }
 
-        private void ClearEnemies(float doodlerPosition, float screenHeight)
+        private void ClearEnemies(float minPosition)
         {
             var enemies = _enemyStorage.Enemies;
             var count = enemies.Count;
@@ -117,12 +125,12 @@ namespace DoodleJump.Game.Worlds
             {
                 var enemy = enemies[i];
 
-                if (enemy.Position.y < doodlerPosition - screenHeight)
+                if (enemy.Position.y < minPosition)
                     _enemyStorage.DestroyEnemy(enemy);
             }
         }
 
-        private void ClearBoosters(float doodlerPosition, float screenHeight)
+        private void ClearBoosters(float minPosition)
         {
             var boosters = _boosterStorage.WorldBoosters;
             var count = boosters.Count;
@@ -131,7 +139,7 @@ namespace DoodleJump.Game.Worlds
             {
                 var booster = boosters[i];
 
-                if (booster.Position.y < doodlerPosition - screenHeight)
+                if (booster.Position.y < minPosition)
                     _boosterStorage.DestroyBooster(booster);
             }
         }

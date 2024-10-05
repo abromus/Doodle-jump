@@ -28,13 +28,14 @@ namespace DoodleJump.Game.UI
         [SerializeField] private Slider _shotsSlider;
         [SerializeField] private Color _positiveColor;
         [SerializeField] private Color _negativeColor;
+        [Separator(CustomColor.Elsie)]
+        [SerializeField] private BoosterViewInfo[] _boosterViewInfos;
 
         private IPlayerData _playerData;
         private IScreenSystemService _screenSystemService;
         private IUpdater _updater;
         private IInputService _inputService;
         private IAudioService _audioService;
-        private IMainScreenConfig _config;
         private IObjectPool<TMP_Text> _diffShotsPool;
         private bool _initialized;
 
@@ -56,7 +57,6 @@ namespace DoodleJump.Game.UI
             _updater = coreServiceStorage.GetUpdater();
             _inputService = coreServiceStorage.GetInputService();
             _audioService = gameServiceStorage.GetAudioService();
-            _config = screenSystemService.Config.MainScreenConfig;
 
             InitAudioService(audioConfig);
             InitInputService(inputConfig);
@@ -110,7 +110,7 @@ namespace DoodleJump.Game.UI
 
         private void InitPools()
         {
-            var boosterViewInfos = _config.BoosterViewInfos;
+            var boosterViewInfos = _boosterViewInfos;
 
             foreach (var boosterViewInfo in boosterViewInfos)
             {
@@ -163,8 +163,8 @@ namespace DoodleJump.Game.UI
             _diffShots.Add(diffShots);
 
             DOTween.Sequence()
-                .Append(diffShots.transform.DOLocalMove(defaultLocalPosition + offset, _diffShotsDuration)
-                .OnKill(HideDiffShots));
+                .Append(diffShots.transform.DOLocalMove(defaultLocalPosition + offset, _diffShotsDuration))
+                .OnKill(HideDiffShots);
 
             void HideDiffShots()
             {

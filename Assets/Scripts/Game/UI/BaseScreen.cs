@@ -1,5 +1,4 @@
-﻿using DoodleJump.Game.Services;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace DoodleJump.Game.UI
 {
@@ -10,7 +9,9 @@ namespace DoodleJump.Game.UI
 
         public ScreenType ScreenType => _screenType;
 
-        public abstract void Init(Data.IGameData gameData, Worlds.IWorldData worldData, IScreenSystemService screenSystemService);
+        public abstract void Init(Data.IGameData gameData, Worlds.IWorldData worldData, Services.IScreenSystemService screenSystemService);
+
+        public virtual void SetArgs(Services.IScreenArgs args) { }
 
         public virtual void Show()
         {

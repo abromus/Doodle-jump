@@ -45,11 +45,5 @@ namespace DoodleJump.Game.Settings
         {
             return configStorage.GetConfig<IGeneratorConfig>();
         }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        internal static IScreenSystemConfig GetScreenSystemConfig(this IConfigStorage configStorage)
-        {
-            return configStorage.GetConfig<IScreenSystemConfig>();
-        }
     }
 }

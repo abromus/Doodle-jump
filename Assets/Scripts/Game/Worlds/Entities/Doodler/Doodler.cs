@@ -12,10 +12,13 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private Vector2 _size;
         [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private Transform _boosterContainer;
+        [Separator(CustomColor.Lime)]
+        [SerializeField] private float _parabolaMoveDuration;
+        [SerializeField] private float _parabolaHeight;
+        [SerializeField] private float _downMoveDuration;
 
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
-        private ICameraService _cameraService;
         private IDoodlerMovement _movement;
         private IDoodlerShooting _shooting;
         private IDoodlerAnimator _animator;
@@ -27,12 +30,11 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event System.Action Jumped;
 
-        public void Init(DoodlerArgs args)
+        public void Init(in DoodlerArgs args)
         {
             _updater = args.Updater;
-            _cameraService = args.CameraService;
 
-            InitServices(args);
+            InitServices(in args);
             Subscribe();
         }
 
@@ -60,6 +62,25 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting.SetProjectileContainer(projectilesContainer);
         }
 
+        public void GameOver(GameOverType type)
+        {
+            _movement.GameOver(type);
+
+            _updater.RemoveUpdatable(this);
+        }
+
+        public void Restart()
+        {
+            _updater.AddUpdatable(this);
+
+            _rigidbody.velocity = Vector3.zero;
+
+            transform.position = Vector3.zero;
+
+            _shooting.Restart();
+            _movement.Restart();
+        }
+
         public void Tick(float deltaTime)
         {
             _doodlerInput.Tick(deltaTime);
@@ -81,15 +102,6 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting.SetPause(isPaused);
         }
 
-        public void Restart()
-        {
-            _rigidbody.velocity = Vector3.zero;
-
-            transform.position = Vector3.zero;
-
-            _shooting.Restart();
-        }
-
         public void Destroy()
         {
             Unsubscribe();
@@ -98,17 +110,18 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting.Destroy();
         }
 
-        private void InitServices(DoodlerArgs args)
+        private void InitServices(in DoodlerArgs args)
         {
             var inputService = args.InputService;
+            var cameraService = args.CameraService;
             var doodlerConfig = args.DoodlerConfig;
-            var camera = _cameraService.Camera;
             var playerData = args.PlayerData;
 
             _doodlerInput = new DoodlerInput(inputService);
 
-            var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, doodlerConfig);
-            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, args.CameraService, args.Updater, playerData, doodlerConfig, _projectilePrefab);
+            var doodlerMovementAnimationArgs = new DoodlerMovementAnimationArgs(_parabolaMoveDuration, _parabolaHeight, _downMoveDuration);
+            var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, cameraService, doodlerConfig, in doodlerMovementAnimationArgs);
+            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, cameraService, args.Updater, playerData, doodlerConfig, _projectilePrefab);
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(in doodlerShootingArgs);

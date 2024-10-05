@@ -105,7 +105,7 @@ namespace DoodleJump.Game.Factories
                 playerData);
 
             var factory = uiFactories.GetDoodlerFactory();
-            factory.Init(args);
+            factory.Init(in args);
 
             return factory;
         }
@@ -168,7 +168,7 @@ namespace DoodleJump.Game.Factories
                 cameraConfig,
                 generatorConfig,
                 persistentDataStorage);
-            factory.Init(args);
+            factory.Init(in args);
 
             return factory;
         }

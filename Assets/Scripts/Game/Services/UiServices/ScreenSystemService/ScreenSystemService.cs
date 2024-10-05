@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using DoodleJump.Core.Services;
 using DoodleJump.Game.Data;
-using DoodleJump.Game.Settings;
 using DoodleJump.Game.UI;
 using DoodleJump.Game.Worlds;
 using UnityEngine;
@@ -16,19 +15,15 @@ namespace DoodleJump.Game.Services
 
         private IGameData _gameData;
         private IWorldData _worldData;
-        private IScreenSystemConfig _config;
 
         private readonly Dictionary<ScreenType, BaseScreen> _screens = new(8);
 
         public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
 
-        public IScreenSystemConfig Config => _config;
-
         public void Init(IGameData gameData, IWorldData worldData)
         {
             _gameData = gameData;
             _worldData = worldData;
-            _config = gameData.ConfigStorage.GetScreenSystemConfig();
 
             var camera = gameData.CoreData.ServiceStorage.GetCameraService().Camera;
 
@@ -39,11 +34,13 @@ namespace DoodleJump.Game.Services
             transform.localScale = Vector3.one;
         }
 
-        public bool ShowScreen(ScreenType screenType)
+        public bool ShowScreen(ScreenType screenType, IScreenArgs args = null)
         {
             if (_screens.ContainsKey(screenType))
             {
-                _screens[screenType].Show();
+                var screen = _screens[screenType];
+                screen.SetArgs(args);
+                screen.Show();
 
                 return true;
             }
@@ -55,6 +52,7 @@ namespace DoodleJump.Game.Services
 
                 var screen = Instantiate(info.ScreenPrefab, _screenContainer);
                 screen.Init(_gameData, _worldData, this);
+                screen.SetArgs(args);
                 screen.Show();
 
                 _screens.Add(screenType, screen);

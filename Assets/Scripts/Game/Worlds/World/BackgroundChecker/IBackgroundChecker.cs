@@ -2,8 +2,8 @@
 {
     internal interface IBackgroundChecker
     {
-        public void Tick();
-
         public void Restart();
+
+        public void Tick();
     }
 }

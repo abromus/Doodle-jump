@@ -407,6 +407,8 @@ MonoBehaviour:
   - {fileID: 6375281117587402468}
   - {fileID: 2370822257101040766}
   - {fileID: 5285152532949906997}
+  _animationDelay: 1
+  _animationDuration: 1.5
 --- !u!1 &7116447387417063498
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ namespace DoodleJump.Game.Factories
 {
     internal interface IWorldFactory : IFactory
     {
-        public void Init(WorldFactoryArgs args);
+        public void Init(in WorldFactoryArgs args);
 
         public IWorld CreateWorld(Worlds.Entities.IDoodler doodler);
 

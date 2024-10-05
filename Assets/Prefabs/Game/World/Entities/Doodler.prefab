@@ -461,6 +461,9 @@ MonoBehaviour:
   _size: {x: 1, y: 2}
   _projectilePrefab: {fileID: 6324605641931914317, guid: 8f4ca65479cc65b4b8e995c9951ba77e, type: 3}
   _boosterContainer: {fileID: 6341831801989256933}
+  _parabolaMoveDuration: 1
+  _parabolaHeight: 3
+  _downMoveDuration: 1.5
 --- !u!50 &3754371822964584456
 Rigidbody2D:
   serializedVersion: 4

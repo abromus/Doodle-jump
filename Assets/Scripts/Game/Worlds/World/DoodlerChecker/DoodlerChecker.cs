@@ -26,16 +26,16 @@ namespace DoodleJump.Game.Worlds
             _offset = _screenRect.height * Constants.Half;
         }
 
-        public void Tick()
-        {
-            CheckDoodlerPosition();
-            UpdateScore();
-        }
-
         public void Restart()
         {
             _maxHeight = 0;
             _playerData.SetCurrentScore(0);
+        }
+
+        public void Tick()
+        {
+            CheckDoodlerPosition();
+            UpdateScore();
         }
 
         private void CheckDoodlerPosition()
@@ -52,7 +52,7 @@ namespace DoodleJump.Game.Worlds
             if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerWidth)
                 return;
 
-            _worldData.Restart();
+            _worldData.GameOver(GameOverType.Falling);
         }
 
         private void UpdateScore()

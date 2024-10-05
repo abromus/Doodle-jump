@@ -6,11 +6,9 @@ namespace DoodleJump.Game.Services
 {
     internal interface IScreenSystemService : IService
     {
-        public Settings.IScreenSystemConfig Config { get; }
-
         public void Init(Data.IGameData gameData, Worlds.IWorldData worldData);
 
-        public bool ShowScreen(ScreenType screenType);
+        public bool ShowScreen(ScreenType screenType, IScreenArgs args = null);
 
         public void HideScreen(ScreenType screenType);
 

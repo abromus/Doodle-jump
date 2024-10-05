@@ -5,7 +5,11 @@ namespace DoodleJump.Game.Worlds
 {
     internal interface IWorld : IDestroyable, IUpdatable, ILateUpdatable
     {
-        public void Init(Data.IGameData gameData, WorldArgs args);
+        public IWorldData WorldData { get; }
+
+        public void Init(Data.IGameData gameData, in WorldArgs args);
+
+        public void GameOver(GameOverType type);
 
         public void Restart();
     }

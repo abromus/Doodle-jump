@@ -8,6 +8,10 @@
 
         public void Jump(float height);
 
+        public void GameOver(GameOverType type);
+
+        public void Restart();
+
         public void Tick(float deltaTime);
 
         public void FixedTick(float deltaTime);

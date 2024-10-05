@@ -43,7 +43,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IBoosterCollisionInfo> Collided;
 
-        internal BoosterStorage(IGameData gameData, WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
+        internal BoosterStorage(IGameData gameData, in WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;

@@ -25,15 +25,15 @@ namespace DoodleJump.Game.Worlds
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Tick()
-        {
-            CheckDoodlerPosition();
-        }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Restart()
         {
             ResetPositions();
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public void Tick()
+        {
+            CheckDoodlerPosition();
         }
 
         private void InitBackgrounds()

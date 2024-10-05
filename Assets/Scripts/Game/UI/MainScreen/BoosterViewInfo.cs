@@ -1,6 +1,4 @@
-﻿using DoodleJump.Game.UI;
-
-namespace DoodleJump.Game.Settings
+﻿namespace DoodleJump.Game.UI
 {
     [System.Serializable]
     public struct BoosterViewInfo

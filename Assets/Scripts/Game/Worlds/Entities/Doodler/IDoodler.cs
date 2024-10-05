@@ -11,7 +11,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event System.Action Jumped;
 
-        public void Init(DoodlerArgs args);
+        public void Init(in DoodlerArgs args);
 
         public void Jump(float height);
 
@@ -20,6 +20,8 @@ namespace DoodleJump.Game.Worlds.Entities
         public bool HasBooster(Worlds.Boosters.BoosterType boosterType);
 
         public void SetProjectileContainer(Transform projectilesContainer);
+
+        public void GameOver(GameOverType type);
 
         public void Restart();
     }

@@ -21,7 +21,7 @@ namespace DoodleJump.Game.Factories
 
         public override Core.Factories.UiFactoryType UiFactoryType => Core.Factories.UiFactoryType.WorldFactory;
 
-        public void Init(Worlds.WorldFactoryArgs args)
+        public void Init(in Worlds.WorldFactoryArgs args)
         {
             _gameData = args.GameData;
             _updater = args.Updater;
@@ -54,7 +54,7 @@ namespace DoodleJump.Game.Factories
                 _generatorConfig,
                 _persistentDataStorage);
             var world = Instantiate(_world);
-            world.Init(_gameData, args);
+            world.Init(_gameData, in args);
             world.gameObject.RemoveCloneSuffix();
 
             return world;

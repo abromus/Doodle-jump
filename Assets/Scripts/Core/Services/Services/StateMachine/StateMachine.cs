@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DoodleJump.Core.Services
 {
-    internal sealed class StateMachine : IStateMachine
+    public sealed class StateMachine : IStateMachine
     {
         private IExitState _currentState;
 
@@ -15,6 +15,18 @@ namespace DoodleJump.Core.Services
             state.Enter();
         }
 
+        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IEnterState<TPayload>
+        {
+            var state = ChangeState<TState>();
+            state.Enter(payload);
+        }
+
+        public void Enter<TState, TPayload1, TPayload2>(TPayload1 payload1, TPayload2 payload2) where TState : class, IEnterState<TPayload1, TPayload2>
+        {
+            var state = ChangeState<TState>();
+            state.Enter(payload1, payload2);
+        }
+
         public void Add<TState>(TState state) where TState : class, IState
         {
             var type = typeof(TState);
@@ -23,12 +35,6 @@ namespace DoodleJump.Core.Services
                 _states[type] = state;
             else
                 _states.Add(type, state);
-        }
-
-        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IEnterState<TPayload>
-        {
-            var state = ChangeState<TState>();
-            state.Enter(payload);
         }
 
         public void Destroy()

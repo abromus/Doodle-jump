@@ -2,8 +2,8 @@
 {
     internal interface IDoodlerChecker
     {
-        public void Tick();
-
         public void Restart();
+
+        public void Tick();
     }
 }

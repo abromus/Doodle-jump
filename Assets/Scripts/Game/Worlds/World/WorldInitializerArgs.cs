@@ -14,6 +14,8 @@ namespace DoodleJump.Game.Worlds
         private readonly Transform _boostersContainer;
         private readonly Transform _projectilesContainer;
         private readonly SpriteRenderer[] _backgrounds;
+        private readonly float _animationDelay;
+        private readonly float _animationDuration;
         private readonly IDoodler _doodler;
 
         internal readonly IGameData GameData => _gameData;
@@ -32,17 +34,23 @@ namespace DoodleJump.Game.Worlds
 
         internal readonly SpriteRenderer[] Backgrounds => _backgrounds;
 
+        internal readonly float AnimationDelay => _animationDelay;
+
+        internal readonly float AnimationDuration => _animationDuration;
+
         internal readonly IDoodler Doodler => _doodler;
 
         internal WorldInitializerArgs(
             IGameData gameData,
-            WorldArgs args,
+            in WorldArgs args,
             Transform worldTransform,
             Transform platformsContainer,
             Transform enemiesContainer,
             Transform boostersContainer,
             Transform projectilesContainer,
             SpriteRenderer[] backgrounds,
+            float animationDelay,
+            float animationDuration,
             IDoodler doodler)
         {
             _gameData = gameData;
@@ -53,6 +61,8 @@ namespace DoodleJump.Game.Worlds
             _boostersContainer = boostersContainer;
             _projectilesContainer = projectilesContainer;
             _backgrounds = backgrounds;
+            _animationDelay = animationDelay;
+            _animationDuration = animationDuration;
             _doodler = doodler;
         }
     }

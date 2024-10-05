@@ -1,17 +1,12 @@
 using DoodleJump.Core.Data;
 using DoodleJump.Game.Data;
-using DoodleJump.Game.Factories;
-using DoodleJump.Game.Services;
-using DoodleJump.Game.Worlds;
-using DoodleJump.Game.Worlds.Entities;
 
 namespace DoodleJump.Game
 {
     internal sealed class Game : IGame
     {
-        private IWorld _world;
-        private IDoodler _doodler;
-        private IScreenSystemService _screenSystemService;
+        private States.GameStateMachineArgs _args;
+        private Core.Services.IStateMachine _gameStateMachine;
 
         private readonly IGameData _gameData;
 
@@ -24,65 +19,28 @@ namespace DoodleJump.Game
 
         public void Run()
         {
-            var factoryStorage = _gameData.FactoryStorage;
+            InitGameStateMachine(_gameData);
 
-            CreateDoodler(factoryStorage);
-            CreateWorld(factoryStorage);
-            ShowMainScreen();
-            StartGame();
+            _gameStateMachine.Enter<States.GameInitializationState, States.GameStateMachineArgs>(_args);
         }
 
         public void Destroy()
         {
-            HideMainScreen();
-            DestroyWorld();
-            DestroyDoodler();
+            _gameStateMachine.Enter<States.GameDestructionState, States.GameStateMachineArgs>(_args);
 
             _gameData.Destroy();
         }
 
-        private void CreateWorld(Core.Factories.IFactoryStorage factoryStorage)
+        private void InitGameStateMachine(IGameData gameData)
         {
-            var factory = factoryStorage.GetWorldFactory();
+            _args = new();
+            _gameStateMachine = new Core.Services.StateMachine();
 
-            _world = factory.CreateWorld(_doodler);
-        }
-
-        private void CreateDoodler(Core.Factories.IFactoryStorage factoryStorage)
-        {
-            var factory = factoryStorage.GetDoodlerFactory();
-
-            _doodler = factory.Create();
-        }
-
-        private void ShowMainScreen()
-        {
-            _screenSystemService = _gameData.ServiceStorage.GetScreenSystemService();
-            _screenSystemService.ShowScreen(UI.ScreenType.Main);
-        }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private void StartGame()
-        {
-            _world.Restart();
-        }
-
-        private void DestroyWorld()
-        {
-            _world?.Destroy();
-            _world = null;
-        }
-
-        private void DestroyDoodler()
-        {
-            _doodler?.Destroy();
-            _doodler = null;
-        }
-
-        private void HideMainScreen()
-        {
-            _screenSystemService?.HideScreen(UI.ScreenType.Main);
-            _screenSystemService = null;
+            _gameStateMachine.Add(new States.GameInitializationState(gameData, _gameStateMachine));
+            _gameStateMachine.Add(new States.GameRestartState(gameData, _gameStateMachine));
+            _gameStateMachine.Add(new States.GameLoopState(gameData, _gameStateMachine));
+            _gameStateMachine.Add(new States.GameOverState(gameData, _gameStateMachine));
+            _gameStateMachine.Add(new States.GameDestructionState(gameData));
         }
     }
 }

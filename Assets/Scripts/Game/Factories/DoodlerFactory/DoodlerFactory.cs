@@ -14,7 +14,7 @@ namespace DoodleJump.Game.Factories
         public override UiFactoryType UiFactoryType => UiFactoryType.DoodlerFactory;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Init(DoodlerArgs args)
+        public void Init(in DoodlerArgs args)
         {
             _args = args;
         }
@@ -22,7 +22,7 @@ namespace DoodleJump.Game.Factories
         public IDoodler Create()
         {
             var doodler = InstantiateDoodler(_doodler);
-            doodler.Init(_args);
+            doodler.Init(in _args);
 
             return doodler;
         }

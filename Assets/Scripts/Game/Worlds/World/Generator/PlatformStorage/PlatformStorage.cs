@@ -37,7 +37,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IPlatformCollisionInfo> Collided;
 
-        internal PlatformStorage(IGameData gameData, WorldArgs args, Transform platformsContainer, Rect screenRect)
+        internal PlatformStorage(IGameData gameData, in WorldArgs args, Transform platformsContainer, Rect screenRect)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;

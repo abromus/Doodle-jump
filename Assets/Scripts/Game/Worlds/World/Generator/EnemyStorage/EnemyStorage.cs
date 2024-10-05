@@ -40,7 +40,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
-        internal EnemyStorage(IGameData gameData, WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
+        internal EnemyStorage(IGameData gameData, in WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
