@@ -54,6 +54,8 @@ MonoBehaviour:
     _screenPrefab: {fileID: 8987469017054697497, guid: 9be951d2902a1414b96ed2637d7a07e5, type: 3}
   - _screenType: 3
     _screenPrefab: {fileID: 7790765606260490618, guid: 50cb357c51ca5284683da153ca1b0b29, type: 3}
+  - _screenType: 4
+    _screenPrefab: {fileID: -2114068576340030185, guid: 326fa95d95848644d9a505d14c0e6477, type: 3}
 --- !u!1 &1575068891183513135
 GameObject:
   m_ObjectHideFlags: 0

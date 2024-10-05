@@ -16,7 +16,7 @@ namespace DoodleJump.Game.Worlds.Entities
         public readonly void Execute()
         {
             _enemy.Destroy();
-            _worldData.GameOver(GameOverType.EnemyCollided);
+            _worldData.SetGameOvered(GameOverType.EnemyCollided);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

@@ -52,7 +52,7 @@ namespace DoodleJump.Game.Worlds
             if (_cameraTransform.position.y - doodlerPosition.y < _offset - _doodlerWidth)
                 return;
 
-            _worldData.GameOver(GameOverType.Falling);
+            _worldData.SetGameOvered(GameOverType.Falling);
         }
 
         private void UpdateScore()

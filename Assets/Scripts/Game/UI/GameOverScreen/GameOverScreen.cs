@@ -98,7 +98,7 @@ namespace DoodleJump.Game.UI
 
         private void OnButtonRestartClicked()
         {
-            _worldData.Restart();
+            _worldData.SetGameRestarted();
         }
     }
 }

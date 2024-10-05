@@ -16,7 +16,7 @@ namespace DoodleJump.Game.States
         public void Enter(GameStateArgs args)
         {
             var screenSystemService = _gameData.ServiceStorage.GetScreenSystemService();
-            screenSystemService.ShowScreen(UI.ScreenType.Main);
+            screenSystemService.ShowScreen(UI.ScreenType.Game);
 
             args.World.Restart();
 

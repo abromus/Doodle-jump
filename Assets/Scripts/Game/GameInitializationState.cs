@@ -22,7 +22,7 @@ namespace DoodleJump.Game.States
 
             var gameStateArgs = new GameStateArgs(args.World, args.Doodler);
 
-            _stateMachine.Enter<GameRestartState, GameStateArgs>(gameStateArgs);
+            _stateMachine.Enter<GameStartState, GameStateArgs>(gameStateArgs);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

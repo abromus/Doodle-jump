@@ -37,6 +37,7 @@ namespace DoodleJump.Game
             _gameStateMachine = new Core.Services.StateMachine();
 
             _gameStateMachine.Add(new States.GameInitializationState(gameData, _gameStateMachine));
+            _gameStateMachine.Add(new States.GameStartState(gameData, _gameStateMachine));
             _gameStateMachine.Add(new States.GameRestartState(gameData, _gameStateMachine));
             _gameStateMachine.Add(new States.GameLoopState(gameData, _gameStateMachine));
             _gameStateMachine.Add(new States.GameOverState(gameData, _gameStateMachine));

@@ -17,6 +17,7 @@ MonoBehaviour:
   _boostersStartPosition: {x: 0, y: 15, z: 0}
   _platformStartCount: 3
   _progressInfos:
+  - {fileID: 11400000, guid: 28406d732a9f31e469c9656f9e1e0d59, type: 2}
   - {fileID: 11400000, guid: ccd37d60654f06d469e6823b107696dc, type: 2}
   - {fileID: 11400000, guid: 69a868dfaa3be5d41ab79069f37cf5ce, type: 2}
   - {fileID: 11400000, guid: cee1337f3a11110458ad6c517b70493c, type: 2}

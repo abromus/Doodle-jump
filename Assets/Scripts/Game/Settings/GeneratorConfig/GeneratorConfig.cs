@@ -9,6 +9,7 @@ namespace DoodleJump.Game.Settings
         [SerializeField] private Vector3 _enemiesStartPosition;
         [SerializeField] private Vector3 _boostersStartPosition;
         [SerializeField] private int _platformStartCount;
+        [Core.Separator(Core.CustomColor.Lime)]
         [SerializeField] private ProgressInfo[] _progressInfos;
 
         public Vector3 PlatformsStartPosition => _platformsStartPosition;

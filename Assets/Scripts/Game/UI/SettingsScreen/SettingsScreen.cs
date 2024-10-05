@@ -137,7 +137,7 @@ namespace DoodleJump.Game.UI
         {
             Hide();
 
-            _worldData.GameOver(GameOverType.User);
+            _worldData.SetGameOvered(GameOverType.User);
         }
 
         private void OnButtonExitClicked()

@@ -21,6 +21,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void SetProjectileContainer(Transform projectilesContainer);
 
+        public void Prepare();
+
         public void GameOver(GameOverType type);
 
         public void Restart();

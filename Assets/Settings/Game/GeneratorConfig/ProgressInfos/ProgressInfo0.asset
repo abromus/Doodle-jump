@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
+  m_Name: ProgressInfo0
+  m_EditorClassIdentifier: 
+  _minProgress: -9999
+  _maxProgress: 0
+  _minOffsetY: -2.5
+  _maxOffsetY: 2.5
+  _platformMaxCount: 1
+  _enemySimultaneouslyCount: 0
+  _enemyMaxCount: 0
+  _enemySpawnProbability: 0
+  _enemySpawnProbabilityFactor: 0
+  _boosterSimultaneouslyCount: 0
+  _boosterMaxCount: 0
+  _boosterSpawnProbability: 0
+  _boosterSpawnProbabilityFactor: 0
+  _platformConfigs:
+  - rid: 5563048477825957888
+  _enemyConfigs: []
+  _worldBoosterConfigs: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5563048477825957888
+      type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
+        _spawnChance: 1
+        _triggerType: 1
+        _jumpForce: 8

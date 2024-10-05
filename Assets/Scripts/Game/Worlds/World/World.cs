@@ -48,6 +48,14 @@ namespace DoodleJump.Game.Worlds
             Subscribe();
         }
 
+        public void Prepare()
+        {
+            _canUpdate = false;
+
+            _doodler.Prepare();
+            _generator.Prepare();
+        }
+
         public void GameOver(GameOverType type)
         {
             _canUpdate = false;

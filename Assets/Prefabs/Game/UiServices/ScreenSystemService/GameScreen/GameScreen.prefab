@@ -833,7 +833,7 @@ GameObject:
   - component: {fileID: 8437369961166326487}
   - component: {fileID: 183162609886605431}
   m_Layer: 5
-  m_Name: MainScreen
+  m_Name: GameScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

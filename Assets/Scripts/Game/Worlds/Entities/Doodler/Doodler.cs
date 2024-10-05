@@ -24,6 +24,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private IDoodlerAnimator _animator;
         private IDoodlerBoosterStorage _boosterStorage;
 
+        private bool _isUpdatable;
+
         public GameObject GameObject => gameObject;
 
         public Vector2 Size => _size;
@@ -62,16 +64,22 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting.SetProjectileContainer(projectilesContainer);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public void Prepare()
+        {
+            //MakeUpdatable(true);
+        }
+
         public void GameOver(GameOverType type)
         {
             _movement.GameOver(type);
 
-            _updater.RemoveUpdatable(this);
+            MakeUpdatable(false);
         }
 
         public void Restart()
         {
-            _updater.AddUpdatable(this);
+            MakeUpdatable(true);
 
             _rigidbody.velocity = Vector3.zero;
 
@@ -131,9 +139,27 @@ namespace DoodleJump.Game.Worlds.Entities
             _boosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
         }
 
+        private void MakeUpdatable(bool isUpdatable)
+        {
+            if (isUpdatable)
+            {
+                if (_isUpdatable)
+                    return;
+
+                _updater.AddUpdatable(this);
+
+                _isUpdatable = true;
+            }
+            else
+            {
+                _updater.RemoveUpdatable(this);
+
+                _isUpdatable = false;
+            }
+        }
+
         private void Subscribe()
         {
-            _updater.AddUpdatable(this);
             _updater.AddFixedUpdatable(this);
             _updater.AddPausable(this);
 
@@ -142,7 +168,6 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void Unsubscribe()
         {
-            _updater.RemoveUpdatable(this);
             _updater.RemoveFixedUpdatable(this);
             _updater.RemovePausable(this);
 

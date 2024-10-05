@@ -9,6 +9,8 @@ namespace DoodleJump.Game.Worlds
 
         public void Init(Data.IGameData gameData, in WorldArgs args);
 
+        public void Prepare();
+
         public void GameOver(GameOverType type);
 
         public void Restart();

@@ -4,8 +4,9 @@
     internal enum ScreenType
     {
         None = 0,
-        Main = 1,
+        Game = 1,
         Settings = 2,
         GameOver = 3,
+        Menu = 4,
     }
 }

@@ -30,7 +30,7 @@ namespace DoodleJump.Game.States
 
         private void OnGameOvered(Worlds.GameOverType type)
         {
-            _screenSystemService.HideScreen(UI.ScreenType.Main);
+            _screenSystemService.HideScreen(UI.ScreenType.Game);
 
             _stateMachine.Enter<GameOverState, GameStateArgs, Worlds.GameOverType>(_args, type);
         }

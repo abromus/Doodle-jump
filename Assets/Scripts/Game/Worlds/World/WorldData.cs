@@ -1,22 +1,29 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 
 namespace DoodleJump.Game.Worlds
 {
     internal sealed class WorldData : IWorldData
     {
-        public event Action<GameOverType> GameOvered;
+        public event System.Action GameStarted;
 
-        public event Action GameRestarted;
+        public event System.Action<GameOverType> GameOvered;
+
+        public event System.Action GameRestarted;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void GameOver(GameOverType type)
+        public void SetGameStarted()
+        {
+            GameStarted.SafeInvoke();
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public void SetGameOvered(GameOverType type)
         {
             GameOvered.SafeInvoke(type);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Restart()
+        public void SetGameRestarted()
         {
             GameRestarted.SafeInvoke();
         }

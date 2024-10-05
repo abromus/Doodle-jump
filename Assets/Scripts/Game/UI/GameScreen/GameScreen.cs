@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace DoodleJump.Game.UI
 {
-    internal sealed class MainScreen : BaseScreen
+    internal sealed class GameScreen : BaseScreen
     {
         [Separator(CustomColor.Lime)]
         [SerializeField] private Button _buttonPause;
@@ -148,6 +148,10 @@ namespace DoodleJump.Game.UI
         private void ShowDiffShots(int previousShots, int currentShots)
         {
             var diff = previousShots - currentShots;
+
+            if (diff == 0)
+                return;
+
             var isPositive = diff < 0;
             var diffShots = _diffShotsPool.Get();
             diffShots.gameObject.SetActive(true);

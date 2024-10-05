@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
   m_Name: ProgressInfo1
   m_EditorClassIdentifier: 
-  _minProgress: 1
+  _minProgress: 0
   _maxProgress: 200
   _minOffsetY: -2.5
   _maxOffsetY: 2.5

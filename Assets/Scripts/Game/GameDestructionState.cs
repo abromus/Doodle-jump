@@ -14,7 +14,7 @@ namespace DoodleJump.Game.States
         public void Enter(GameStateMachineArgs args)
         {
             var screenSystemService = _gameData.ServiceStorage.GetScreenSystemService();
-            screenSystemService?.HideScreen(UI.ScreenType.Main);
+            screenSystemService?.HideScreen(UI.ScreenType.Game);
 
             args.World?.Destroy();
             args.Doodler?.Destroy();
