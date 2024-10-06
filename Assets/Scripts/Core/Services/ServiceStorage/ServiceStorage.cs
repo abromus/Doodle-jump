@@ -26,11 +26,12 @@ namespace DoodleJump.Core.Services
             var uiServices = _configStorage.GetCoreUiServiceConfig().UiServices;
 
             var stateMachine = InitStateMachine(coreData);
-            var inputService = InitInputService();
             var qualityService = InitQualityService();
 
             var cameraService = InitCameraService(uiServices, _uiServicesContainer);
             var eventSystemService = InitEventSystemService(uiServices, _uiServicesContainer);
+
+            var inputService = InitInputService(eventSystemService);
 
             _services = new(8)
             {
@@ -67,12 +68,12 @@ namespace DoodleJump.Core.Services
             _services = null;
         }
 
-        private IInputService InitInputService()
+        private IInputService InitInputService(IEventSystemService eventSystemService)
         {
 #if UNITY_EDITOR == false && UNITY_ANDROID
-            var inputService = new AndroidInputService();
+            var inputService = new AndroidInputService(eventSystemService);
 #else
-            var inputService = new InputService();
+            var inputService = new InputService(eventSystemService);
 #endif
 
             return inputService;

@@ -125,7 +125,7 @@ namespace DoodleJump.Game.Worlds.Entities
             var doodlerConfig = args.DoodlerConfig;
             var playerData = args.PlayerData;
 
-            _doodlerInput = new DoodlerInput(inputService);
+            _doodlerInput = new DoodlerInput(inputService, transform);
 
             var doodlerMovementAnimationArgs = new DoodlerMovementAnimationArgs(_parabolaMoveDuration, _parabolaHeight, _downMoveDuration);
             var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, cameraService, doodlerConfig, in doodlerMovementAnimationArgs);

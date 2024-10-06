@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private bool _isPaused;
 
         private readonly IInputService _inputService;
+        private readonly Transform _transform;
         private readonly Vector2 _zero = Vector2.zero;
 
         public Vector2 MoveDirection => _moveDirection;
@@ -19,9 +20,10 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public Vector2 ShootPosition => _shootPosition;
 
-        internal DoodlerInput(IInputService inputService)
+        internal DoodlerInput(IInputService inputService, Transform transform)
         {
             _inputService = inputService;
+            _transform = transform;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -40,7 +42,7 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _moveDirection = _isPaused ? _zero : new Vector2(_inputService.GetHorizontalAxisRaw() * _inputService.XSensitivity, 0f);
 
-#if UNITY_ANDROID
+#if UNITY_EDITOR == false && UNITY_ANDROID
             var touchCount = _inputService.GetTouchCount();
             var hasTouch = touchCount == 1;
 
@@ -49,7 +51,7 @@ namespace DoodleJump.Game.Worlds.Entities
                 var firstTouchIndex = 0;
                 var touch = _inputService.GetTouch(firstTouchIndex);
 
-                _isShooting = hasTouch && touch.phase == TouchPhase.Began;
+                _isShooting = touch.phase == TouchPhase.Began && _inputService.IsPointerOverGameObject(_transform.gameObject.scene, firstTouchIndex) == false;
                 _shootPosition = _isShooting ? touch.position : _zero;
             }
             else
@@ -58,7 +60,7 @@ namespace DoodleJump.Game.Worlds.Entities
                 _shootPosition = _zero;
             }
 #else
-            _isShooting = _inputService.GetMouseButtonDown(0);
+            _isShooting = _inputService.GetMouseButtonDown(0) && _inputService.IsPointerOverGameObject(_transform.gameObject.scene) == false;
             _shootPosition = _isShooting ? _inputService.GetMousePosition() : _zero;
 #endif
 

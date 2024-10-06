@@ -6,6 +6,13 @@ namespace DoodleJump.Core.Services
     {
         private float _xSensitivity = 1f;
 
+        private readonly IEventSystemService _eventSystemService;
+
+        internal InputService(IEventSystemService eventSystemService)
+        {
+            _eventSystemService = eventSystemService;
+        }
+
         public float XSensitivity => _xSensitivity;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -42,6 +49,18 @@ namespace DoodleJump.Core.Services
         public Vector3 GetMousePosition()
         {
             return Input.mousePosition;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene)
+        {
+            return _eventSystemService.IsPointerOverGameObject(scene);
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId)
+        {
+            return _eventSystemService.IsPointerOverGameObject(scene, fingerId);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

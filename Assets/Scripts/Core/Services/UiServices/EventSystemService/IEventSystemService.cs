@@ -1,14 +1,15 @@
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-
 namespace DoodleJump.Core.Services
 {
     public interface IEventSystemService : IService
     {
-        public bool AddTo(Scene scene);
+        public bool AddTo(UnityEngine.SceneManagement.Scene scene);
 
-        public void Detach(Scene scene);
+        public void Detach(UnityEngine.SceneManagement.Scene scene);
 
-        public EventSystem Get(Scene scene);
+        public UnityEngine.EventSystems.EventSystem Get(UnityEngine.SceneManagement.Scene scene);
+
+        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene);
+
+        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId);
     }
 }
