@@ -15,3 +15,4 @@ MonoBehaviour:
   _uiFactoryConfig: {fileID: 11400000, guid: 045ac15ff50df8348aa34a493ca85da7, type: 2}
   _uiServiceConfig: {fileID: 11400000, guid: ef3b04401419e04409fa3c1136b38d91, type: 2}
   _inputConfig: {fileID: 11400000, guid: 4af75c0db3bb67042adc5e704dfd1909, type: 2}
+  _qualityConfig: {fileID: 11400000, guid: e059bd7ebf1478f4e8851a016091e90f, type: 2}

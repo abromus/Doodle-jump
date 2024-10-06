@@ -1,6 +1,6 @@
 namespace DoodleJump.Game.Services
 {
-    public interface IUiService
+    internal interface IUiService
     {
         public UiServiceType UiServiceType { get; }
     }

@@ -27,6 +27,7 @@ namespace DoodleJump.Core.Services
 
             var stateMachine = InitStateMachine(coreData);
             var inputService = InitInputService();
+            var qualityService = InitQualityService();
 
             var cameraService = InitCameraService(uiServices, _uiServicesContainer);
             var eventSystemService = InitEventSystemService(uiServices, _uiServicesContainer);
@@ -36,6 +37,7 @@ namespace DoodleJump.Core.Services
                 [typeof(IUpdater)] = updater,
                 [typeof(IStateMachine)] = stateMachine,
                 [typeof(IInputService)] = inputService,
+                [typeof(IQualityService)] = qualityService,
                 [typeof(ICameraService)] = cameraService,
                 [typeof(IEventSystemService)] = eventSystemService,
             };
@@ -74,6 +76,14 @@ namespace DoodleJump.Core.Services
 #endif
 
             return inputService;
+        }
+
+        private IQualityService InitQualityService()
+        {
+            var qualityConfig = _configStorage.GetQualityConfig();
+            var qualityService = new QualityService(qualityConfig);
+
+            return qualityService;
         }
 
         private IStateMachine InitStateMachine(ICoreData coreData)

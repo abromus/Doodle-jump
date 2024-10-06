@@ -1,49 +1,55 @@
 using DoodleJump.Core.Services;
 using DoodleJump.Core.Settings;
-using DoodleJump.Game.Data;
 using DoodleJump.Game.Services;
 using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace DoodleJump.Game.UI
 {
     internal sealed class SettingsScreen : BaseScreen, IPausable
     {
         [Core.Separator(Core.CustomColor.Lime)]
-        [SerializeField] private Button _buttonClose;
-        [SerializeField] private Button _buttonRestart;
-        [SerializeField] private Button _buttonExit;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Button[] _buttonCloses;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Button _buttonRestart;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Button _buttonExit;
         [Core.Separator(Core.CustomColor.MediumTurquoise)]
-        [SerializeField] private Toggle _toggleBackgroundMusic;
-        [SerializeField] private Toggle _toggleSounds;
-        [SerializeField] private Slider _sliderBackgroundMusic;
-        [SerializeField] private Slider _sliderSounds;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Toggle _toggleBackgroundMusic;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Toggle _toggleSounds;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Slider _sliderBackgroundMusic;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Slider _sliderSounds;
         [Core.Separator(Core.CustomColor.Elsie)]
-        [SerializeField] private Slider _sliderXSensitivity;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Slider _sliderXSensitivity;
+        [Core.Separator(Core.CustomColor.Presley)]
+        [UnityEngine.SerializeField] private UnityEngine.GameObject _qualitySettingsContainer;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Toggle _toggleVerticalSync;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Toggle _toggleUnlimitedFps;
+        [UnityEngine.SerializeField] private TMPro.TMP_Text _labelFps;
+        [UnityEngine.SerializeField] private UnityEngine.UI.Slider _sliderFps;
 
-        private IWorldData _worldData;
+        private Worlds.IWorldData _worldData;
         private IUpdater _updater;
         private IInputService _inputService;
+        private IQualityService _qualityService;
         private IAudioService _audioService;
 
-        public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)
+        public override void Init(Data.IGameData gameData, Worlds.IWorldData worldData, IScreenSystemService screenSystemService)
         {
             _worldData = worldData;
 
             var coreServiceStorage = gameData.CoreData.ServiceStorage;
             _updater = coreServiceStorage.GetUpdater();
             _inputService = coreServiceStorage.GetInputService();
+            _qualityService = coreServiceStorage.GetQualityService();
             _audioService = gameData.ServiceStorage.GetAudioService();
 
             SubscribeUpdater();
 
             var audioConfig = gameData.ConfigStorage.GetAudioConfig();
             var inputConfig = gameData.CoreData.ConfigStorage.GetInputConfig();
+            var qualityConfig = gameData.CoreData.ConfigStorage.GetQualityConfig();
 
             InitAudioService(audioConfig);
             InitInputService(inputConfig);
+            InitQualityService(qualityConfig);
         }
 
         public override void Hide()
@@ -88,9 +94,26 @@ namespace DoodleJump.Game.UI
             _sliderXSensitivity.value = inputConfig.CurrentXSensitivity;
         }
 
+        private void InitQualityService(IQualityConfig qualityConfig)
+        {
+#if UNITY_ANDROID
+            _qualitySettingsContainer.SetActive(false);
+
+            return;
+#else
+            _toggleVerticalSync.isOn = qualityConfig.IsVerticalSyncEnabled;
+            _toggleUnlimitedFps.isOn = qualityConfig.IsFpsUnlimited;
+            _sliderFps.wholeNumbers = true;
+            _sliderFps.minValue = qualityConfig.MinFps;
+            _sliderFps.maxValue = qualityConfig.MaxFps;
+#endif
+        }
+
         private void Subscribe()
         {
-            _buttonClose.onClick.AddListener(OnButtonCloseClicked);
+            foreach (var buttonClose in _buttonCloses)
+                buttonClose.onClick.AddListener(OnButtonCloseClicked);
+
             _buttonRestart.onClick.AddListener(OnButtonRestartClicked);
             _buttonExit.onClick.AddListener(OnButtonExitClicked);
 
@@ -100,11 +123,17 @@ namespace DoodleJump.Game.UI
             _sliderSounds.onValueChanged.AddListener(OnSoundsVolumeChanged);
 
             _sliderXSensitivity.onValueChanged.AddListener(OnXSensitivityChanged);
+
+            _toggleVerticalSync.onValueChanged.AddListener(OnVerticalSyncActiveChanged);
+            _toggleUnlimitedFps.onValueChanged.AddListener(OnUnlimitedFpsActiveChanged);
+            _sliderFps.onValueChanged.AddListener(OnFpsChanged);
         }
 
         private void Unsubscribe()
         {
-            _buttonClose.onClick.RemoveListener(OnButtonCloseClicked);
+            foreach (var buttonClose in _buttonCloses)
+                buttonClose.onClick.RemoveListener(OnButtonCloseClicked);
+
             _buttonRestart.onClick.RemoveListener(OnButtonRestartClicked);
             _buttonExit.onClick.RemoveListener(OnButtonExitClicked);
 
@@ -114,6 +143,10 @@ namespace DoodleJump.Game.UI
             _sliderSounds.onValueChanged.RemoveListener(OnSoundsVolumeChanged);
 
             _sliderXSensitivity.onValueChanged.RemoveListener(OnXSensitivityChanged);
+
+            _toggleVerticalSync.onValueChanged.RemoveListener(OnVerticalSyncActiveChanged);
+            _toggleUnlimitedFps.onValueChanged.RemoveListener(OnUnlimitedFpsActiveChanged);
+            _sliderFps.onValueChanged.RemoveListener(OnFpsChanged);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -137,7 +170,7 @@ namespace DoodleJump.Game.UI
         {
             Hide();
 
-            _worldData.SetGameOvered(GameOverType.User);
+            _worldData.SetGameOvered(Worlds.GameOverType.User);
         }
 
         private void OnButtonExitClicked()
@@ -145,7 +178,7 @@ namespace DoodleJump.Game.UI
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+            UnityEngine.Application.Quit();
 #endif
         }
 
@@ -172,6 +205,35 @@ namespace DoodleJump.Game.UI
         private void OnXSensitivityChanged(float volume)
         {
             _inputService.SetXSensitivity(volume);
+        }
+
+        private void OnVerticalSyncActiveChanged(bool isActive)
+        {
+            _qualityService.SetVerticalSyncActive(isActive);
+
+            if (isActive)
+            {
+                _toggleUnlimitedFps.interactable = false;
+                _sliderFps.interactable = false;
+            }
+            else
+            {
+                _toggleUnlimitedFps.interactable = true;
+                _sliderFps.interactable = _toggleUnlimitedFps.isOn == false;
+            }
+        }
+
+        private void OnUnlimitedFpsActiveChanged(bool isActive)
+        {
+            _qualityService.SetUnlimitedFps(isActive);
+
+            _sliderFps.interactable = isActive == false;
+        }
+
+        private void OnFpsChanged(float fps)
+        {
+            _qualityService.SetFps((int)fps);
+            _labelFps.text = fps.ToString();
         }
     }
 }

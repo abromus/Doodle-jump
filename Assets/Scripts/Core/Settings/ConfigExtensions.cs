@@ -9,6 +9,12 @@ namespace DoodleJump.Core.Settings
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static IQualityConfig GetQualityConfig(this IConfigStorage configStorage)
+        {
+            return configStorage.GetConfig<IQualityConfig>();
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         internal static IUiFactoryConfig GetCoreUiFactoryConfig(this IConfigStorage configStorage)
         {
             return configStorage.GetConfig<IUiFactoryConfig>();

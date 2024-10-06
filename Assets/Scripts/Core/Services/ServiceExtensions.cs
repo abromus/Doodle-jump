@@ -35,6 +35,12 @@ namespace DoodleJump.Core.Services
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static IQualityService GetQualityService(this IServiceStorage serviceStorage)
+        {
+            return serviceStorage.GetService<IQualityService>();
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static IStateMachine GetStateMachine(this IServiceStorage serviceStorage)
         {
             return serviceStorage.GetService<IStateMachine>();

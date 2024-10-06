@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DoodleJump.Game.Settings
 {
-    public interface ICameraConfig : IConfig
+    internal interface ICameraConfig : IConfig
     {
         public Vector3 Offset { get; }
     }
