@@ -96,7 +96,7 @@ namespace DoodleJump.Game.UI
 
         private void InitQualityService(IQualityConfig qualityConfig)
         {
-#if UNITY_ANDROID
+#if UNITY_EDITOR == false && UNITY_ANDROID
             _qualitySettingsContainer.SetActive(false);
 
             return;

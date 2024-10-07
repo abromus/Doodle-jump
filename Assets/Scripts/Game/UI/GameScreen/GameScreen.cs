@@ -17,7 +17,6 @@ namespace DoodleJump.Game.UI
         [Separator(CustomColor.Lime)]
         [SerializeField] private Button _buttonPause;
         [SerializeField] private TMP_Text _currentScore;
-        [SerializeField] private TMP_Text _maxScore;
         [SerializeField] private RectTransform _boostersContainer;
         [Separator(CustomColor.MediumTurquoise)]
         [SerializeField] private TMP_Text _shots;
@@ -62,7 +61,6 @@ namespace DoodleJump.Game.UI
             InitInputService(inputConfig);
             InitPools();
             LoadBoosters();
-            UpdateMaxScore(_playerData.MaxScore);
             UpdateShots(_playerData.CurrentShots, _playerData.CurrentShots, _playerData.MaxShots);
             Subscribe();
 
@@ -130,11 +128,6 @@ namespace DoodleJump.Game.UI
 
             foreach (var boosterInfo in boosters)
                 UpdateBooster(boosterInfo.Key, boosterInfo.Value);
-        }
-
-        private void UpdateMaxScore(int maxScore)
-        {
-            _maxScore.text = $"Max score: {maxScore}";
         }
 
         private void UpdateShots(int previousShots, int currentShots, int maxShots)
@@ -254,12 +247,7 @@ namespace DoodleJump.Game.UI
 
         private void OnScoreChanged()
         {
-            _currentScore.text = $"{_playerData.CurrentScore}";
-
-            var maxScore = _playerData.MaxScore;
-
-            if (0 < maxScore)
-                UpdateMaxScore(maxScore);
+            _currentScore.text = $"Score: {_playerData.CurrentScore}";
         }
 
         private void OnShotsChanged(int previousShots, int currentShots)
