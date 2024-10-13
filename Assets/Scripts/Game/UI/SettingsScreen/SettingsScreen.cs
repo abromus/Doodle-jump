@@ -106,6 +106,7 @@ namespace DoodleJump.Game.UI
             _sliderFps.wholeNumbers = true;
             _sliderFps.minValue = qualityConfig.MinFps;
             _sliderFps.maxValue = qualityConfig.MaxFps;
+            _sliderFps.value = qualityConfig.CurrentFps;
 #endif
         }
 

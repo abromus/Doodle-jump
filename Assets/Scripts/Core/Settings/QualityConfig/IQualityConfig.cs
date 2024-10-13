@@ -8,6 +8,8 @@ namespace DoodleJump.Core.Settings
 
         public int MinFps { get; }
 
+        public int CurrentFps { get; }
+
         public int MaxFps { get; }
     }
 }

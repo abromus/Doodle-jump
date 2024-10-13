@@ -15,4 +15,5 @@ MonoBehaviour:
   _isVerticalSyncEnabled: 0
   _isFpsUnlimited: 0
   _minFps: 20
+  _currentFps: 144
   _maxFps: 9999
