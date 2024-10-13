@@ -36,8 +36,6 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
             _shootingStrategyResolver = new ShootingStrategyResolver(_cameraService, args.DoodlerConfig);
-
-            UpdateCurrentShoots();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -48,6 +46,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Restart()
         {
+            _playerData.SetCurrentShots(_playerData.MaxShots);
+
             foreach (var projectile in _projectiles)
             {
                 projectile.Destroyed -= OnProjectileDestroyed;
@@ -83,12 +83,6 @@ namespace DoodleJump.Game.Worlds.Entities
             }
 
             _projectiles.Clear();
-        }
-
-        private void UpdateCurrentShoots()
-        {
-            if (_playerData.IsFirstSession)
-                _playerData.SetCurrentShots(_playerData.MaxShots);
         }
 
         private void TryShoot()
