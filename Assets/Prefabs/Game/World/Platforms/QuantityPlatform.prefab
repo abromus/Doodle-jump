@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 8
-  _platformSize: {x: 1.36, y: 0.35}
+  _platformSize: {x: 2.5, y: 1.2}
   _clipType: 1
   _boosterContainer: {fileID: 2499097559397371326}
   _spriteRenderer: {fileID: 792228342339114408}

@@ -12,65 +12,120 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
   m_Name: ProgressInfo5
   m_EditorClassIdentifier: 
-  _minProgress: 800
-  _maxProgress: 100000
-  _platformMaxCount: 7
+  _minProgress: 1200
+  _maxProgress: 2000
+  _minOffsetY: 1
+  _maxOffsetY: 3
+  _platformMaxCount: 30
   _enemySimultaneouslyCount: 2
-  _enemyMaxCount: -1
+  _enemyMaxCount: 10
   _enemySpawnProbability: 0.1
   _enemySpawnProbabilityFactor: 0.05
-  _minOffsetY: -4.5
-  _maxOffsetY: 4.5
+  _boosterSimultaneouslyCount: 1
+  _boosterMaxCount: 5
+  _boosterSpawnProbability: 0.2
+  _boosterSpawnProbabilityFactor: 0.1
   _platformConfigs:
-  - rid: 5398419704034099210
-  - rid: 5398419704034099211
-  - rid: 5398419704034099212
-  - rid: 5398419704034099214
-  - rid: 5398419704034099213
+  - rid: 5398419704034099205
+  - rid: 5398419704034099206
+  - rid: 5398419704034099207
+  - rid: 5398419704034099208
+  - rid: 8826052822129704973
   _enemyConfigs:
-  - rid: 5398420111250161667
+  - rid: 5398420111250161664
+  - rid: 8826052822129704974
+  - rid: 8826052822129704975
+  _worldBoosterConfigs:
+  - rid: 8826052822129704976
+  - rid: 8826052822129704977
+  - rid: 8826052822129704978
+  - rid: 8826052822129704979
+  - rid: 8826052822129704980
   references:
     version: 2
     RefIds:
-    - rid: 5398419704034099210
+    - rid: 5398419704034099205
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-        _spawnChance: 0.1
+        _spawnChance: 0.7
         _triggerType: 1
         _jumpForce: 10
-    - rid: 5398419704034099211
+    - rid: 5398419704034099206
       type: {class: EarthSpringPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 8245406481292810278, guid: 3c8883dae6ee1e64fb6a7786c7509553, type: 3}
-        _spawnChance: 0.1
+        _spawnChance: 0.05
         _triggerType: 3
-        _defaultJumpForce: 6.5
+        _defaultJumpForce: 10
         _springJumpForce: 15
-    - rid: 5398419704034099212
+    - rid: 5398419704034099207
       type: {class: EarthTrampolinePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 8245406481292810278, guid: 5ca67e8e9faca9b43923da903429eeb8, type: 3}
-        _spawnChance: 0.1
+        _spawnChance: 0.02
         _triggerType: 3
-        _defaultJumpForce: 8
+        _defaultJumpForce: 10
         _springJumpForce: 26
-    - rid: 5398419704034099213
-      type: {class: IcePlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
-      data:
-        _platformPrefab: {fileID: 8340633529480403711, guid: 9085e6dc0beb1e742aca6372af298107, type: 3}
-        _spawnChance: 0.6
-        _triggerType: 1
-        _jumpForce: 8
-    - rid: 5398419704034099214
+    - rid: 5398419704034099208
       type: {class: WoodPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: 2218ba24f9ea23347a9dae09023a42f1, type: 3}
-        _spawnChance: 0.1
+        _spawnChance: 0.03
         _triggerType: 2
-    - rid: 5398420111250161667
+    - rid: 5398420111250161664
       type: {class: BirdConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _enemyPrefab: {fileID: 785730928075785803, guid: 5c95cdf3d3880ea4e9537e65fd562846, type: 3}
-        _spawnChance: 1
+        _spawnChance: 0.3
         _triggerType: 1
+    - rid: 8826052822129704973
+      type: {class: QuantityPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _platformPrefab: {fileID: 2693180056911510775, guid: e72acf6b425c50d4ba832d0e001da6e8, type: 3}
+        _spawnChance: 0.2
+        _triggerType: 5
+        _jumpForce: 10
+        _quantity: 1
+    - rid: 8826052822129704974
+      type: {class: FlyingSaucerConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: -5333612434031293170, guid: a0f7df5a459f9e14f848c0f1a0063f0d, type: 3}
+        _spawnChance: 0.35
+        _triggerType: 1
+    - rid: 8826052822129704975
+      type: {class: InkBlotConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _enemyPrefab: {fileID: 3120939525253196225, guid: 209ce6f56d0a03e429df3e5073b89b23, type: 3}
+        _spawnChance: 0.35
+        _triggerType: 1
+    - rid: 8826052822129704976
+      type: {class: JetpackWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: 1040370156841023510, guid: 6b9eb542a7ec7f4478d63a464458abf6, type: 3}
+        _spawnChance: 0.05
+        _triggerType: 1
+    - rid: 8826052822129704977
+      type: {class: JumpWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: -3633072006385200957, guid: 2e0d8ef64f2b1f644b894f025df32371, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 1
+    - rid: 8826052822129704978
+      type: {class: MoneyWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: 3498653942645677641, guid: dbf0a86ebfacff54793836db94b3904e, type: 3}
+        _spawnChance: 0.5
+        _triggerType: 2
+    - rid: 8826052822129704979
+      type: {class: ShieldWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: 3303718742097364025, guid: 13f4433f270735049b6e079e01ed8678, type: 3}
+        _spawnChance: 0.1
+        _triggerType: 1
+    - rid: 8826052822129704980
+      type: {class: ShotsWorldBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
+      data:
+        _worldBoosterPrefab: {fileID: 1303088828375876354, guid: c9a1b89c403b0f0498a02fea0b0cb077, type: 3}
+        _spawnChance: 0.25
+        _triggerType: 3

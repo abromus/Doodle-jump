@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7020f3a6840d4d048a7949e7c263d67d, type: 3}
-  m_Name: ProgressInfo4
+  m_Name: ProgressInfo6
   m_EditorClassIdentifier: 
-  _minProgress: 650
-  _maxProgress: 1200
-  _minOffsetY: 0
+  _minProgress: 2000
+  _maxProgress: 3000
+  _minOffsetY: 2
   _maxOffsetY: 3
   _platformMaxCount: 30
   _enemySimultaneouslyCount: 2
-  _enemyMaxCount: 7
+  _enemyMaxCount: 10
   _enemySpawnProbability: 0.1
   _enemySpawnProbabilityFactor: 0.05
   _boosterSimultaneouslyCount: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
       type: {class: EarthPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: -3624870885808159989, guid: b05d9396b9e61ae45b1a89518478f487, type: 3}
-        _spawnChance: 0.75
+        _spawnChance: 0.7
         _triggerType: 1
         _jumpForce: 10
     - rid: 5398419704034099206
@@ -83,7 +83,7 @@ MonoBehaviour:
       type: {class: QuantityPlatformConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _platformPrefab: {fileID: 2693180056911510775, guid: e72acf6b425c50d4ba832d0e001da6e8, type: 3}
-        _spawnChance: 0.15
+        _spawnChance: 0.2
         _triggerType: 5
         _jumpForce: 10
         _quantity: 1

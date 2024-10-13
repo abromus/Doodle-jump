@@ -26,7 +26,7 @@ MonoBehaviour:
       data:
         _boosterType: 1
         _boosterPrefab: {fileID: -7167054754417323269, guid: bb2fdee87de84e041af677349e2344d4, type: 3}
-        _existenseTime: 5
+        _existenseTime: 7
     - rid: 4237770253560184834
       type: {class: JumpBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
@@ -39,17 +39,17 @@ MonoBehaviour:
       data:
         _boosterType: 3
         _boosterPrefab: {fileID: 2499519043973175884, guid: ab4ac39df7e8419469404fc3abdeb6c2, type: 3}
-        _existenseTime: 7
+        _existenseTime: 5
         _jumpForce: 15
     - rid: 4237770271446794241
       type: {class: MoneyBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _boosterType: 4
         _boosterPrefab: {fileID: 0}
-        _count: 200
+        _count: 25
     - rid: 4237770271446794242
       type: {class: ShotBoosterConfig, ns: DoodleJump.Game.Settings, asm: Game}
       data:
         _boosterType: 5
         _boosterPrefab: {fileID: -3026741257712628285, guid: 1111428ac24cc1549b198d9688fb7fdc, type: 3}
-        _shotCount: 15
+        _shotCount: 5

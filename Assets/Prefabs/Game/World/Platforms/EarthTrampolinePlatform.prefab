@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 5
-  _platformSize: {x: 1.36, y: 0.85}
+  _platformSize: {x: 2, y: 1}
   _clipType: 1
   _boosterContainer: {fileID: 346552155786876871}
   _spring: {fileID: 3091946048760727041}

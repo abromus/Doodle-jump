@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a7e17245fe80f4cb95a8aedad0970a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 15
   _existenceTime: 3
   _offset: {x: 1.17, y: 0.34}
   _circleCollider: {fileID: 592951368040299819}
