@@ -1,10 +1,8 @@
-using UnityEngine;
-
 namespace DoodleJump.Core.Services
 {
     public interface IServiceStorage : IDestroyable
     {
-        public Transform UiServiceContainer { get; }
+        public UnityEngine.Transform UiServiceContainer { get; }
 
         public void AddService<TService>(TService service) where TService : class, IService;
 

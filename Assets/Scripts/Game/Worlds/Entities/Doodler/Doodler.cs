@@ -64,12 +64,6 @@ namespace DoodleJump.Game.Worlds.Entities
             _shooting.SetProjectileContainer(projectilesContainer);
         }
 
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Prepare()
-        {
-            //MakeUpdatable(true);
-        }
-
         public void GameOver(GameOverType type)
         {
             _movement.GameOver(type);

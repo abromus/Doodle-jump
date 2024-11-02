@@ -15,7 +15,7 @@ namespace DoodleJump.Game.Worlds
         private readonly Rect _screenRect;
         private readonly float _offset;
 
-        internal DoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, Rect screenRect)
+        internal DoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, in Rect screenRect)
         {
             _worldData = worldData;
             _playerData = persistentDataStorage.GetPlayerData();

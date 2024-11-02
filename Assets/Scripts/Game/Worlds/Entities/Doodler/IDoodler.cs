@@ -1,13 +1,10 @@
-using DoodleJump.Core.Services;
-using UnityEngine;
-
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal interface IDoodler : IEntity, IFixedUpdatable
+    internal interface IDoodler : IEntity, Core.Services.IFixedUpdatable
     {
-        public GameObject GameObject { get; }
+        public UnityEngine.GameObject GameObject { get; }
 
-        public Vector2 Size { get; }
+        public UnityEngine.Vector2 Size { get; }
 
         public event System.Action Jumped;
 
@@ -19,9 +16,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public bool HasBooster(Worlds.Boosters.BoosterType boosterType);
 
-        public void SetProjectileContainer(Transform projectilesContainer);
-
-        public void Prepare();
+        public void SetProjectileContainer(UnityEngine.Transform projectilesContainer);
 
         public void GameOver(GameOverType type);
 

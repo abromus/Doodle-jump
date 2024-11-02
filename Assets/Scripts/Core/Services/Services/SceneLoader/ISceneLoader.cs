@@ -2,6 +2,6 @@ namespace DoodleJump.Core.Services
 {
     internal interface ISceneLoader : IService
     {
-        public void Load(SceneInfo sceneInfo);
+        public void Load(in SceneInfo sceneInfo);
     }
 }

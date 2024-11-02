@@ -1,5 +1,4 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
@@ -7,9 +6,9 @@ namespace DoodleJump.Game.Worlds.Platforms
     {
         private IPlatformCollisionInfo _info;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()

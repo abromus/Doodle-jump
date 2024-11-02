@@ -1,20 +1,17 @@
-using System;
-using UnityEngine;
-
 namespace DoodleJump.Core.Services
 {
     public interface ICameraService : IService
     {
-        public Camera Camera { get; }
+        public UnityEngine.Camera Camera { get; }
 
-        public event Action<Transform> Attached;
+        public event System.Action<UnityEngine.Transform> Attached;
 
-        public void Init(Transform container);
+        public void Init(UnityEngine.Transform container);
 
-        public void AttachTo(Transform parent);
+        public void AttachTo(UnityEngine.Transform parent);
 
         public void Detach();
 
-        public Rect GetScreenRect();
+        public UnityEngine.Rect GetScreenRect();
     }
 }

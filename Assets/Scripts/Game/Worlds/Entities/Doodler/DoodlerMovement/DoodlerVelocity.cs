@@ -1,16 +1,14 @@
-﻿using UnityEngine;
-
-namespace DoodleJump.Game.Worlds.Entities
+﻿namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerVelocity : IDoodlerVelocity
     {
-        private Vector2 _direction;
+        private UnityEngine.Vector2 _direction;
 
-        private readonly Rigidbody2D _rigidbody;
+        private readonly UnityEngine.Rigidbody2D _rigidbody;
         private readonly float _movementVelocity;
         private readonly IDoodlerInput _doodlerInput;
 
-        public Vector2 Velocity => _rigidbody.velocity;
+        public UnityEngine.Vector2 Velocity => _rigidbody.velocity;
 
         internal DoodlerVelocity(in DoodlerMovementArgs args)
         {
@@ -42,7 +40,7 @@ namespace DoodleJump.Game.Worlds.Entities
             if (_movementVelocity < _rigidbody.velocity.x)
                 return;
 
-            _rigidbody.AddForce(_movementVelocity * deltaTime * _direction, ForceMode2D.Impulse);
+            _rigidbody.AddForce(_movementVelocity * deltaTime * _direction, UnityEngine.ForceMode2D.Impulse);
         }
     }
 }

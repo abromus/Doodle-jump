@@ -13,7 +13,6 @@ namespace DoodleJump.Game.UI
         [SerializeField] private Button _buttonStart;
 
         private IWorldData _worldData;
-        private IPlayerData _playerData;
         private bool _initialized;
 
         public override void Init(IGameData gameData, IWorldData worldData, IScreenSystemService screenSystemService)

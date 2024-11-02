@@ -20,7 +20,7 @@ namespace DoodleJump.Game.Worlds
         internal Generator(
             Data.IGameData gameData,
             in WorldArgs args,
-            Rect screenRect,
+            in Rect screenRect,
             Transform platformsContainer,
             Transform enemiesContainer,
             Transform boostersContainer)
@@ -32,14 +32,14 @@ namespace DoodleJump.Game.Worlds
 
             var boosterTriggerFactory = args.BoosterTriggerFactory;
 
-            _platformStorage = new PlatformStorage(gameData, in args, platformsContainer, _screenRect);
+            _platformStorage = new PlatformStorage(gameData, in args, platformsContainer, in _screenRect);
             _platformStorage.Collided += OnPlatformCollided;
 
-            _enemyStorage = new EnemyStorage(gameData, in args, enemiesContainer, _screenRect, boosterTriggerFactory);
+            _enemyStorage = new EnemyStorage(gameData, in args, enemiesContainer, in _screenRect, boosterTriggerFactory);
             _enemyStorage.Collided += OnEnemyCollided;
             _enemyStorage.BoosterDropped += OnEnemyBoosterDropped;
 
-            _boosterStorage = new BoosterStorage(gameData, in args, boostersContainer, _screenRect, _platformStorage);
+            _boosterStorage = new BoosterStorage(gameData, in args, boostersContainer, in _screenRect, _platformStorage);
             _boosterStorage.Collided += OnBoosterCollided;
 
             _platformTriggerExecutor = new PlatformTriggerExecutor(args.PlatformTriggerFactory);

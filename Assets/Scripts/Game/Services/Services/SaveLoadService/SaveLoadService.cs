@@ -1,20 +1,17 @@
-using DoodleJump.Core.Services;
-using DoodleJump.Game.Data;
-
 namespace DoodleJump.Game.Services
 {
-    internal sealed class SaveLoadService : ISaveLoadService, ILateUpdatable, IPausable
+    internal sealed class SaveLoadService : ISaveLoadService, Core.Services.ILateUpdatable, Core.Services.IPausable
     {
-        private readonly IUpdater _updater;
-        private readonly IPersistentDataStorage _persistentDataStorage;
+        private readonly Core.Services.IUpdater _updater;
+        private readonly Data.IPersistentDataStorage _persistentDataStorage;
 
-        public IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
+        public Data.IPersistentDataStorage PersistentDataStorage => _persistentDataStorage;
 
-        internal SaveLoadService(IUpdater updater, Settings.IDoodlerConfig doodlerConfig)
+        internal SaveLoadService(Core.Services.IUpdater updater, Settings.IDoodlerConfig doodlerConfig)
         {
             _updater = updater;
 
-            _persistentDataStorage = new PersistentDataStorage(doodlerConfig);
+            _persistentDataStorage = new Data.PersistentDataStorage(doodlerConfig);
             _persistentDataStorage.Init();
 
             _updater.AddLateUpdatable(this);

@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using DoodleJump.Core.Settings;
-using DoodleJump.Game.Services;
-
 namespace DoodleJump.Game.Settings
 {
-    internal interface IUiServiceConfig : IConfig
+    internal interface IUiServiceConfig : Core.Settings.IConfig
     {
-        public IReadOnlyList<IUiService> UiServices { get; }
+        public System.Collections.Generic.IReadOnlyList<Services.IUiService> UiServices { get; }
     }
 }

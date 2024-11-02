@@ -43,7 +43,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IBoosterCollisionInfo> Collided;
 
-        internal BoosterStorage(IGameData gameData, in WorldArgs args, Transform boostersContainer, Rect screenRect, IPlatformStorage platformStorage)
+        internal BoosterStorage(IGameData gameData, in WorldArgs args, Transform boostersContainer, in Rect screenRect, IPlatformStorage platformStorage)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -242,8 +242,10 @@ namespace DoodleJump.Game.Worlds
             if (CanGenerateBooster())
             {
                 var worldBoosterPrefab = GetWorldBoosterPrefab();
+                var size = worldBoosterPrefab.Size;
+                size.x = _screenRect.width;
 
-                if (worldBoosterPrefab == null || TryGetIntersectedPlatform(_currentBoosterPosition, worldBoosterPrefab.Size, out var platforms) == false)
+                if (worldBoosterPrefab == null || TryGetIntersectedPlatform(in _currentBoosterPosition, in size, out var platforms) == false)
                     return;
 
                 var worldBooster = GenerateWorldBooster(worldBoosterPrefab);
@@ -269,10 +271,9 @@ namespace DoodleJump.Game.Worlds
             return _currentProgress.BoosterSpawnProbability < _boosterSpawnProbability + Random.value;
         }
 
-        private bool TryGetIntersectedPlatform(Vector3 currentBoosterPosition, Vector2 size, out List<IPlatform> intersectedPlatforms)
+        private bool TryGetIntersectedPlatform(in Vector3 currentBoosterPosition, in Vector2 size, out List<IPlatform> intersectedPlatforms)
         {
             var platforms = _platformStorage.Platforms;
-            size.x = _screenRect.width;
 
             intersectedPlatforms = new(16);
 

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace DoodleJump.Core
+﻿namespace DoodleJump.Core
 {
-    public abstract class BaseAttribute : PropertyAttribute, IAttribute { }
+    public abstract class BaseAttribute : UnityEngine.PropertyAttribute, IAttribute { }
 }

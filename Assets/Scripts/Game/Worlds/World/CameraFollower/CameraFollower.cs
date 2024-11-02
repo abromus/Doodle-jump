@@ -8,6 +8,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private Sequence _sequence;
 
         private readonly UnityEngine.Transform _doodlerTransform;
+        private readonly Core.Services.ICameraService _cameraService;
         private readonly UnityEngine.Transform _cameraTransform;
         private readonly float _halfScreenHeight;
         private readonly UnityEngine.Vector3 _cameraOffset;
@@ -17,6 +18,7 @@ namespace DoodleJump.Game.Worlds.Entities
         internal CameraFollower(in CameraFollowerArgs args)
         {
             _doodlerTransform = args.DoodlerTransform;
+            _cameraService = args.CameraService;
             _cameraTransform = args.CameraTransform;
             _cameraOffset = args.CameraOffset;
             _animationDelay = args.AnimationDelay;

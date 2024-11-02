@@ -1,21 +1,15 @@
-using System;
-using System.Collections.Generic;
-using DoodleJump.Core;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Boosters;
-
 namespace DoodleJump.Game.Worlds
 {
-    internal interface IBoosterStorage : IDestroyable
+    internal interface IBoosterStorage : Core.IDestroyable
     {
-        public IReadOnlyList<IWorldBooster> WorldBoosters { get; }
+        public System.Collections.Generic.IReadOnlyList<Boosters.IWorldBooster> WorldBoosters { get; }
 
-        public event Action<IProgressInfo, IBoosterCollisionInfo> Collided;
+        public event System.Action<Settings.IProgressInfo, Boosters.IBoosterCollisionInfo> Collided;
 
         public void Clear();
 
         public void GenerateBoosters();
 
-        public void DestroyBooster(IWorldBooster booster);
+        public void DestroyBooster(Boosters.IWorldBooster booster);
     }
 }

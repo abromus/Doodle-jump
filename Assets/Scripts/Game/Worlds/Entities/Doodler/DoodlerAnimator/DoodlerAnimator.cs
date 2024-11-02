@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace DoodleJump.Game.Worlds.Entities
+﻿namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerAnimator : IDoodlerAnimator
     {
@@ -9,12 +7,12 @@ namespace DoodleJump.Game.Worlds.Entities
         private float _previousDirection;
         private bool _isPaused;
 
-        private readonly Transform _doodler;
-        private readonly Animator _animator;
+        private readonly UnityEngine.Transform _doodler;
+        private readonly UnityEngine.Animator _animator;
         private readonly IDoodlerMovement _movement;
         private readonly IDoodlerInput _doodlerInput;
 
-        internal DoodlerAnimator(Transform doodler, Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
+        internal DoodlerAnimator(UnityEngine.Transform doodler, UnityEngine.Animator animator, IDoodlerMovement movement, IDoodlerInput doodlerInput)
         {
             _doodler = doodler;
             _animator = animator;

@@ -63,7 +63,6 @@ namespace DoodleJump.Game.Worlds.Entities
             _isShooting = _inputService.GetMouseButtonDown(0) && _inputService.IsPointerOverGameObject(_transform.gameObject.scene) == false;
             _shootPosition = _isShooting ? _inputService.GetMousePosition() : _zero;
 #endif
-
         }
     }
 }

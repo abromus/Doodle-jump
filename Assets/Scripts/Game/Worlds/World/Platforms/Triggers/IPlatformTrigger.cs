@@ -6,6 +6,6 @@
 
         public void Execute();
 
-        public void UpdateInfo(IPlatformCollisionInfo info);
+        public void UpdateInfo(IPlatformCollisionInfo info, Settings.IPlatformConfig config);
     }
 }

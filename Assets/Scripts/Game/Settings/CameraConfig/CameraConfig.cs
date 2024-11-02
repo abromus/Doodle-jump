@@ -1,12 +1,10 @@
-using UnityEngine;
-
 namespace DoodleJump.Game.Settings
 {
-    [CreateAssetMenu(fileName = nameof(CameraConfig), menuName = ConfigKeys.GamePathKey + nameof(CameraConfig))]
-    internal class CameraConfig : ScriptableObject, ICameraConfig
+    [UnityEngine.CreateAssetMenu(fileName = nameof(CameraConfig), menuName = ConfigKeys.GamePathKey + nameof(CameraConfig))]
+    internal class CameraConfig : UnityEngine.ScriptableObject, ICameraConfig
     {
-        [SerializeField] private Vector3 _offset = new(0f, 0f, -10f);
+        [UnityEngine.SerializeField] private UnityEngine.Vector3 _offset = new(0f, 0f, -10f);
 
-        public Vector3 Offset => _offset;
+        public UnityEngine.Vector3 Offset => _offset;
     }
 }

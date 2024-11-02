@@ -1,8 +1,6 @@
-using DoodleJump.Core.Settings;
-
 namespace DoodleJump.Game.Settings
 {
-    internal interface IDoodlerConfig : IConfig
+    internal interface IDoodlerConfig : Core.Settings.IConfig
     {
         public float MovementVelocity { get; }
 

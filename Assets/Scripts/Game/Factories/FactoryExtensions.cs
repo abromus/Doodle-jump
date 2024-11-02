@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DoodleJump.Core.Factories;
 
 namespace DoodleJump.Game.Factories
@@ -12,9 +11,9 @@ namespace DoodleJump.Game.Factories
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        internal static IDoodlerFactory GetDoodlerFactory(this IReadOnlyList<IUiFactory> uiFactories)
+        internal static IDoodlerFactory GetDoodlerFactory(this System.Collections.Generic.IReadOnlyList<IUiFactory> uiFactories)
         {
-            return uiFactories.GetFactory<IDoodlerFactory>(UiFactoryType.DoodlerFactory);
+            return uiFactories.GetFactory<IDoodlerFactory>();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -24,9 +23,9 @@ namespace DoodleJump.Game.Factories
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        internal static IWorldFactory GetWorldFactory(this IReadOnlyList<IUiFactory> uiFactories)
+        internal static IWorldFactory GetWorldFactory(this System.Collections.Generic.IReadOnlyList<IUiFactory> uiFactories)
         {
-            return uiFactories.GetFactory<IWorldFactory>(UiFactoryType.WorldFactory);
+            return uiFactories.GetFactory<IWorldFactory>();
         }
     }
 }

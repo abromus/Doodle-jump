@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-
 namespace DoodleJump.Core
 {
     public sealed class ObjectPool<T> : IObjectPool<T> where T : class
     {
-        private readonly List<T> _objects;
-        private readonly Func<T> _createFunc;
+        private readonly System.Collections.Generic.List<T> _objects;
+        private readonly System.Func<T> _createFunc;
 
-        public ObjectPool(Func<T> createFunc, int capacity = 10)
+        public ObjectPool(System.Func<T> createFunc, int capacity = 10)
         {
-            _createFunc = createFunc ?? throw new ArgumentNullException(nameof(createFunc));
+            _createFunc = createFunc ?? throw new System.ArgumentNullException(nameof(createFunc));
 
             _objects = new(capacity);
         }

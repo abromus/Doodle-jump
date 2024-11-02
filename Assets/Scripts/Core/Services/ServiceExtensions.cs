@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace DoodleJump.Core.Services
 {
     public static class ServiceExtensions
@@ -11,9 +9,9 @@ namespace DoodleJump.Core.Services
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static ICameraService GetCameraService(this IReadOnlyList<IUiService> uiServices)
+        public static ICameraService GetCameraService(this System.Collections.Generic.IReadOnlyList<IUiService> uiServices)
         {
-            return uiServices.GetService<ICameraService>(UiServiceType.CameraService);
+            return uiServices.GetService<ICameraService>();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -23,9 +21,9 @@ namespace DoodleJump.Core.Services
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static IEventSystemService GetEventSystemService(this IReadOnlyList<IUiService> uiServices)
+        public static IEventSystemService GetEventSystemService(this System.Collections.Generic.IReadOnlyList<IUiService> uiServices)
         {
-            return uiServices.GetService<IEventSystemService>(UiServiceType.EventSystemService);
+            return uiServices.GetService<IEventSystemService>();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -52,11 +50,11 @@ namespace DoodleJump.Core.Services
             return serviceStorage.GetService<IUpdater>();
         }
 
-        public static TService GetService<TService>(this IReadOnlyList<IUiService> uiServices, UiServiceType serviceType) where TService : class, IService
+        public static TService GetService<TService>(this System.Collections.Generic.IReadOnlyList<IUiService> uiServices) where TService : class, IService
         {
-            foreach (var service in uiServices)
-                if (service.UiServiceType == serviceType)
-                    return service as TService;
+            foreach (var uiService in uiServices)
+                if (uiService is TService service)
+                    return service;
 
             return null;
         }

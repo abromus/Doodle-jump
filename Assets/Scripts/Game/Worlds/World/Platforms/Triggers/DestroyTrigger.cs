@@ -18,6 +18,6 @@
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void UpdateInfo(IPlatformCollisionInfo info) { }
+        public void UpdateInfo(IPlatformCollisionInfo info, Settings.IPlatformConfig config) { }
     }
 }

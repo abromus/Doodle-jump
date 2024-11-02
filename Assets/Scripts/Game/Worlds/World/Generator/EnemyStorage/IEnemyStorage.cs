@@ -1,15 +1,10 @@
-using System.Collections.Generic;
-using DoodleJump.Core;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Entities;
-
 namespace DoodleJump.Game.Worlds
 {
-    internal interface IEnemyStorage : IDestroyable
+    internal interface IEnemyStorage : Core.IDestroyable
     {
-        public IReadOnlyList<IEnemy> Enemies { get; }
+        public System.Collections.Generic.IReadOnlyList<Entities.IEnemy> Enemies { get; }
 
-        public event System.Action<IProgressInfo, IEnemyCollisionInfo> Collided;
+        public event System.Action<Settings.IProgressInfo, Entities.IEnemyCollisionInfo> Collided;
 
         public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
@@ -17,6 +12,6 @@ namespace DoodleJump.Game.Worlds
 
         public void GenerateEnemies();
 
-        public void DestroyEnemy(IEnemy enemy);
+        public void DestroyEnemy(Entities.IEnemy enemy);
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Entities;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class QuantityPlatform : BasePlatform
     {
-        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [UnityEngine.SerializeField] private UnityEngine.SpriteRenderer _spriteRenderer;
 
         private QuantityPlatformConfig _config;
         private QuantityPlatformCollisionInfo _info;
@@ -17,9 +14,9 @@ namespace DoodleJump.Game.Worlds.Platforms
 
         private readonly float _maxAlpha = 1f;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
         public override void InitConfig(IPlatformConfig platformConfig)
         {
@@ -28,7 +25,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             _maxQuantity = _config.Quantity;
         }
 
-        public override void InitPosition(Vector3 position)
+        public override void InitPosition(UnityEngine.Vector3 position)
         {
             base.InitPosition(position);
 
@@ -42,9 +39,9 @@ namespace DoodleJump.Game.Worlds.Platforms
             Destroyed.SafeInvoke(this);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
-            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<Entities.IDoodler>(out var doodler) == false)
                 return;
 
             --_quantity;

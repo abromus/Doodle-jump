@@ -1,18 +1,13 @@
-using DoodleJump.Core;
-using DoodleJump.Core.Data;
-using DoodleJump.Game.Settings;
-using UnityEngine;
-
 namespace DoodleJump.Game
 {
-    internal sealed class GameSceneController : BaseSceneController
+    internal sealed class GameSceneController : Core.BaseSceneController
     {
-        [SerializeField] private ConfigStorage _configStorage;
-        [SerializeField] private Transform _uiServicesContainer;
+        [UnityEngine.SerializeField] private Settings.ConfigStorage _configStorage;
+        [UnityEngine.SerializeField] private UnityEngine.Transform _uiServicesContainer;
 
         private IGame _game;
 
-        public override void Run(ICoreData coreData)
+        public override void Run(Core.Data.ICoreData coreData)
         {
             _game = new Game(coreData, _configStorage, _uiServicesContainer);
             _game.Run();

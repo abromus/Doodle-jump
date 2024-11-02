@@ -25,6 +25,8 @@ namespace DoodleJump.Game.Worlds
         private IPlatformTrigger GetTrigger(IProgressInfo currentProgress, IPlatformCollisionInfo info)
         {
             var platform = info.Platform;
+            var platformId = platform.Id;
+            var configs = currentProgress.PlatformConfigs;
 
             if (_triggers.ContainsKey(platform) == false)
             {
@@ -34,7 +36,16 @@ namespace DoodleJump.Game.Worlds
             }
 
             var trigger = _triggers[platform];
-            trigger.UpdateInfo(info);
+
+            foreach (var config in configs)
+            {
+                if (config.PlatformPrefab.Id.Equals(platformId) == false)
+                    continue;
+
+                trigger.UpdateInfo(info, config);
+
+                break;
+            }
 
             return trigger;
         }

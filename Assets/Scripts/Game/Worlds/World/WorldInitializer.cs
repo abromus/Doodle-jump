@@ -47,9 +47,9 @@ namespace DoodleJump.Game.Worlds
             InitUi(worldTransform, worldArgs.EventSystemService, worldArgs.ScreenSystemService, worldArgs.AudioService, gameData, _worldData);
             InitTriggerFactories(_worldData, persistentDataStorage, worldArgs.PlatformTriggerFactory, worldArgs.EnemyTriggerFactory, worldArgs.BoosterTriggerFactory, doodler);
 
-            _doodlerChecker = GetDoodlerChecker(_worldData, persistentDataStorage, doodlerTransform, doodler.Size.x, cameraTransform, screenRect);
-            _generator = GetGenerator(gameData, in worldArgs, screenRect, args.PlatformsContainer, args.EnemiesContainer, args.BoostersContainer);
-            _backgroundChecker = GetBackgroundChecker(cameraTransform, screenRect, args.Backgrounds);
+            _doodlerChecker = GetDoodlerChecker(_worldData, persistentDataStorage, doodlerTransform, doodler.Size.x, cameraTransform, in screenRect);
+            _generator = GetGenerator(gameData, in worldArgs, in screenRect, args.PlatformsContainer, args.EnemiesContainer, args.BoostersContainer);
+            _backgroundChecker = GetBackgroundChecker(cameraTransform, in screenRect, args.Backgrounds);
         }
 
         private void InitDoodler(
@@ -100,28 +100,28 @@ namespace DoodleJump.Game.Worlds
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private ICameraFollower GetCameraFollower(ICameraService cameraService, Transform worldTransform, Transform doodlerTransform, Transform cameraTransform, Vector3 cameraOffset, float animationDelay, float animationDuration)
+        private ICameraFollower GetCameraFollower(ICameraService cameraService, Transform worldTransform, Transform doodlerTransform, Transform cameraTransform, in Vector3 cameraOffset, float animationDelay, float animationDuration)
         {
-            var args = new CameraFollowerArgs(cameraService, worldTransform, doodlerTransform, cameraTransform, cameraOffset, animationDelay, animationDuration);
+            var args = new CameraFollowerArgs(cameraService, worldTransform, doodlerTransform, cameraTransform, in cameraOffset, animationDelay, animationDuration);
             return new CameraFollower(in args);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private IDoodlerChecker GetDoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, Rect screenRect)
+        private IDoodlerChecker GetDoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, in Rect screenRect)
         {
-            return new DoodlerChecker(worldData, persistentDataStorage, doodlerTransform, doodlerWidth, cameraTransform, screenRect);
+            return new DoodlerChecker(worldData, persistentDataStorage, doodlerTransform, doodlerWidth, cameraTransform, in screenRect);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private IGenerator GetGenerator(IGameData gameData, in WorldArgs args, Rect screenRect, Transform platformsContainer, Transform enemiesContainer, Transform boostersContainer)
+        private IGenerator GetGenerator(IGameData gameData, in WorldArgs args, in Rect screenRect, Transform platformsContainer, Transform enemiesContainer, Transform boostersContainer)
         {
-            return new Generator(gameData, in args, screenRect, platformsContainer, enemiesContainer, boostersContainer);
+            return new Generator(gameData, in args, in screenRect, platformsContainer, enemiesContainer, boostersContainer);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private IBackgroundChecker GetBackgroundChecker(Transform cameraTransform, Rect screenRect, SpriteRenderer[] backgrounds)
+        private IBackgroundChecker GetBackgroundChecker(Transform cameraTransform, in Rect screenRect, SpriteRenderer[] backgrounds)
         {
-            return new BackgroundChecker(cameraTransform, screenRect, backgrounds);
+            return new BackgroundChecker(cameraTransform, in screenRect, backgrounds);
         }
     }
 }

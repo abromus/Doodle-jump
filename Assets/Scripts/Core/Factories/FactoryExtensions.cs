@@ -1,14 +1,12 @@
-using System.Collections.Generic;
-
 namespace DoodleJump.Core.Factories
 {
     public static class FactoryExtensions
     {
-        public static TFactory GetFactory<TFactory>(this IReadOnlyList<IUiFactory> uiFactories, UiFactoryType factoryType) where TFactory : class, IFactory
+        public static TFactory GetFactory<TFactory>(this System.Collections.Generic.IReadOnlyList<IUiFactory> uiFactories) where TFactory : class, IFactory
         {
-            foreach (var factory in uiFactories)
-                if (factory.UiFactoryType == factoryType)
-                    return factory as TFactory;
+            foreach (var uiFactory in uiFactories)
+                if (uiFactory is TFactory factory)
+                    return factory;
 
             return null;
         }
@@ -20,9 +18,9 @@ namespace DoodleJump.Core.Factories
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        internal static IGameSceneControllerFactory GetGameSceneControllerFactory(this IReadOnlyList<IUiFactory> uiFactories)
+        internal static IGameSceneControllerFactory GetGameSceneControllerFactory(this System.Collections.Generic.IReadOnlyList<IUiFactory> uiFactories)
         {
-            return uiFactories.GetFactory<IGameSceneControllerFactory>(UiFactoryType.GameSceneControllerFactory);
+            return uiFactories.GetFactory<IGameSceneControllerFactory>();
         }
     }
 }

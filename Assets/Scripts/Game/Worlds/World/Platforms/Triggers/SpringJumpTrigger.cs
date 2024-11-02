@@ -1,17 +1,16 @@
-﻿using DoodleJump.Game.Worlds.Entities;
-
-namespace DoodleJump.Game.Worlds.Platforms
+﻿namespace DoodleJump.Game.Worlds.Platforms
 {
     internal struct SpringJumpTrigger : IPlatformTrigger
     {
         private bool _isSpringCollided;
-        private readonly IDoodler _doodler;
-        private readonly float _jumpForce;
-        private readonly float _springJumpForce;
+        private float _jumpForce;
+        private float _springJumpForce;
+
+        private readonly Entities.IDoodler _doodler;
 
         public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
-        internal SpringJumpTrigger(IPlatformCollisionInfo info, IDoodler doodler, float jumpForce, float springJumpForce)
+        internal SpringJumpTrigger(IPlatformCollisionInfo info, Entities.IDoodler doodler, float jumpForce, float springJumpForce)
         {
             _doodler = doodler;
             _jumpForce = jumpForce;
@@ -25,10 +24,16 @@ namespace DoodleJump.Game.Worlds.Platforms
             _doodler.Jump(_isSpringCollided ? _springJumpForce : _jumpForce);
         }
 
-        public void UpdateInfo(IPlatformCollisionInfo info)
+        public void UpdateInfo(IPlatformCollisionInfo info, Settings.IPlatformConfig config)
         {
             if (info is SpringJumpPlatformCollisionInfo springInfo)
                 _isSpringCollided = springInfo.IsSpringCollided;
+
+            if (config is Settings.ISpringJumpConfig springJumpConfig)
+            {
+                _jumpForce = springJumpConfig.JumpForce;
+                _springJumpForce = springJumpConfig.SpringJumpForce;
+            }
         }
     }
 }

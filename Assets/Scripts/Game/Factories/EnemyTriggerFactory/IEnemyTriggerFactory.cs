@@ -1,14 +1,9 @@
-using DoodleJump.Core.Factories;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds;
-using DoodleJump.Game.Worlds.Entities;
-
 namespace DoodleJump.Game.Factories
 {
-    internal interface IEnemyTriggerFactory : IFactory
+    internal interface IEnemyTriggerFactory : Core.Factories.IFactory
     {
-        public void Init(IDoodler doodler, IWorldData worldData);
+        public void Init(Worlds.Entities.IDoodler doodler, Worlds.IWorldData worldData);
 
-        public IEnemyTrigger Create(IEnemyCollisionInfo info, IEnemy enemy, IEnemyConfig enemyConfig);
+        public Worlds.Entities.IEnemyTrigger Create(Worlds.Entities.IEnemyCollisionInfo info, Worlds.Entities.IEnemy enemy, Settings.IEnemyConfig enemyConfig);
     }
 }

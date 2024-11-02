@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace DoodleJump.Core.Services
 {
     internal sealed class QualityService : IQualityService
@@ -9,24 +7,24 @@ namespace DoodleJump.Core.Services
         public QualityService(Settings.IQualityConfig qualityConfig)
         {
             SetVerticalSyncActive(qualityConfig.IsVerticalSyncEnabled);
-            SetFps(Screen.currentResolution.refreshRate);
+            SetFps(UnityEngine.Screen.currentResolution.refreshRate);
         }
 
         public void SetVerticalSyncActive(bool isActive)
         {
-            QualitySettings.vSyncCount = isActive ? Constants.MaxVSyncCount : Constants.MinVSyncCount;
+            UnityEngine.QualitySettings.vSyncCount = isActive ? Constants.MaxVSyncCount : Constants.MinVSyncCount;
         }
 
         public void SetUnlimitedFps(bool isUnlimited)
         {
-            Application.targetFrameRate = isUnlimited ? Constants.UnlimitedFps : _currentFps;
+            UnityEngine.Application.targetFrameRate = isUnlimited ? Constants.UnlimitedFps : _currentFps;
         }
 
         public void SetFps(int fps)
         {
             _currentFps = fps;
 
-            Application.targetFrameRate = _currentFps;
+            UnityEngine.Application.targetFrameRate = _currentFps;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

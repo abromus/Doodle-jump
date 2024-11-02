@@ -1,8 +1,6 @@
-﻿using DoodleJump.Core;
-
-namespace DoodleJump.Game.Worlds.Entities
+﻿namespace DoodleJump.Game.Worlds.Entities
 {
-    internal interface IDoodlerBoosterStorage : IDestroyable
+    internal interface IDoodlerBoosterStorage : Core.IDestroyable
     {
         public void Add(Worlds.Boosters.IBoosterCollisionInfo info, int count = 1);
 

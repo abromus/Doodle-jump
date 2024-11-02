@@ -1,12 +1,11 @@
 ﻿using DoodleJump.Core;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerJump : IDoodlerJump
     {
-        private readonly Transform _transform;
-        private readonly Rigidbody2D _rigidbody;
+        private readonly UnityEngine.Transform _transform;
+        private readonly UnityEngine.Rigidbody2D _rigidbody;
 
         public event System.Action Jumped;
 
@@ -18,7 +17,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Do(float height)
         {
-            _rigidbody.AddForce(_transform.up * height, ForceMode2D.Impulse);
+            _rigidbody.AddForce(_transform.up * height, UnityEngine.ForceMode2D.Impulse);
 
             Jumped.SafeInvoke();
         }

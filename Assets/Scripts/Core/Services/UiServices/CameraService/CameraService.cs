@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace DoodleJump.Core.Services
@@ -10,11 +9,9 @@ namespace DoodleJump.Core.Services
         private Transform _container;
         private Camera _camera;
 
-        public override UiServiceType UiServiceType => UiServiceType.CameraService;
-
         public Camera Camera => _camera;
 
-        public event Action<Transform> Attached;
+        public event System.Action<Transform> Attached;
 
         public void Init(Transform container)
         {

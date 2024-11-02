@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DoodleJump.Core
+﻿namespace DoodleJump.Core
 {
-    [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
+    [System.AttributeUsage(System.AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
     public sealed class SeparatorAttribute : BaseAttribute
     {
         private readonly float _height;

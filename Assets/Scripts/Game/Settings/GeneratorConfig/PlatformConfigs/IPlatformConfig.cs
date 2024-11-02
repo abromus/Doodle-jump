@@ -1,13 +1,11 @@
-﻿using DoodleJump.Game.Worlds.Platforms;
-
-namespace DoodleJump.Game.Settings
+﻿namespace DoodleJump.Game.Settings
 {
     internal interface IPlatformConfig : IProbable
     {
         public string Title { get; }
 
-        public BasePlatform PlatformPrefab { get; }
+        public Worlds.Platforms.BasePlatform PlatformPrefab { get; }
 
-        public PlatformTriggerType TriggerType { get; }
+        public Worlds.Platforms.PlatformTriggerType TriggerType { get; }
     }
 }

@@ -1,15 +1,11 @@
-using DoodleJump.Core.Factories;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Boosters;
-
 namespace DoodleJump.Game.Factories
 {
-    internal interface IBoosterTriggerFactory : IFactory
+    internal interface IBoosterTriggerFactory : Core.Factories.IFactory
     {
         public void Init(Data.IPersistentDataStorage persistentDataStorage, Worlds.Entities.IDoodler doodler);
 
-        public IBoosterTrigger Create(IBoosterCollisionInfo info, BoosterTriggerType triggerType);
+        public Worlds.Boosters.IBoosterTrigger Create(Worlds.Boosters.IBoosterCollisionInfo info, Worlds.Boosters.BoosterTriggerType triggerType);
 
-        public IBoosterTrigger Create(IBoosterCollisionInfo info, IWorldBoosterConfig worldBoosterConfig);
+        public Worlds.Boosters.IBoosterTrigger Create(Worlds.Boosters.IBoosterCollisionInfo info, Settings.IWorldBoosterConfig worldBoosterConfig);
     }
 }

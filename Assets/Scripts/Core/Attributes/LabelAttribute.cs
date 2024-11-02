@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DoodleJump.Core
+﻿namespace DoodleJump.Core
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+    [System.AttributeUsage(System.AttributeTargets.Field | System.AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public sealed class LabelAttribute : BaseAttribute
     {
         private readonly string _name;

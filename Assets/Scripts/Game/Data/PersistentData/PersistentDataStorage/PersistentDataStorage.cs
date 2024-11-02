@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace DoodleJump.Game.Data
 {
     internal sealed class PersistentDataStorage : IPersistentDataStorage
     {
-        private readonly Dictionary<Type, IPersistentData> _data;
+        private readonly System.Collections.Generic.Dictionary<System.Type, IPersistentData> _data;
 
         internal PersistentDataStorage(Settings.IDoodlerConfig doodlerConfig)
         {

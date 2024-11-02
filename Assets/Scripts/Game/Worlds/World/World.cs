@@ -52,7 +52,6 @@ namespace DoodleJump.Game.Worlds
         {
             _canUpdate = false;
 
-            _doodler.Prepare();
             _generator.Prepare();
         }
 

@@ -37,7 +37,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<IProgressInfo, IPlatformCollisionInfo> Collided;
 
-        internal PlatformStorage(IGameData gameData, in WorldArgs args, Transform platformsContainer, Rect screenRect)
+        internal PlatformStorage(IGameData gameData, in WorldArgs args, Transform platformsContainer, in Rect screenRect)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -74,7 +74,9 @@ namespace DoodleJump.Game.Worlds
             {
                 GetPlatformPrefab(out var platformConfig, out var platformPrefab);
 
-                if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
+                var size = platformPrefab.Size;
+
+                if (platformPrefab == null || IsIntersectedPlatforms(in _currentPlatformPosition, in size))
                     return;
 
                 CheckCurrentProgress();
@@ -199,7 +201,7 @@ namespace DoodleJump.Game.Worlds
             _currentPlatformPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
         }
 
-        private bool IsIntersectedPlatforms(Vector3 currentPlatformPosition, Vector2 size)
+        private bool IsIntersectedPlatforms(in Vector3 currentPlatformPosition, in Vector2 size)
         {
             foreach (var platform in _platforms)
                 if (platform.IsIntersectedArea(currentPlatformPosition, size))
@@ -226,7 +228,9 @@ namespace DoodleJump.Game.Worlds
 
             GetPlatformPrefab(out var platformConfig, out var platformPrefab);
 
-            if (platformPrefab == null || IsIntersectedPlatforms(_currentPlatformPosition, platformPrefab.Size))
+            var size = platformPrefab.Size;
+
+            if (platformPrefab == null || IsIntersectedPlatforms(in _currentPlatformPosition, in size))
                 return;
 
             GeneratePlatform(platformConfig, platformPrefab);

@@ -1,6 +1,3 @@
-using DoodleJump.Core.Data;
-using DoodleJump.Game.Data;
-
 namespace DoodleJump.Game
 {
     internal sealed class Game : IGame
@@ -8,13 +5,13 @@ namespace DoodleJump.Game
         private States.GameStateMachineArgs _args;
         private Core.Services.IStateMachine _gameStateMachine;
 
-        private readonly IGameData _gameData;
+        private readonly Data.IGameData _gameData;
 
-        public IGameData GameData => _gameData;
+        public Data.IGameData GameData => _gameData;
 
-        internal Game(ICoreData coreData, Settings.ConfigStorage configStorage, UnityEngine.Transform uiServicesContainer)
+        internal Game(Core.Data.ICoreData coreData, Settings.ConfigStorage configStorage, UnityEngine.Transform uiServicesContainer)
         {
-            _gameData = new GameData(coreData, configStorage, uiServicesContainer);
+            _gameData = new Data.GameData(coreData, configStorage, uiServicesContainer);
         }
 
         public void Run()
@@ -31,7 +28,7 @@ namespace DoodleJump.Game
             _gameData.Destroy();
         }
 
-        private void InitGameStateMachine(IGameData gameData)
+        private void InitGameStateMachine(Data.IGameData gameData)
         {
             _args = new();
             _gameStateMachine = new Core.Services.StateMachine();

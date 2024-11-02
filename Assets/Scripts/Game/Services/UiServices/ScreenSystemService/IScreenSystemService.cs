@@ -1,17 +1,13 @@
-using DoodleJump.Core.Services;
-using DoodleJump.Game.UI;
-using UnityEngine;
-
 namespace DoodleJump.Game.Services
 {
-    internal interface IScreenSystemService : IService
+    internal interface IScreenSystemService : Core.Services.IService
     {
         public void Init(Data.IGameData gameData, Worlds.IWorldData worldData);
 
-        public bool ShowScreen(ScreenType screenType, IScreenArgs args = null);
+        public bool ShowScreen(UI.ScreenType screenType, IScreenArgs args = null);
 
-        public void HideScreen(ScreenType screenType);
+        public void HideScreen(UI.ScreenType screenType);
 
-        public void AttachTo(Transform parent);
+        public void AttachTo(UnityEngine.Transform parent);
     }
 }

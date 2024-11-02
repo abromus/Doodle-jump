@@ -1,14 +1,9 @@
-﻿using DoodleJump.Core.Factories;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Entities;
-using DoodleJump.Game.Worlds.Platforms;
-
-namespace DoodleJump.Game.Factories
+﻿namespace DoodleJump.Game.Factories
 {
-    internal interface IPlatformTriggerFactory : IFactory
+    internal interface IPlatformTriggerFactory : Core.Factories.IFactory
     {
-        public void Init(IDoodler doodler);
+        public void Init(Worlds.Entities.IDoodler doodler);
 
-        public IPlatformTrigger Create(IPlatformCollisionInfo info, IPlatform platform, IPlatformConfig platformConfig);
+        public Worlds.Platforms.IPlatformTrigger Create(Worlds.Platforms.IPlatformCollisionInfo info, Worlds.Platforms.IPlatform platform, Settings.IPlatformConfig platformConfig);
     }
 }

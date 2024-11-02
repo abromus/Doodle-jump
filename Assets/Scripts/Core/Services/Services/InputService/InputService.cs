@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace DoodleJump.Core.Services
 {
     internal sealed class InputService : IInputService
@@ -18,47 +16,47 @@ namespace DoodleJump.Core.Services
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public float GetHorizontalAxis()
         {
-            return Input.GetAxis(AxisKeys.Horizontal);
+            return UnityEngine.Input.GetAxis(AxisKeys.Horizontal);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public float GetHorizontalAxisRaw()
         {
-            return Input.GetAxisRaw(AxisKeys.Horizontal);
+            return UnityEngine.Input.GetAxisRaw(AxisKeys.Horizontal);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public int GetTouchCount()
         {
-            return Input.touchCount;
+            return UnityEngine.Input.touchCount;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public Touch GetTouch(int index)
+        public UnityEngine.Touch GetTouch(int index)
         {
-            return Input.GetTouch(index);
+            return UnityEngine.Input.GetTouch(index);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public bool GetMouseButtonDown(int button)
         {
-            return Input.GetMouseButtonDown(button);
+            return UnityEngine.Input.GetMouseButtonDown(button);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public Vector3 GetMousePosition()
+        public UnityEngine.Vector3 GetMousePosition()
         {
-            return Input.mousePosition;
+            return UnityEngine.Input.mousePosition;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene)
         {
             return _eventSystemService.IsPointerOverGameObject(scene);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene, int fingerId)
         {
             return _eventSystemService.IsPointerOverGameObject(scene, fingerId);
         }

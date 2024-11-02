@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DoodleJump.Game.Worlds.Entities
+﻿namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class DoodlerBoosterExecutor : IDoodlerBoosterExecutor
     {
@@ -9,9 +7,9 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly Factories.IBoosterFactory _factory;
         private readonly Settings.IBoostersConfig _boostersConfig;
         private readonly UnityEngine.Transform _boosterContainer;
-        private readonly List<Boosters.IBooster> _boosters = new(16);
-        private readonly List<Boosters.IBooster> _executingBoosters = new(16);
-        private readonly Dictionary<Worlds.Boosters.BoosterType, Core.IObjectPool<Boosters.IBooster>> _pools = new(16);
+        private readonly System.Collections.Generic.List<Boosters.IBooster> _boosters = new(16);
+        private readonly System.Collections.Generic.List<Boosters.IBooster> _executingBoosters = new(16);
+        private readonly System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, Core.IObjectPool<Boosters.IBooster>> _pools = new(16);
 
         internal DoodlerBoosterExecutor(in DoodlerBoosterStorageArgs args)
         {
@@ -76,7 +74,7 @@ namespace DoodleJump.Game.Worlds.Entities
             {
                 var prefab = boosterConfig.BoosterPrefab;
 
-                if (prefab ==  null)
+                if (prefab == null)
                     continue;
 
                 var boosterType = prefab.BoosterType;

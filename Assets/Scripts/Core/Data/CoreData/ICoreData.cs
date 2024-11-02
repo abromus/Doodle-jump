@@ -1,15 +1,11 @@
-using DoodleJump.Core.Factories;
-using DoodleJump.Core.Services;
-using DoodleJump.Core.Settings;
-
 namespace DoodleJump.Core.Data
 {
     public interface ICoreData : IDestroyable
     {
-        public IConfigStorage ConfigStorage { get; }
+        public Settings.IConfigStorage ConfigStorage { get; }
 
-        public IFactoryStorage FactoryStorage { get; }
+        public Factories.IFactoryStorage FactoryStorage { get; }
 
-        public IServiceStorage ServiceStorage { get; }
+        public Services.IServiceStorage ServiceStorage { get; }
     }
 }

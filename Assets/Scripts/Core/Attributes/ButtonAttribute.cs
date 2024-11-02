@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DoodleJump.Core
+﻿namespace DoodleJump.Core
 {
-    [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [System.AttributeUsage(System.AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public sealed class ButtonAttribute : BaseAttribute
     {
         private readonly string _methodName;

@@ -18,8 +18,6 @@ namespace DoodleJump.Game.Services
 
         private readonly Dictionary<ScreenType, BaseScreen> _screens = new(8);
 
-        public override UiServiceType UiServiceType => UiServiceType.ScreenSystemService;
-
         public void Init(IGameData gameData, IWorldData worldData)
         {
             _gameData = gameData;

@@ -67,13 +67,13 @@ namespace DoodleJump.Core.Services
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene)
         {
             return IsPointerOverGameObject(scene, 0);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene, int fingerId)
         {
             return _eventSystemService.IsPointerOverGameObject(scene, fingerId);
         }

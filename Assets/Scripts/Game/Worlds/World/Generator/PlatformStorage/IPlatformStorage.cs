@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using DoodleJump.Core;
-using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Platforms;
-
-namespace DoodleJump.Game.Worlds
+﻿namespace DoodleJump.Game.Worlds
 {
-    internal interface IPlatformStorage : IDestroyable
+    internal interface IPlatformStorage : Core.IDestroyable
     {
         public float HighestPlatformY { get; }
 
-        public IReadOnlyList<IPlatform> Platforms { get; }
+        public System.Collections.Generic.IReadOnlyList<Platforms.IPlatform> Platforms { get; }
 
-        public event Action<IProgressInfo, IPlatformCollisionInfo> Collided;
+        public event System.Action<Settings.IProgressInfo, Platforms.IPlatformCollisionInfo> Collided;
 
         public void Clear();
 
@@ -20,6 +14,6 @@ namespace DoodleJump.Game.Worlds
 
         public void GeneratePlatforms();
 
-        public void DestroyPlatform(IPlatform platform);
+        public void DestroyPlatform(Platforms.IPlatform platform);
     }
 }

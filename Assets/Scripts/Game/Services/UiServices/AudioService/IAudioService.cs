@@ -1,10 +1,8 @@
-using DoodleJump.Core.Services;
-
 namespace DoodleJump.Game.Services
 {
-    internal interface IAudioService : IService, IPausable
+    internal interface IAudioService : Core.Services.IService, Core.Services.IPausable
     {
-        public void Init(IUpdater updater);
+        public void Init(Core.Services.IUpdater updater);
 
         public void PlayBackground(BackgroundType backgroundType);
 

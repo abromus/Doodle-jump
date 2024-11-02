@@ -1,11 +1,8 @@
-using DoodleJump.Core;
-using DoodleJump.Game.Data;
-
 namespace DoodleJump.Game
 {
-    internal interface IGame : IDestroyable
+    internal interface IGame : Core.IDestroyable
     {
-        public IGameData GameData { get; }
+        public Data.IGameData GameData { get; }
 
         public void Run();
     }

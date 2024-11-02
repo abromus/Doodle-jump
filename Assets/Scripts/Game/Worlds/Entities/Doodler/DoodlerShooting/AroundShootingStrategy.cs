@@ -1,18 +1,15 @@
-﻿using DoodleJump.Core.Services;
-using UnityEngine;
-
-namespace DoodleJump.Game.Worlds.Entities
+﻿namespace DoodleJump.Game.Worlds.Entities
 {
     internal sealed class AroundShootingStrategy : IShootingStrategy
     {
-        private readonly ICameraService _cameraService;
+        private readonly Core.Services.ICameraService _cameraService;
 
-        internal AroundShootingStrategy(ICameraService cameraService)
+        internal AroundShootingStrategy(Core.Services.ICameraService cameraService)
         {
             _cameraService = cameraService;
         }
 
-        public Vector3 GetDirection(Vector3 doodlerPosition, Vector3 shootPosition)
+        public UnityEngine.Vector3 GetDirection(UnityEngine.Vector3 doodlerPosition, UnityEngine.Vector3 shootPosition)
         {
             var shootWorldPosition = _cameraService.Camera.ScreenToWorldPoint(shootPosition);
             shootWorldPosition.z = 0f;

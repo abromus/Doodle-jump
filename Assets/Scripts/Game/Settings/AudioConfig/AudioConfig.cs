@@ -1,14 +1,12 @@
-using UnityEngine;
-
 namespace DoodleJump.Game.Settings
 {
-    [CreateAssetMenu(fileName = nameof(AudioConfig), menuName = ConfigKeys.GamePathKey + nameof(AudioConfig))]
-    internal sealed class AudioConfig : ScriptableObject, IAudioConfig
+    [UnityEngine.CreateAssetMenu(fileName = nameof(AudioConfig), menuName = ConfigKeys.GamePathKey + nameof(AudioConfig))]
+    internal sealed class AudioConfig : UnityEngine.ScriptableObject, IAudioConfig
     {
-        [SerializeField] private bool _isBackgroundMusicActive;
-        [SerializeField] private bool _isMusicActive;
-        [SerializeField] private float _backgroundMusicVolume;
-        [SerializeField] private float _soundVolume;
+        [UnityEngine.SerializeField] private bool _isBackgroundMusicActive;
+        [UnityEngine.SerializeField] private bool _isMusicActive;
+        [UnityEngine.SerializeField] private float _backgroundMusicVolume;
+        [UnityEngine.SerializeField] private float _soundVolume;
 
         public bool IsBackgroundMusicActive => _isBackgroundMusicActive;
 

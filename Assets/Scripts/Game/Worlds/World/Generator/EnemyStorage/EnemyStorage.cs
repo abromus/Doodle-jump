@@ -40,7 +40,7 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
-        internal EnemyStorage(IGameData gameData, in WorldArgs args, Transform enemiesContainer, Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
+        internal EnemyStorage(IGameData gameData, in WorldArgs args, Transform enemiesContainer, in Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
@@ -208,7 +208,7 @@ namespace DoodleJump.Game.Worlds
             _currentEnemyPosition.x = Random.Range(_screenRect.xMin, _screenRect.xMax);
         }
 
-        private bool IsIntersectedEnemies(Vector3 currentEnemyPosition, Vector2 size)
+        private bool IsIntersectedEnemies(in Vector3 currentEnemyPosition, in Vector2 size)
         {
             foreach (var enemy in _enemies)
                 if (enemy.IsIntersectedArea(currentEnemyPosition, size))
@@ -238,8 +238,9 @@ namespace DoodleJump.Game.Worlds
             if (CanGenerateEnemy())
             {
                 var enemyPrefab = GetEnemyPrefab();
+                var size = enemyPrefab.Size;
 
-                if (enemyPrefab == null || IsIntersectedEnemies(_currentEnemyPosition, enemyPrefab.Size))
+                if (enemyPrefab == null || IsIntersectedEnemies(_currentEnemyPosition, in size))
                     return;
 
                 GenerateEnemy(enemyPrefab);

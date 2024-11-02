@@ -1,10 +1,8 @@
-using UnityEngine;
-
 namespace DoodleJump.Core
 {
-    internal sealed class Bootstrapper : MonoBehaviour
+    internal sealed class Bootstrapper : UnityEngine.MonoBehaviour
     {
-        [SerializeField] private CoreSceneController _coreSceneController;
+        [UnityEngine.SerializeField] private CoreSceneController _coreSceneController;
 
         private void Awake()
         {

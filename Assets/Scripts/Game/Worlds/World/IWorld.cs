@@ -1,9 +1,6 @@
-using DoodleJump.Core;
-using DoodleJump.Core.Services;
-
 namespace DoodleJump.Game.Worlds
 {
-    internal interface IWorld : IDestroyable, IUpdatable, ILateUpdatable
+    internal interface IWorld : Core.IDestroyable, Core.Services.IUpdatable, Core.Services.ILateUpdatable
     {
         public IWorldData WorldData { get; }
 

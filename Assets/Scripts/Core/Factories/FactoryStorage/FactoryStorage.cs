@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
 using DoodleJump.Core.Settings;
 
 namespace DoodleJump.Core.Factories
 {
     internal sealed class FactoryStorage : IFactoryStorage
     {
-        private Dictionary<Type, IFactory> _factories;
-
-        private readonly IUiFactoryConfig _uiFactoryConfig;
+        private System.Collections.Generic.Dictionary<System.Type, IFactory> _factories;
 
         internal FactoryStorage(IConfigStorage configStorage)
         {
-            _uiFactoryConfig = configStorage.GetCoreUiFactoryConfig();
-
-            var uiFactories = _uiFactoryConfig.UiFactories;
+            var uiFactoryConfig = configStorage.GetCoreUiFactoryConfig();
+            var uiFactories = uiFactoryConfig.UiFactories;
             var gameSceneControllerFactory = uiFactories.GetGameSceneControllerFactory();
 
             _factories = new(4)

@@ -1,15 +1,14 @@
-﻿using DoodleJump.Game.Worlds.Entities;
-
-namespace DoodleJump.Game.Worlds.Platforms
+﻿namespace DoodleJump.Game.Worlds.Platforms
 {
-    internal readonly struct QuantityTrigger : IPlatformTrigger
+    internal struct QuantityTrigger : IPlatformTrigger
     {
-        private readonly IDoodler _doodler;
-        private readonly float _jumpForce;
+        private float _jumpForce;
+
+        private readonly Entities.IDoodler _doodler;
 
         public readonly PlatformTriggerType TriggerType => PlatformTriggerType.Jump;
 
-        internal QuantityTrigger(IDoodler doodler, float jumpForce)
+        internal QuantityTrigger(Entities.IDoodler doodler, float jumpForce)
         {
             _doodler = doodler;
             _jumpForce = jumpForce;
@@ -22,6 +21,12 @@ namespace DoodleJump.Game.Worlds.Platforms
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public readonly void UpdateInfo(IPlatformCollisionInfo info) { }
+        public void UpdateInfo(IPlatformCollisionInfo info, Settings.IPlatformConfig config)
+        {
+            if (config is not Settings.IQuantityConfig quantityConfig)
+                return;
+
+            _jumpForce = quantityConfig.JumpForce;
+        }
     }
 }

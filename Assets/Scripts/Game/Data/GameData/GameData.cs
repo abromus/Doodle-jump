@@ -1,26 +1,21 @@
-using DoodleJump.Core.Data;
-using DoodleJump.Core.Factories;
-using DoodleJump.Core.Services;
-using DoodleJump.Core.Settings;
-
 namespace DoodleJump.Game.Data
 {
     internal sealed class GameData : IGameData
     {
-        private readonly ICoreData _coreData;
-        private readonly IConfigStorage _configStorage;
-        private readonly IServiceStorage _serviceStorage;
-        private readonly IFactoryStorage _factoryStorage;
+        private readonly Core.Data.ICoreData _coreData;
+        private readonly Core.Settings.IConfigStorage _configStorage;
+        private readonly Core.Services.IServiceStorage _serviceStorage;
+        private readonly Core.Factories.IFactoryStorage _factoryStorage;
 
-        public ICoreData CoreData => _coreData;
+        public Core.Data.ICoreData CoreData => _coreData;
 
-        public IConfigStorage ConfigStorage => _configStorage;
+        public Core.Settings.IConfigStorage ConfigStorage => _configStorage;
 
-        public IServiceStorage ServiceStorage => _serviceStorage;
+        public Core.Services.IServiceStorage ServiceStorage => _serviceStorage;
 
-        public IFactoryStorage FactoryStorage => _factoryStorage;
+        public Core.Factories.IFactoryStorage FactoryStorage => _factoryStorage;
 
-        internal GameData(ICoreData coreData, IConfigStorage configStorage, UnityEngine.Transform uiServicesContainer)
+        internal GameData(Core.Data.ICoreData coreData, Core.Settings.IConfigStorage configStorage, UnityEngine.Transform uiServicesContainer)
         {
             _coreData = coreData;
             _configStorage = configStorage;

@@ -1,28 +1,25 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 using DoodleJump.Game.Services;
-using DoodleJump.Game.Worlds.Entities;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class EarthSpringPlatform : BasePlatform
     {
-        [SerializeField] private Transform _spring;
-        [SerializeField] private float _springSize;
-        [SerializeField] private float _springOffset;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private PlatformClipType _springClipType;
+        [UnityEngine.SerializeField] private UnityEngine.Transform _spring;
+        [UnityEngine.SerializeField] private float _springSize;
+        [UnityEngine.SerializeField] private float _springOffset;
+        [UnityEngine.SerializeField] private UnityEngine.Animator _animator;
+        [UnityEngine.SerializeField] private PlatformClipType _springClipType;
 
         private SpringJumpPlatformCollisionInfo _info;
         private float _springPosition;
-        private Vector2 _springPositionRange;
+        private UnityEngine.Vector2 _springPositionRange;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
-        public override void InitPosition(Vector3 position)
+        public override void InitPosition(UnityEngine.Vector3 position)
         {
             base.InitPosition(position);
 
@@ -40,12 +37,12 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info = new SpringJumpPlatformCollisionInfo(this);
 
             var offset = (Size.x - _springSize - _springOffset) * Constants.Half;
-            _springPositionRange = new Vector2(-offset, offset);
+            _springPositionRange = new UnityEngine.Vector2(-offset, offset);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
-            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<Entities.IDoodler>(out var doodler) == false)
                 return;
 
             var doodlerPosition = doodler.GameObject.transform.position.x;

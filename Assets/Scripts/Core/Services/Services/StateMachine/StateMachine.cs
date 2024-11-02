@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 namespace DoodleJump.Core.Services
 {
     public sealed class StateMachine : IStateMachine
     {
         private IExitState _currentState;
 
-        private readonly Dictionary<Type, IState> _states = new(8);
+        private readonly System.Collections.Generic.Dictionary<System.Type, IState> _states = new(8);
 
         public void Enter<TState>() where TState : class, IEnterState
         {

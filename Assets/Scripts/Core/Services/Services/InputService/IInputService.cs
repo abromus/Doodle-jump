@@ -16,9 +16,9 @@ namespace DoodleJump.Core.Services
 
         public UnityEngine.Vector3 GetMousePosition();
 
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene);
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene);
 
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId);
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene, int fingerId);
 
         public void SetXSensitivity(float xSensitivity);
     }

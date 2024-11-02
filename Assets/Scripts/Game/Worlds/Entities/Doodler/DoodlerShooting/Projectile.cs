@@ -17,7 +17,6 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private IAudioService _audioService;
         private IUpdater _updater;
-        private Camera _camera;
         private IShootingStrategy _shootingStrategy;
         private bool _initialized;
         private Vector3 _direction;
@@ -28,11 +27,10 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event Action<IProjectile> Destroyed;
 
-        public void Init(IAudioService audioService, IUpdater updater, ICameraService cameraService, IShootingStrategy shootingStrategy)
+        public void Init(IAudioService audioService, IUpdater updater,IShootingStrategy shootingStrategy)
         {
             _audioService = audioService;
             _updater = updater;
-            _camera = cameraService.Camera;
             _shootingStrategy = shootingStrategy;
         }
 

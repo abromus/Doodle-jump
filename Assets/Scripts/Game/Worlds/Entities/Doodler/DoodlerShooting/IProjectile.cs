@@ -6,7 +6,7 @@
 
         public event System.Action<IProjectile> Destroyed;
 
-        public void Init(Services.IAudioService audioService, Core.Services.IUpdater updater, Core.Services.ICameraService cameraService, IShootingStrategy shootingStrategy);
+        public void Init(Services.IAudioService audioService, Core.Services.IUpdater updater, IShootingStrategy shootingStrategy);
 
         public void InitPosition(UnityEngine.Vector3 position, float doodlerDirection, UnityEngine.Vector3 shootPosition);
     }

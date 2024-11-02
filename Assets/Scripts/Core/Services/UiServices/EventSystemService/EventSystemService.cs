@@ -1,23 +1,17 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
 namespace DoodleJump.Core.Services
 {
     internal sealed class EventSystemService : BaseUiService, IEventSystemService
     {
-        [SerializeField] private EventSystem _eventSystemPrefab;
+        [UnityEngine.SerializeField] private UnityEngine.EventSystems.EventSystem _eventSystemPrefab;
 
-        private readonly Dictionary<UnityEngine.SceneManagement.Scene, EventSystem> _eventSystems = new(8);
+        private readonly System.Collections.Generic.Dictionary<UnityEngine.SceneManagement.Scene, UnityEngine.EventSystems.EventSystem> _eventSystems = new(8);
 
-        public override UiServiceType UiServiceType => UiServiceType.EventSystemService;
-
-        public bool AddTo(UnityEngine.SceneManagement.Scene scene)
+        public bool AddTo(in UnityEngine.SceneManagement.Scene scene)
         {
             if (_eventSystems.ContainsKey(scene))
                 return false;
 
-            var eventSystem = InstantiateEventSystem(_eventSystemPrefab, scene);
+            var eventSystem = InstantiateEventSystem(_eventSystemPrefab, in scene);
 
             _eventSystems.Add(scene, eventSystem);
 
@@ -25,25 +19,25 @@ namespace DoodleJump.Core.Services
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Detach(UnityEngine.SceneManagement.Scene scene)
+        public void Detach(in UnityEngine.SceneManagement.Scene scene)
         {
             _eventSystems.Remove(scene);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public EventSystem Get(UnityEngine.SceneManagement.Scene scene)
+        public UnityEngine.EventSystems.EventSystem Get(in UnityEngine.SceneManagement.Scene scene)
         {
             return _eventSystems.ContainsKey(scene) ? _eventSystems[scene] : null;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene)
         {
             return _eventSystems.TryGetValue(scene, out var eventSystem) && eventSystem.IsPointerOverGameObject();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public bool IsPointerOverGameObject(UnityEngine.SceneManagement.Scene scene, int fingerId)
+        public bool IsPointerOverGameObject(in UnityEngine.SceneManagement.Scene scene, int fingerId)
         {
             return _eventSystems.TryGetValue(scene, out var eventSystem) && eventSystem.IsPointerOverGameObject(fingerId);
         }
@@ -57,7 +51,7 @@ namespace DoodleJump.Core.Services
             _eventSystems.Clear();
         }
 
-        private EventSystem InstantiateEventSystem(EventSystem eventSystemPrefab, UnityEngine.SceneManagement.Scene scene)
+        private UnityEngine.EventSystems.EventSystem InstantiateEventSystem(UnityEngine.EventSystems.EventSystem eventSystemPrefab, in UnityEngine.SceneManagement.Scene scene)
         {
             var eventSystem = Instantiate(eventSystemPrefab);
             eventSystem.gameObject.RemoveCloneSuffix();

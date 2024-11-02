@@ -1,13 +1,10 @@
-using DoodleJump.Core.Factories;
-using DoodleJump.Game.Worlds;
-
 namespace DoodleJump.Game.Factories
 {
-    internal interface IWorldFactory : IFactory
+    internal interface IWorldFactory : Core.Factories.IFactory
     {
-        public void Init(in WorldFactoryArgs args);
+        public void Init(in Worlds.WorldFactoryArgs args);
 
-        public IWorld CreateWorld(Worlds.Entities.IDoodler doodler);
+        public Worlds.IWorld CreateWorld(Worlds.Entities.IDoodler doodler);
 
         public Worlds.Platforms.IPlatform CreatePlatform<T>(T prefab, UnityEngine.Transform container) where T : UnityEngine.MonoBehaviour, Worlds.Platforms.IPlatform;
 

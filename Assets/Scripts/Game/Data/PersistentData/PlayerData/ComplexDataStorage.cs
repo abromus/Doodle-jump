@@ -1,5 +1,4 @@
 ﻿using DoodleJump.Core;
-using Mono.Data.Sqlite;
 
 namespace DoodleJump.Game.Data
 {
@@ -10,24 +9,24 @@ namespace DoodleJump.Game.Data
         private readonly System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, int> _boosters = new(32);
         private readonly int _defaultBoosterCount = 1;
 
-        private readonly SqliteConnection _connection;
-        private readonly SqliteCommand _commandInsertInfo;
-        private readonly SqliteCommand _commandUpdateInfo;
-        private readonly SqliteCommand _commandSelectInfo;
-        private readonly System.Collections.Generic.Dictionary<string, SqliteParameter> _dbParameters = new(4);
+        private readonly Mono.Data.Sqlite.SqliteConnection _connection;
+        private readonly Mono.Data.Sqlite.SqliteCommand _commandInsertInfo;
+        private readonly Mono.Data.Sqlite.SqliteCommand _commandUpdateInfo;
+        private readonly Mono.Data.Sqlite.SqliteCommand _commandSelectInfo;
+        private readonly System.Collections.Generic.Dictionary<string, Mono.Data.Sqlite.SqliteParameter> _dbParameters = new(4);
         private readonly SaveableInfo[] _saveableInfos = new SaveableInfo[32];
 
         public System.Collections.Generic.Dictionary<Worlds.Boosters.BoosterType, int> Boosters => _boosters;
 
         public event System.Action<Worlds.Boosters.BoosterType, int> BoosterChanged;
 
-        internal ComplexDataStorage(SqliteConnection connection)
+        internal ComplexDataStorage(Mono.Data.Sqlite.SqliteConnection connection)
         {
             _connection = connection;
 
-            _dbParameters.Add(ParameterKeys.Id, new SqliteParameter(ParameterKeys.Id, System.Data.DbType.Int32));
-            _dbParameters.Add(ParameterKeys.BoosterType, new SqliteParameter(ParameterKeys.BoosterType, System.Data.DbType.Int32));
-            _dbParameters.Add(ParameterKeys.Count, new SqliteParameter(ParameterKeys.Count, System.Data.DbType.Boolean));
+            _dbParameters.Add(ParameterKeys.Id, new Mono.Data.Sqlite.SqliteParameter(ParameterKeys.Id, System.Data.DbType.Int32));
+            _dbParameters.Add(ParameterKeys.BoosterType, new Mono.Data.Sqlite.SqliteParameter(ParameterKeys.BoosterType, System.Data.DbType.Int32));
+            _dbParameters.Add(ParameterKeys.Count, new Mono.Data.Sqlite.SqliteParameter(ParameterKeys.Count, System.Data.DbType.Boolean));
 
             _commandInsertInfo = GetCommandInsertInfo();
             _commandUpdateInfo = GetCommandUpdateInfo();
@@ -90,11 +89,11 @@ namespace DoodleJump.Game.Data
             UpdateBoosterCount(boosterType, _boosters[boosterType], _commandUpdateInfo);
         }
 
-        private void UpdateBoosterCount(Worlds.Boosters.BoosterType boosterType, int count, SqliteCommand command)
+        private void UpdateBoosterCount(Worlds.Boosters.BoosterType boosterType, int count, Mono.Data.Sqlite.SqliteCommand command)
         {
             var info = new ComplexInfo(boosterType, _boosters[boosterType]);
 
-            _saveableInfos[_saveableMarker] = new SaveableInfo(info, command);
+            _saveableInfos[_saveableMarker] = new SaveableInfo(in info, command);
 
 #if UNITY_EDITOR
             UnityEngine.Assertions.Assert.IsTrue(++_saveableMarker < _saveableInfos.Length);
@@ -105,7 +104,7 @@ namespace DoodleJump.Game.Data
             BoosterChanged.SafeInvoke(boosterType, _boosters[boosterType]);
         }
 
-        private SqliteCommand GetCommandInsertInfo()
+        private Mono.Data.Sqlite.SqliteCommand GetCommandInsertInfo()
         {
             var command = _connection.CreateCommand();
             command.CommandType = System.Data.CommandType.Text;
@@ -117,7 +116,7 @@ namespace DoodleJump.Game.Data
             return command;
         }
 
-        private SqliteCommand GetCommandUpdateInfo()
+        private Mono.Data.Sqlite.SqliteCommand GetCommandUpdateInfo()
         {
             var command = _connection.CreateCommand();
             command.CommandType = System.Data.CommandType.Text;
@@ -129,7 +128,7 @@ namespace DoodleJump.Game.Data
             return command;
         }
 
-        private SqliteCommand GetCommandSelectInfo()
+        private Mono.Data.Sqlite.SqliteCommand GetCommandSelectInfo()
         {
             var command = _connection.CreateCommand();
             command.CommandType = System.Data.CommandType.Text;
@@ -201,9 +200,9 @@ namespace DoodleJump.Game.Data
         private readonly struct SaveableInfo
         {
             public readonly ComplexInfo Info;
-            public readonly SqliteCommand Command;
+            public readonly Mono.Data.Sqlite.SqliteCommand Command;
 
-            internal SaveableInfo(ComplexInfo info, SqliteCommand command)
+            internal SaveableInfo(in ComplexInfo info, Mono.Data.Sqlite.SqliteCommand command)
             {
                 Info = info;
                 Command = command;

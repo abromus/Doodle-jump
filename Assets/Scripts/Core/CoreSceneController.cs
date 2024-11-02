@@ -1,23 +1,19 @@
-using DoodleJump.Core.Data;
 using DoodleJump.Core.Services;
-using DoodleJump.Core.Settings;
-using DoodleJump.Core.States;
-using UnityEngine;
 
 namespace DoodleJump.Core
 {
-    internal sealed class CoreSceneController : MonoBehaviour
+    internal sealed class CoreSceneController : UnityEngine.MonoBehaviour
     {
-        [SerializeField] private ConfigStorage _configStorage;
-        [SerializeField] private Transform _uiServicesContainer;
+        [UnityEngine.SerializeField] private Settings.ConfigStorage _configStorage;
+        [UnityEngine.SerializeField] private UnityEngine.Transform _uiServicesContainer;
 
         private IUpdater _updater;
-        private ICoreData _coreData;
+        private Data.ICoreData _coreData;
 
         internal void CreateCoreData()
         {
             _updater = new Updater();
-            _coreData = new CoreData(_configStorage, _updater, _uiServicesContainer);
+            _coreData = new Data.CoreData(_configStorage, _updater, _uiServicesContainer);
 
             EnterInitState();
         }
@@ -35,17 +31,17 @@ namespace DoodleJump.Core
 
         private void Update()
         {
-            _updater.Tick(Time.deltaTime);
+            _updater.Tick(UnityEngine.Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
-            _updater.FixedTick(Time.fixedDeltaTime);
+            _updater.FixedTick(UnityEngine.Time.fixedDeltaTime);
         }
 
         private void LateUpdate()
         {
-            _updater.LateTick(Time.deltaTime);
+            _updater.LateTick(UnityEngine.Time.deltaTime);
         }
 
         private void OnApplicationFocus(bool focus)
@@ -66,7 +62,7 @@ namespace DoodleJump.Core
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void EnterInitState()
         {
-            _coreData.ServiceStorage.GetStateMachine().Enter<BootstrapState>();
+            _coreData.ServiceStorage.GetStateMachine().Enter<States.BootstrapState>();
         }
     }
 }

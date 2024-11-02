@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-namespace DoodleJump.Game.UI
+﻿namespace DoodleJump.Game.UI
 {
     [System.Serializable]
     internal struct ScreenInfo
     {
-        [SerializeField] private ScreenType _screenType;
-        [SerializeField] private BaseScreen _screenPrefab;
+        [UnityEngine.SerializeField] private ScreenType _screenType;
+        [UnityEngine.SerializeField] private BaseScreen _screenPrefab;
 
         internal readonly ScreenType ScreenType => _screenType;
 

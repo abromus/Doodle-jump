@@ -1,7 +1,4 @@
-﻿using System;
-using DoodleJump.Core;
-using DoodleJump.Game.Worlds.Entities;
-using UnityEngine;
+﻿using DoodleJump.Core;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
@@ -9,9 +6,9 @@ namespace DoodleJump.Game.Worlds.Platforms
     {
         private IPlatformCollisionInfo _info;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override void Destroy()
@@ -24,9 +21,9 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info = new JumpPlatformCollisionInfo(this);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
-            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<Entities.IDoodler>(out var doodler) == false)
                 return;
 
             Collided.SafeInvoke(_info);

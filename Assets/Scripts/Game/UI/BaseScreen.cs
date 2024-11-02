@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace DoodleJump.Game.UI
+﻿namespace DoodleJump.Game.UI
 {
     [System.Serializable]
-    internal abstract class BaseScreen : MonoBehaviour, IScreen
+    internal abstract class BaseScreen : UnityEngine.MonoBehaviour, IScreen
     {
-        [SerializeField] private ScreenType _screenType;
+        [UnityEngine.SerializeField] private ScreenType _screenType;
 
         public ScreenType ScreenType => _screenType;
 

@@ -99,7 +99,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private IProjectile CreateProjectile()
         {
             var projectile = Object.Instantiate(_projectilePrefab, _projectilesContainer);
-            projectile.Init(_audioService, _updater, _cameraService, _shootingStrategyResolver.ShootingStrategy);
+            projectile.Init(_audioService, _updater, _shootingStrategyResolver.ShootingStrategy);
             projectile.GameObject.RemoveCloneSuffix();
             projectile.Destroyed += OnProjectileDestroyed;
 

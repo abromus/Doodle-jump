@@ -27,8 +27,6 @@ namespace DoodleJump.Game.Services
 
         private readonly List<AudioSource> _loopSounds = new(32);
 
-        public override UiServiceType UiServiceType => UiServiceType.AudioService;
-
         public void Init(IUpdater updater)
         {
             _updater = updater;

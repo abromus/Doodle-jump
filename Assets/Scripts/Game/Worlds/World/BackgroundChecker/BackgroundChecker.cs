@@ -13,7 +13,7 @@ namespace DoodleJump.Game.Worlds
         private readonly Queue<SpriteRenderer> _backgroundsQueue;
         private readonly float _height;
 
-        internal BackgroundChecker(Transform cameraTransform, Rect screenRect, SpriteRenderer[] backgrounds)
+        internal BackgroundChecker(Transform cameraTransform, in Rect screenRect, SpriteRenderer[] backgrounds)
         {
             _cameraTransform = cameraTransform;
             _screenRect = screenRect;

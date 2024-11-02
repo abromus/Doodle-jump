@@ -1,22 +1,18 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 using DoodleJump.Core.Services;
-using DoodleJump.Game.Data;
-using DoodleJump.Game.Worlds.Entities;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
     internal sealed class IcePlatform : BasePlatform, IUpdatable, IPausable
     {
-        [SerializeField] private float _xOffset;
-        [SerializeField] private float _minSpeed;
-        [SerializeField] private float _maxSpeed;
+        [UnityEngine.SerializeField] private float _xOffset;
+        [UnityEngine.SerializeField] private float _minSpeed;
+        [UnityEngine.SerializeField] private float _maxSpeed;
 
         private bool _initialized;
         private IUpdater _updater;
         private IPlatformCollisionInfo _info;
-        private Vector3 _startPosition;
+        private UnityEngine.Vector3 _startPosition;
         private float _direction;
         private float _speed;
         private bool _isPaused;
@@ -24,18 +20,18 @@ namespace DoodleJump.Game.Worlds.Platforms
         private readonly float _left = -1f;
         private readonly float _right = 1f;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
-        public override void Init(IGameData gameData)
+        public override void Init(Data.IGameData gameData)
         {
             base.Init(gameData);
 
             _updater = gameData.CoreData.ServiceStorage.GetUpdater();
         }
 
-        public override void InitPosition(Vector3 position)
+        public override void InitPosition(UnityEngine.Vector3 position)
         {
             base.InitPosition(position);
 
@@ -83,9 +79,9 @@ namespace DoodleJump.Game.Worlds.Platforms
                 Unsubscribe();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
-            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<Entities.IDoodler>(out var doodler) == false)
                 return;
 
             Collided.SafeInvoke(_info);

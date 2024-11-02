@@ -32,7 +32,7 @@ namespace DoodleJump.Game.Worlds.Entities
             Transform worldTransform,
             Transform doodlerTransform,
             Transform cameraTransform,
-            Vector3 cameraOffset,
+            in Vector3 cameraOffset,
             float animationDelay,
             float animationDuration)
         {

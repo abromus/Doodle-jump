@@ -19,8 +19,6 @@ namespace DoodleJump.Game.Factories
         private Settings.IGeneratorConfig _generatorConfig;
         private Data.IPersistentDataStorage _persistentDataStorage;
 
-        public override Core.Factories.UiFactoryType UiFactoryType => Core.Factories.UiFactoryType.WorldFactory;
-
         public void Init(in Worlds.WorldFactoryArgs args)
         {
             _gameData = args.GameData;

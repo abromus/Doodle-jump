@@ -1,10 +1,6 @@
-﻿using System;
-using DoodleJump.Core;
+﻿using DoodleJump.Core;
 using DoodleJump.Core.Services;
-using DoodleJump.Game.Data;
 using DoodleJump.Game.Settings;
-using DoodleJump.Game.Worlds.Entities;
-using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Platforms
 {
@@ -17,11 +13,11 @@ namespace DoodleJump.Game.Worlds.Platforms
         private TemporaryPlatformCollisionInfo _info;
         private float _existenceTime;
 
-        public override event Action<IPlatformCollisionInfo> Collided;
+        public override event System.Action<IPlatformCollisionInfo> Collided;
 
-        public override event Action<IPlatform> Destroyed;
+        public override event System.Action<IPlatform> Destroyed;
 
-        public override void Init(IGameData gameData)
+        public override void Init(Data.IGameData gameData)
         {
             base.Init(gameData);
 
@@ -34,7 +30,7 @@ namespace DoodleJump.Game.Worlds.Platforms
             _info = new TemporaryPlatformCollisionInfo(this, _config.ExistenceTime);
         }
 
-        public override void InitPosition(Vector3 position)
+        public override void InitPosition(UnityEngine.Vector3 position)
         {
             base.InitPosition(position);
 
@@ -78,9 +74,9 @@ namespace DoodleJump.Game.Worlds.Platforms
                 Unsubscribe();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(UnityEngine.Collision2D collision)
         {
-            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<IDoodler>(out var doodler) == false)
+            if (0f < collision.relativeVelocity.y || collision.transform.TryGetComponent<Entities.IDoodler>(out var doodler) == false)
                 return;
 
             _triggered = true;

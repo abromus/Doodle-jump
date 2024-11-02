@@ -1,8 +1,6 @@
-using DoodleJump.Core.Settings;
-
 namespace DoodleJump.Game.Settings
 {
-    internal interface IAudioConfig : IConfig
+    internal interface IAudioConfig : Core.Settings.IConfig
     {
         public bool IsBackgroundMusicActive { get; }
 

@@ -1,8 +1,6 @@
-using DoodleJump.Core;
-
 namespace DoodleJump.Game
 {
-    internal interface IGenerator : IDestroyable
+    internal interface IGenerator : Core.IDestroyable
     {
         public void Prepare();
 
