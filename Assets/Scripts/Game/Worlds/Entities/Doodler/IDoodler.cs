@@ -1,6 +1,6 @@
 namespace DoodleJump.Game.Worlds.Entities
 {
-    internal interface IDoodler : IEntity, Core.Services.IFixedUpdatable
+    internal interface IDoodler : IEntity, Core.Services.IUpdatable
     {
         public UnityEngine.GameObject GameObject { get; }
 

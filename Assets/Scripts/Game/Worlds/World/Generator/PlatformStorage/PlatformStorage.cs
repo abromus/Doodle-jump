@@ -80,6 +80,7 @@ namespace DoodleJump.Game.Worlds
                     return;
 
                 CheckCurrentProgress();
+                CorrectPosition(in _currentPlatformPosition, platformPrefab);
                 GeneratePlatform(platformConfig, platformPrefab);
                 GenerateNextPosition();
                 CheckHighestPosition(_currentPlatformPosition.y);
@@ -210,6 +211,17 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
+        private void CorrectPosition(in Vector3 currentPlatformPosition, BasePlatform platformPrefab)
+        {
+            var platformXSize = platformPrefab.Size.x * Constants.Half;
+            var currentXPosition = _currentPlatformPosition.x;
+
+            if (currentXPosition - platformXSize < _screenRect.xMin)
+                _currentPlatformPosition.x += platformXSize;
+            else if (_screenRect.xMax < currentXPosition + platformXSize)
+                _currentPlatformPosition.x -= platformXSize;
+        }
+
         private void GeneratePlatform(IPlatformConfig platformConfig, BasePlatform platformPrefab)
         {
             var platform = _pools[platformPrefab.Id].Get();
@@ -233,6 +245,7 @@ namespace DoodleJump.Game.Worlds
             if (platformPrefab == null || IsIntersectedPlatforms(in _currentPlatformPosition, in size))
                 return;
 
+            CorrectPosition(in _currentPlatformPosition, platformPrefab);
             GeneratePlatform(platformConfig, platformPrefab);
             CheckHighestPosition(_currentPlatformPosition.y);
         }

@@ -21,7 +21,7 @@ namespace DoodleJump.Game.Worlds.Entities
             var value = Random.value;
             var isRight = value < Constants.Half;
             var localScale = Vector3.one;
-            var halfSize = localScale.x * Constants.Half;
+            var halfSize = Size.x * Constants.Half;
 
             position.x = isRight ? _screenRect.xMin + halfSize : _screenRect.xMax - halfSize;
             localScale.x = isRight ? Constants.Left : Constants.Right;

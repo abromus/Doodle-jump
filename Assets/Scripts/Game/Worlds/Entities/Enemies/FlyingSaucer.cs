@@ -13,6 +13,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
+        private float _halfXSize;
         private float _direction;
         private float _speed;
         private float _defaultY;
@@ -29,19 +30,19 @@ namespace DoodleJump.Game.Worlds.Entities
         {
             _direction = GetDirection();
 
-            var size = transform.localScale.x;
-            position.x = _direction == Constants.Right ? _screenRect.xMin - size : _screenRect.xMax + size;
+            var size = Size.x * Constants.Half;
+            position.x = _direction == Constants.Right ? _screenRect.xMin + size : _screenRect.xMax - size;
 
             base.InitPosition(position);
 
-            _speed = UnityEngine.Random.Range(_minSpeed, _maxSpeed);
+            _speed = Random.Range(_minSpeed, _maxSpeed);
             _defaultY = position.y;
 
             SetLocalScale(_direction);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public override void Tick(float deltaTime)
+        public override void FixedTick(float deltaTime)
         {
             Move(deltaTime);
         }
@@ -62,6 +63,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private void Awake()
         {
             _info = new BirdCollisionInfo(this);
+
+            _halfXSize = Size.x * Constants.Half;
         }
 
         private float GetDirection()
@@ -76,27 +79,59 @@ namespace DoodleJump.Game.Worlds.Entities
             if (_isPaused)
                 return;
 
+            transform.position = GetPosition(deltaTime);
+
+            CheckDirection(transform.position.x);
+        }
+
+        private Vector3 GetPosition(float deltaTime)
+        {
             var position = transform.position;
             position.x += _direction * _speed * deltaTime;
+            position.y = GetPositionY();
 
+            return position;
+
+            float GetPositionY()
+            {
+                var screenWidth = _screenRect.width;
+                var newScreenWidth = screenWidth - Size.x;
+
+                var newXMin = 0f;
+                var oldMinProgress = 0f;
+                var oldMaxProgress = 1f;
+
+                var newX = Map(position.x, _screenRect.xMin, _screenRect.xMax, newXMin, newScreenWidth);
+                var screenFactor = _halfXSize / screenWidth;
+                var progress = Map(newX / newScreenWidth, oldMinProgress, oldMaxProgress, oldMinProgress - screenFactor, oldMaxProgress + screenFactor);
+                var positionY = _defaultY + _direction * _animationCurve.Evaluate(progress) * _offsetY;
+
+                return positionY;
+            }
+
+            [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+            float Map(float x, float oldMin, float oldMax, float newMin, float newMax)
+            {
+                return newMin + (x - oldMin) * (newMax - newMin) / (oldMax - oldMin);
+            }
+        }
+
+        private void CheckDirection(float positionX)
+        {
             var isLeft = _direction == Constants.Left;
-            var progress = isLeft ? (position.x - _screenRect.xMin) / _screenRect.width : (position.x + _screenRect.xMax) / _screenRect.width;
-            position.y = _defaultY + _direction * _animationCurve.Evaluate(progress) * _offsetY;
 
-            if (isLeft && position.x < _screenRect.xMin)
+            if (isLeft && positionX < _screenRect.xMin + _halfXSize)
             {
                 _direction = Constants.Right;
 
                 SetLocalScale(_direction);
             }
-            else if (isLeft == false && _screenRect.xMax < position.x)
+            else if (isLeft == false && _screenRect.xMax - _halfXSize < positionX)
             {
                 _direction = Constants.Left;
 
                 SetLocalScale(_direction);
             }
-
-            transform.position = position;
         }
 
         private void SetLocalScale(float scale)

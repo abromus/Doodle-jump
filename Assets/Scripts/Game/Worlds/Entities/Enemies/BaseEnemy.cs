@@ -90,7 +90,7 @@ namespace DoodleJump.Game.Worlds.Entities
             return xMin <= xMax && yMin <= yMax;
         }
 
-        public virtual void Tick(float deltaTime) { }
+        public virtual void FixedTick(float deltaTime) { }
 
         public virtual void SetPause(bool isPaused)
         {
@@ -213,13 +213,13 @@ namespace DoodleJump.Game.Worlds.Entities
 
         private void Subscribe()
         {
-            _updater.AddUpdatable(this);
+            _updater.AddFixedUpdatable(this);
             _updater.AddPausable(this);
         }
 
         private void Unsubscribe()
         {
-            _updater.RemoveUpdatable(this);
+            _updater.RemoveFixedUpdatable(this);
             _updater.RemovePausable(this);
         }
     }
