@@ -11,6 +11,7 @@ namespace DoodleJump.Game.UI
     {
         [Separator(CustomColor.Lime)]
         [SerializeField] private Button _buttonStart;
+        [SerializeField] private Button _buttonExit;
 
         private IWorldData _worldData;
         private bool _initialized;
@@ -40,17 +41,28 @@ namespace DoodleJump.Game.UI
         private void Subscribe()
         {
             _buttonStart.onClick.AddListener(OnButtonStartClicked);
+            _buttonExit.onClick.AddListener(OnButtonExitClicked);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private void Unsubscribe()
         {
             _buttonStart.onClick.RemoveListener(OnButtonStartClicked);
+            _buttonExit.onClick.RemoveListener(OnButtonExitClicked);
         }
 
         private void OnButtonStartClicked()
         {
             _worldData.SetGameStarted();
+        }
+
+        private void OnButtonExitClicked()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            UnityEngine.Application.Quit();
+#endif
         }
     }
 }
