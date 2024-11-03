@@ -781,6 +781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8437369961166326487}
   - component: {fileID: 183162609886605431}
+  - component: {fileID: 8769357556261011148}
   m_Layer: 5
   m_Name: GameScreen
   m_TagString: Untagged
@@ -843,6 +844,19 @@ MonoBehaviour:
     _uiBoosterPrefab: {fileID: -2743371698468334331, guid: 609b42377b5656f46a71d92461eac3b8, type: 3}
   - _boosterType: 3
     _uiBoosterPrefab: {fileID: -2743371698468334331, guid: debab8c7b8dcd414cbe8ee17ef896fbd, type: 3}
+--- !u!114 &8769357556261011148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359966998088021811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3ea0a2af855d342a0b9bc5fb5bc4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _safeAreaType: -1
 --- !u!1 &6379104260535531950
 GameObject:
   m_ObjectHideFlags: 0
