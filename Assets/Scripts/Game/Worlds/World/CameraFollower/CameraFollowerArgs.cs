@@ -9,6 +9,8 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly Transform _worldTransform;
         private readonly Transform _doodlerTransform;
         private readonly Transform _cameraTransform;
+        private readonly Transform _cameraLeftTransform;
+        private readonly Transform _cameraRightTransform;
         private readonly Vector3 _cameraOffset;
         private readonly float _animationDelay;
         private readonly float _animationDuration;
@@ -21,6 +23,10 @@ namespace DoodleJump.Game.Worlds.Entities
 
         internal readonly Transform CameraTransform => _cameraTransform;
 
+        internal readonly Transform CameraLeftTransform => _cameraLeftTransform;
+
+        internal readonly Transform CameraRightTransform => _cameraRightTransform;
+
         internal readonly Vector3 CameraOffset => _cameraOffset;
 
         internal readonly float AnimationDelay => _animationDelay;
@@ -32,6 +38,8 @@ namespace DoodleJump.Game.Worlds.Entities
             Transform worldTransform,
             Transform doodlerTransform,
             Transform cameraTransform,
+            Transform cameraLeftTransform,
+            Transform cameraRightTransform,
             in Vector3 cameraOffset,
             float animationDelay,
             float animationDuration)
@@ -40,6 +48,8 @@ namespace DoodleJump.Game.Worlds.Entities
             _worldTransform = worldTransform;
             _doodlerTransform = doodlerTransform;
             _cameraTransform = cameraTransform;
+            _cameraLeftTransform = cameraLeftTransform;
+            _cameraRightTransform = cameraRightTransform;
             _cameraOffset = cameraOffset;
             _animationDelay = animationDelay;
             _animationDuration = animationDuration;

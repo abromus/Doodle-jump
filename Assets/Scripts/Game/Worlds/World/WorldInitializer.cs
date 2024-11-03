@@ -37,9 +37,20 @@ namespace DoodleJump.Game.Worlds
 
             var doodlerTransform = args.Doodler.GameObject.transform;
             var cameraTransform = cameraService.Camera.transform;
+            var cameraLeftTransform = cameraService.CameraLeft.transform;
+            var cameraRightTransform = cameraService.CameraRight.transform;
 
             _worldData = GetWorldData();
-            _cameraFollower = GetCameraFollower(cameraService, worldTransform, doodlerTransform, cameraTransform, worldArgs.CameraConfig.Offset, args.AnimationDelay, args.AnimationDuration);
+            _cameraFollower = GetCameraFollower(
+                cameraService,
+                worldTransform,
+                doodlerTransform,
+                cameraTransform,
+                cameraLeftTransform,
+                cameraRightTransform,
+                worldArgs.CameraConfig.Offset,
+                args.AnimationDelay,
+                args.AnimationDuration);
 
             var screenRect = cameraService.GetScreenRect();
 
@@ -100,20 +111,50 @@ namespace DoodleJump.Game.Worlds
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private ICameraFollower GetCameraFollower(ICameraService cameraService, Transform worldTransform, Transform doodlerTransform, Transform cameraTransform, in Vector3 cameraOffset, float animationDelay, float animationDuration)
+        private ICameraFollower GetCameraFollower(
+            ICameraService cameraService,
+            Transform worldTransform,
+            Transform doodlerTransform,
+            Transform cameraTransform,
+            Transform cameraLeftTransform,
+            Transform cameraRightTransform,
+            in Vector3 cameraOffset,
+            float animationDelay,
+            float animationDuration)
         {
-            var args = new CameraFollowerArgs(cameraService, worldTransform, doodlerTransform, cameraTransform, in cameraOffset, animationDelay, animationDuration);
+            var args = new CameraFollowerArgs(
+                cameraService,
+                worldTransform,
+                doodlerTransform,
+                cameraTransform,
+                cameraLeftTransform,
+                cameraRightTransform,
+                in cameraOffset,
+                animationDelay,
+                animationDuration);
             return new CameraFollower(in args);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private IDoodlerChecker GetDoodlerChecker(IWorldData worldData, IPersistentDataStorage persistentDataStorage, Transform doodlerTransform, float doodlerWidth, Transform cameraTransform, in Rect screenRect)
+        private IDoodlerChecker GetDoodlerChecker(
+            IWorldData worldData,
+            IPersistentDataStorage persistentDataStorage,
+            Transform doodlerTransform,
+            float doodlerWidth,
+            Transform cameraTransform,
+            in Rect screenRect)
         {
             return new DoodlerChecker(worldData, persistentDataStorage, doodlerTransform, doodlerWidth, cameraTransform, in screenRect);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        private IGenerator GetGenerator(IGameData gameData, in WorldArgs args, in Rect screenRect, Transform platformsContainer, Transform enemiesContainer, Transform boostersContainer)
+        private IGenerator GetGenerator(
+            IGameData gameData,
+            in WorldArgs args,
+            in Rect screenRect,
+            Transform platformsContainer,
+            Transform enemiesContainer,
+            Transform boostersContainer)
         {
             return new Generator(gameData, in args, in screenRect, platformsContainer, enemiesContainer, boostersContainer);
         }

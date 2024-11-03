@@ -5,11 +5,18 @@ namespace DoodleJump.Core.Services
     internal sealed class CameraService : BaseUiService, ICameraService
     {
         [SerializeField] private Camera _cameraPrefab;
+        [SerializeField] private Camera _additionalCameraPrefab;
 
         private Transform _container;
         private Camera _camera;
+        private Camera _cameraLeft;
+        private Camera _cameraRight;
 
         public Camera Camera => _camera;
+
+        public Camera CameraLeft => _cameraLeft;
+
+        public Camera CameraRight => _cameraRight;
 
         public event System.Action<Transform> Attached;
 
@@ -18,6 +25,8 @@ namespace DoodleJump.Core.Services
             _container = container;
 
             _camera = InstantiateCamera(_cameraPrefab, container);
+            _cameraLeft = InstantiateCamera(_additionalCameraPrefab, _camera.transform);
+            _cameraRight = InstantiateCamera(_additionalCameraPrefab, _camera.transform);
         }
 
         public void AttachTo(Transform parent)
@@ -58,6 +67,11 @@ namespace DoodleJump.Core.Services
             camera.gameObject.RemoveCloneSuffix();
 
             return camera;
+        }
+
+        private sealed class Keys
+        {
+            internal const string EntityLayer = "Entity";
         }
     }
 }
