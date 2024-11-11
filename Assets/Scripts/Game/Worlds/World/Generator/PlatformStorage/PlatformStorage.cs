@@ -233,7 +233,7 @@ namespace DoodleJump.Game.Worlds
             _platforms.Add(platform);
         }
 
-        private void TryGeneratePlatform()
+        private bool TryGeneratePlatform()
         {
             CheckCurrentProgress();
             GenerateNextPosition();
@@ -243,11 +243,13 @@ namespace DoodleJump.Game.Worlds
             var size = platformPrefab.Size;
 
             if (platformPrefab == null || IsIntersectedPlatforms(in _currentPlatformPosition, in size))
-                return;
+                return false;
 
             CorrectPosition(in _currentPlatformPosition, platformPrefab);
             GeneratePlatform(platformConfig, platformPrefab);
             CheckHighestPosition(_currentPlatformPosition.y);
+
+            return true;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

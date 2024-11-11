@@ -16,6 +16,10 @@ namespace DoodleJump.Game.Worlds.Entities
         [SerializeField] private float _parabolaMoveDuration;
         [SerializeField] private float _parabolaHeight;
         [SerializeField] private float _downMoveDuration;
+        [Separator(CustomColor.MediumTurquoise)]
+        [SerializeField] private GameObject _head;
+        [SerializeField] private GameObject _shootingHead;
+        [SerializeField] private DoodlerNose _nose;
 
         private IUpdater _updater;
         private IDoodlerInput _doodlerInput;
@@ -81,6 +85,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _shooting.Restart();
             _movement.Restart();
+            _animator.Restart();
         }
 
         public void Tick(float deltaTime)
@@ -88,6 +93,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _doodlerInput.Tick(deltaTime);
             _movement.Tick(deltaTime);
             _shooting.Tick(deltaTime);
+            _animator.Tick(deltaTime);
         }
 
         public void FixedTick(float deltaTime)
@@ -121,16 +127,56 @@ namespace DoodleJump.Game.Worlds.Entities
 
             _doodlerInput = new DoodlerInput(inputService, transform);
 
-            var doodlerMovementAnimationArgs = new DoodlerMovementAnimationArgs(_parabolaMoveDuration, _parabolaHeight, _downMoveDuration);
-            var doodlerMovementArgs = new DoodlerMovementArgs(transform, _rigidbody, _doodlerInput, cameraService, doodlerConfig, in doodlerMovementAnimationArgs);
-            var doodlerShootingArgs = new DoodlerShootingArgs(transform, _doodlerInput, args.AudioService, cameraService, args.Updater, playerData, doodlerConfig, _projectilePrefab);
+            var doodlerMovementAnimationArgs = new DoodlerMovementAnimationArgs(
+                _parabolaMoveDuration,
+                _parabolaHeight,
+                _downMoveDuration);
+
+            var doodlerMovementArgs = new DoodlerMovementArgs(
+                transform,
+                _rigidbody,
+                _doodlerInput,
+                cameraService,
+                doodlerConfig,
+                in doodlerMovementAnimationArgs);
+
+            var doodlerShootingArgs = new DoodlerShootingArgs(
+                transform,
+                _doodlerInput,
+                args.AudioService,
+                cameraService,
+                args.Updater,
+                playerData,
+                doodlerConfig,
+                _projectilePrefab,
+                _nose);
+
+            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(
+                _updater,
+                args.BoosterFactory,
+                playerData,
+                args.BoostersConfig,
+                _boosterContainer,
+                this,
+                _rigidbody);
+
+            _nose.Init();
 
             _movement = new DoodlerMovement(in doodlerMovementArgs);
             _shooting = new DoodlerShooting(in doodlerShootingArgs);
-            _animator = new DoodlerAnimator(transform, _doodlerAnimator, _movement, _doodlerInput);
-
-            var doodlerBoosterStorageArgs = new DoodlerBoosterStorageArgs(_updater, args.BoosterFactory, playerData, args.BoostersConfig, _boosterContainer, this, _rigidbody);
             _boosterStorage = new DoodlerBoosterStorage(in doodlerBoosterStorageArgs);
+
+            var doodlerAnimatorArgs = new DoodlerAnimatorArgs(
+                transform,
+                _doodlerAnimator,
+                _head,
+                _shootingHead,
+                _doodlerInput,
+                _movement,
+                playerData,
+                doodlerConfig);
+
+            _animator = new DoodlerAnimator(in doodlerAnimatorArgs);
         }
 
         private void MakeUpdatable(bool isUpdatable)

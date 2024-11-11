@@ -95,16 +95,18 @@ namespace DoodleJump.Game.Worlds
             TryGeneratePlatforms(doodlerPosition);
         }
 
-        private void TryClearPlatforms(float doodlerPosition, float cameraPosition, float halfScreenHeight)
+        private bool TryClearPlatforms(float doodlerPosition, float cameraPosition, float halfScreenHeight)
         {
             if (doodlerPosition < cameraPosition)
-                return;
+                return false;
 
             var minPosition = cameraPosition - halfScreenHeight;
 
             ClearPlatforms(minPosition);
             ClearEnemies(minPosition);
             ClearBoosters(minPosition);
+
+            return true;
         }
 
         private void ClearPlatforms(float minPosition)
@@ -149,14 +151,16 @@ namespace DoodleJump.Game.Worlds
             }
         }
 
-        private void TryGeneratePlatforms(float doodlerPosition)
+        private bool TryGeneratePlatforms(float doodlerPosition)
         {
             if (doodlerPosition + _screenRect.height < _platformStorage.HighestPlatformY)
-                return;
+                return false;
 
             _platformStorage.GeneratePlatforms();
             _enemyStorage.GenerateEnemies();
             _boosterStorage.GenerateBoosters();
+
+            return true;
         }
 
         private void OnPlatformCollided(IProgressInfo currentProgress, IPlatformCollisionInfo info)

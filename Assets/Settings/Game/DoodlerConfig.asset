@@ -16,3 +16,4 @@ MonoBehaviour:
   _maxShots: 120
   _shootingMode: 3
   _maxAngle: 45
+  _shootModeDuration: 0.2

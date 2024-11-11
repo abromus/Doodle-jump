@@ -10,6 +10,8 @@ namespace DoodleJump.Game.Settings
 
         public float MaxAngle { get; }
 
+        public float ShootModeDuration { get; }
+
 #if UNITY_EDITOR
         public void SetMovementVelocity(float movementVelocity);
 
@@ -18,6 +20,8 @@ namespace DoodleJump.Game.Settings
         public void SetShootingMode(Worlds.Entities.ShootingMode shootingMode);
 
         public void SetMaxAngle(float maxAngle);
+
+        public void SetShootModeDuration(float duration);
 #endif
     }
 }

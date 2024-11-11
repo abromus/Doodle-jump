@@ -11,6 +11,7 @@ namespace DoodleJump.Game.Worlds.Entities
     {
         private Transform _projectilesContainer;
         private bool _isPaused;
+        private NoseInfo _noseInfo;
 
         private readonly Transform _doodlerTransform;
         private readonly IDoodlerInput _doodlerInput;
@@ -19,6 +20,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IUpdater _updater;
         private readonly IPlayerData _playerData;
         private readonly Projectile _projectilePrefab;
+        private readonly DoodlerNose _nose;
 
         private readonly IObjectPool<IProjectile> _projectilePool;
         private readonly List<IProjectile> _projectiles = new(32);
@@ -33,6 +35,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _updater = args.Updater;
             _playerData = args.PlayerData;
             _projectilePrefab = args.ProjectilePrefab;
+            _nose = args.Nose;
 
             _projectilePool = new ObjectPool<IProjectile>(CreateProjectile);
             _shootingStrategyResolver = new ShootingStrategyResolver(_cameraService, args.DoodlerConfig);
@@ -46,6 +49,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void Restart()
         {
+            _nose.transform.SetPositionAndRotation(_nose.RotationOffset, Quaternion.identity);
+
             _playerData.SetCurrentShots(_playerData.MaxShots);
 
             foreach (var projectile in _projectiles)
@@ -59,10 +64,14 @@ namespace DoodleJump.Game.Worlds.Entities
             _projectiles.Clear();
         }
 
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public void Tick(float deltaTime)
         {
-            TryShoot();
+            if (CanShoot() == false)
+                return;
+
+            CheckNosePosition();
+            InitProjectilePosition();
+            UpdateShots(_playerData.CurrentShots - 1);
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -85,15 +94,10 @@ namespace DoodleJump.Game.Worlds.Entities
             _projectiles.Clear();
         }
 
-        private void TryShoot()
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        private bool CanShoot()
         {
-            var currentShots = _playerData.CurrentShots;
-
-            if (_doodlerInput.IsShooting == false || _isPaused || currentShots == 0)
-                return;
-
-            InitProjectilePosition();
-            UpdateShots(currentShots - 1);
+            return _doodlerInput.IsShooting && _isPaused == false && 0 < _playerData.CurrentShots;
         }
 
         private IProjectile CreateProjectile()
@@ -106,13 +110,25 @@ namespace DoodleJump.Game.Worlds.Entities
             return projectile;
         }
 
+        private void CheckNosePosition()
+        {
+            var shootPosition = _doodlerInput.ShootPosition;
+            var shootWorldPosition = _cameraService.Camera.ScreenToWorldPoint(shootPosition);
+            shootWorldPosition.z = 0f;
+
+            var shootDirection = (shootWorldPosition - _doodlerTransform.position).normalized;
+            _noseInfo = _shootingStrategyResolver.ShootingStrategy.GetNoseInfo(shootDirection, _nose);
+
+            _nose.transform.SetPositionAndRotation(_noseInfo.Position, _noseInfo.Rotation);
+        }
+
         private void InitProjectilePosition()
         {
+            var nosePosition = _noseInfo.ShootPosition;
             var doodlerDirection = _doodlerTransform.localScale.x == Constants.Left ? Constants.Left : Constants.Right;
-            var doodlerPosition = _doodlerTransform.position;
             var shootPosition = _doodlerInput.ShootPosition;
             var projectile = _projectilePool.Get();
-            projectile.InitPosition(doodlerPosition, doodlerDirection, shootPosition);
+            projectile.InitPosition(nosePosition, doodlerDirection, shootPosition);
 
             _projectiles.Add(projectile);
         }

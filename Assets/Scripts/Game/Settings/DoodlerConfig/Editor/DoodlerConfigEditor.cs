@@ -18,6 +18,8 @@
             var mode = (Worlds.Entities.ShootingMode)UnityEditor.EditorGUILayout.EnumPopup(nameof(config.ShootingMode), config.ShootingMode);
             config.SetShootingMode(mode);
 
+            config.SetShootModeDuration(UnityEditor.EditorGUILayout.FloatField(nameof(config.ShootModeDuration), config.ShootModeDuration));
+
             var isConeMode = mode == Worlds.Entities.ShootingMode.Cone;
             var angle = isConeMode ? config.MaxAngle : 0f;
 

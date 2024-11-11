@@ -36,8 +36,6 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public void InitPosition(Vector3 doodlerPosition, float doodlerDirection, Vector3 shootPosition)
         {
-            doodlerPosition.x += doodlerDirection * _offset.x;
-            doodlerPosition.y += _offset.y;
             transform.position = doodlerPosition;
             gameObject.SetActive(true);
 

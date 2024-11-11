@@ -14,6 +14,7 @@ namespace DoodleJump.Game.Settings
         [SerializeField] private int _maxShots = 120;
         [SerializeField] private Worlds.Entities.ShootingMode _shootingMode;
         [SerializeField] private float _maxAngle;
+        [SerializeField] private float _shootModeDuration = 0.2f;
 
         public float MovementVelocity => _movementVelocity;
 
@@ -22,6 +23,8 @@ namespace DoodleJump.Game.Settings
         public Worlds.Entities.ShootingMode ShootingMode => _shootingMode;
 
         public float MaxAngle => _maxAngle;
+
+        public float ShootModeDuration => _shootModeDuration;
 
 #if UNITY_EDITOR
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -46,6 +49,12 @@ namespace DoodleJump.Game.Settings
         public void SetMaxAngle(float maxAngle)
         {
             _maxAngle = maxAngle;
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public void SetShootModeDuration(float duration)
+        {
+            _shootModeDuration = duration;
         }
 #endif
     }

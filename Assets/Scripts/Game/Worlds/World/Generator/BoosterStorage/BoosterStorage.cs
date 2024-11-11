@@ -234,7 +234,7 @@ namespace DoodleJump.Game.Worlds
             return worldBooster;
         }
 
-        private void TryGenerateBooster()
+        private bool TryGenerateBooster()
         {
             CheckCurrentProgress();
             GenerateNextPosition();
@@ -246,7 +246,7 @@ namespace DoodleJump.Game.Worlds
                 size.x = _screenRect.width;
 
                 if (worldBoosterPrefab == null || TryGetIntersectedPlatform(in _currentBoosterPosition, in size, out var platforms) == false)
-                    return;
+                    return false;
 
                 var worldBooster = GenerateWorldBooster(worldBoosterPrefab);
 
@@ -258,10 +258,14 @@ namespace DoodleJump.Game.Worlds
                 _platforms.Add(platform, worldBooster);
 
                 CheckHighestPosition(_currentBoosterPosition.y);
+
+                return true;
             }
             else
             {
                 UpdateBoosterSpawnProbability();
+
+                return false;
             }
         }
 

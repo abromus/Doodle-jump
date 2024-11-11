@@ -16,6 +16,7 @@ namespace DoodleJump.Game.Worlds.Entities
         private readonly IPlayerData _playerData;
         private readonly IDoodlerConfig _doodlerConfig;
         private readonly Projectile _projectilePrefab;
+        private readonly DoodlerNose _nose;
 
         internal readonly Transform DoodlerTransform => _doodlerTransform;
 
@@ -33,6 +34,8 @@ namespace DoodleJump.Game.Worlds.Entities
 
         internal readonly Projectile ProjectilePrefab => _projectilePrefab;
 
+        internal readonly DoodlerNose Nose => _nose;
+
         internal DoodlerShootingArgs(
             Transform doodlerTransform,
             IDoodlerInput doodlerInput,
@@ -41,7 +44,8 @@ namespace DoodleJump.Game.Worlds.Entities
             IUpdater updater,
             IPlayerData playerData,
             IDoodlerConfig doodlerConfig,
-            Projectile projectilePrefab)
+            Projectile projectilePrefab,
+            DoodlerNose nose)
         {
             _doodlerTransform = doodlerTransform;
             _doodlerInput = doodlerInput;
@@ -51,6 +55,7 @@ namespace DoodleJump.Game.Worlds.Entities
             _playerData = playerData;
             _doodlerConfig = doodlerConfig;
             _projectilePrefab = projectilePrefab;
+            _nose = nose;
         }
     }
 }

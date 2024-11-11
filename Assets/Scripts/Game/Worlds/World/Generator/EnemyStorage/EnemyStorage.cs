@@ -230,7 +230,7 @@ namespace DoodleJump.Game.Worlds
             _enemies.Add(enemy);
         }
 
-        private void TryGenerateEnemy()
+        private bool TryGenerateEnemy()
         {
             CheckCurrentProgress();
             GenerateNextPosition();
@@ -241,14 +241,18 @@ namespace DoodleJump.Game.Worlds
                 var size = enemyPrefab.Size;
 
                 if (enemyPrefab == null || IsIntersectedEnemies(_currentEnemyPosition, in size))
-                    return;
+                    return false;
 
                 GenerateEnemy(enemyPrefab);
                 CheckHighestPosition(_currentEnemyPosition.y);
+
+                return true;
             }
             else
             {
                 UpdateEnemySpawnProbability();
+
+                return false;
             }
         }
 
