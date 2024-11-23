@@ -9,9 +9,9 @@ namespace DoodleJump.Game.Worlds.Entities
         private Rect _screenRect;
         private IEnemyCollisionInfo _info;
 
-        public override void Init(IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory)
+        public override void Init(IGameData gameData)
         {
-            base.Init(gameData, boosterTriggerFactory);
+            base.Init(gameData);
 
             _screenRect = gameData.CoreData.ServiceStorage.GetCameraService().GetScreenRect();
         }

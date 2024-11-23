@@ -672,7 +672,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 3754371822964584456}
   _doodlerAnimator: {fileID: 1554169636435041937}
-  _collider: {fileID: 4592133072247752411}
   _size: {x: 1, y: 2}
   _projectilePrefab: {fileID: 6324605641931914317, guid: 8f4ca65479cc65b4b8e995c9951ba77e, type: 3}
   _boosterContainer: {fileID: 6341831801989256933}

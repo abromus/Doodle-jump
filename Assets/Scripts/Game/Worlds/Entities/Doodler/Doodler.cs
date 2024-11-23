@@ -8,7 +8,6 @@ namespace DoodleJump.Game.Worlds.Entities
     {
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private Animator _doodlerAnimator;
-        [SerializeField] private BoxCollider2D _collider;
         [SerializeField] private Vector2 _size;
         [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private Transform _boosterContainer;

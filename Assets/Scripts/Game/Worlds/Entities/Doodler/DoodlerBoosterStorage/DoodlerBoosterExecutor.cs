@@ -3,7 +3,6 @@
     internal sealed class DoodlerBoosterExecutor : IDoodlerBoosterExecutor
     {
         private readonly DoodlerBoosterStorageArgs _args;
-        private readonly Core.Services.IUpdater _updater;
         private readonly Factories.IBoosterFactory _factory;
         private readonly Settings.IBoostersConfig _boostersConfig;
         private readonly UnityEngine.Transform _boosterContainer;

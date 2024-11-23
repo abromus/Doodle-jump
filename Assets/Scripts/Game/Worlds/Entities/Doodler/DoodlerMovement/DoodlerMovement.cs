@@ -1,5 +1,4 @@
 ﻿using DoodleJump.Core;
-using DoodleJump.Core.Services;
 using UnityEngine;
 
 namespace DoodleJump.Game.Worlds.Entities
@@ -11,7 +10,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private float _currentAngularVelocity;
 
         private readonly Rigidbody2D _rigidbody;
-        private readonly ICameraService _cameraService;
         private readonly IDoodlerGameOverMovementAnimator _animator;
         private readonly IDoodlerVelocity _velocity;
         private readonly IDoodlerJump _jump;
@@ -24,7 +22,6 @@ namespace DoodleJump.Game.Worlds.Entities
         internal DoodlerMovement(in DoodlerMovementArgs args)
         {
             _rigidbody = args.Rigidbody;
-            _cameraService = args.CameraService;
 
             var animationArgs = args.MovementAnimationArgs;
             _animator = new DoodlerGameOverMovementAnimator(_rigidbody, args.CameraService, in animationArgs);

@@ -25,7 +25,6 @@ namespace DoodleJump.Game.Worlds.Entities
         private IGameData _gameData;
         private IAudioService _audioService;
         private IUpdater _updater;
-        private Factories.IBoosterTriggerFactory _boosterTriggerFactory;
         private AudioSource _loopSound;
         private bool _initialized;
         private Worlds.Boosters.IWorldBooster _shotWorldBooster;
@@ -42,12 +41,11 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public event Action<IEnemy> Destroyed;
 
-        public virtual void Init(IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory)
+        public virtual void Init(IGameData gameData)
         {
             _gameData = gameData;
             _audioService = _gameData.ServiceStorage.GetAudioService();
             _updater = _gameData.CoreData.ServiceStorage.GetUpdater();
-            _boosterTriggerFactory = boosterTriggerFactory;
 
             CreateBooster();
 

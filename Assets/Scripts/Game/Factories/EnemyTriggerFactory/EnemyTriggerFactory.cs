@@ -6,12 +6,10 @@ namespace DoodleJump.Game.Factories
 {
     internal sealed class EnemyTriggerFactory : IEnemyTriggerFactory
     {
-        private IDoodler _doodler;
         private IWorldData _worldData;
 
-        public void Init(IDoodler doodler, IWorldData worldData)
+        public void Init(IWorldData worldData)
         {
-            _doodler = doodler;
             _worldData = worldData;
         }
 
@@ -29,9 +27,6 @@ namespace DoodleJump.Game.Factories
 
             return null;
         }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Destroy() { }
 
         private IEnemyTrigger CreateDestroyTrigger(IEnemy enemy)
         {

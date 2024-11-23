@@ -14,7 +14,7 @@ namespace DoodleJump.Game.Worlds.Entities
 
         public abstract event System.Action<IEnemy> Destroyed;
 
-        public void Init(Data.IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory);
+        public void Init(Data.IGameData gameData);
 
         public void InitPosition(UnityEngine.Vector3 position);
 
