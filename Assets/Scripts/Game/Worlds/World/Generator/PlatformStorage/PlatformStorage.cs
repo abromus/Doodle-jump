@@ -12,7 +12,7 @@ namespace DoodleJump.Game.Worlds
     {
         private Vector3 _currentPlatformPosition;
         private float _highestPlatformY;
-        private float _spawnChanceFactor = 0f;
+        private float _spawnChanceFactor;
 
         private bool _isMaxProgress;
         private IProgressInfo _currentProgress;
@@ -47,10 +47,10 @@ namespace DoodleJump.Game.Worlds
             var generatorConfig = args.GeneratorConfig;
             _startPosition = generatorConfig.PlatformsStartPosition;
             _platformStartCount = generatorConfig.PlatformStartCount;
+            _progressInfos = generatorConfig.ProgressInfos;
 
             _currentPlatformPosition = _startPosition;
             _highestPlatformY = _startPosition.y;
-            _progressInfos = generatorConfig.ProgressInfos;
 
             CheckCurrentProgress();
             InitPlatformConfigs();
@@ -80,7 +80,7 @@ namespace DoodleJump.Game.Worlds
                     return;
 
                 CheckCurrentProgress();
-                CorrectPosition(in _currentPlatformPosition, platformPrefab);
+                CorrectPosition(platformPrefab);
                 GeneratePlatform(platformConfig, platformPrefab);
                 GenerateNextPosition();
                 CheckHighestPosition(_currentPlatformPosition.y);
@@ -211,7 +211,7 @@ namespace DoodleJump.Game.Worlds
             return false;
         }
 
-        private void CorrectPosition(in Vector3 currentPlatformPosition, BasePlatform platformPrefab)
+        private void CorrectPosition(BasePlatform platformPrefab)
         {
             var platformXSize = platformPrefab.Size.x * Constants.Half;
             var currentXPosition = _currentPlatformPosition.x;
@@ -245,7 +245,7 @@ namespace DoodleJump.Game.Worlds
             if (platformPrefab == null || IsIntersectedPlatforms(in _currentPlatformPosition, in size))
                 return false;
 
-            CorrectPosition(in _currentPlatformPosition, platformPrefab);
+            CorrectPosition(platformPrefab);
             GeneratePlatform(platformConfig, platformPrefab);
             CheckHighestPosition(_currentPlatformPosition.y);
 

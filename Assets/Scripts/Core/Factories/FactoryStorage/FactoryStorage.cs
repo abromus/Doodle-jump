@@ -36,9 +36,6 @@ namespace DoodleJump.Core.Factories
 
         public void Destroy()
         {
-            foreach (var factory in _factories.Values)
-                factory.Destroy();
-
             _factories.Clear();
             _factories = null;
         }

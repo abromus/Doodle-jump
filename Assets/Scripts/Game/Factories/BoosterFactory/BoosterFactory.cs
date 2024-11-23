@@ -11,8 +11,5 @@ namespace DoodleJump.Game.Factories
 
             return booster;
         }
-
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public void Destroy() { }
     }
 }

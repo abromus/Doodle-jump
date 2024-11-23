@@ -23,7 +23,6 @@ namespace DoodleJump.Game.Worlds
         private readonly IWorldFactory _worldFactory;
         private readonly Transform _enemiesContainer;
         private readonly Rect _screenRect;
-        private readonly IBoosterTriggerFactory _boosterTriggerFactory;
         private readonly Transform _doodlerTransform;
 
         private readonly Vector3 _startPosition;
@@ -40,13 +39,12 @@ namespace DoodleJump.Game.Worlds
 
         public event System.Action<Boosters.IWorldBooster, Boosters.BoosterTriggerType> BoosterDropped;
 
-        internal EnemyStorage(IGameData gameData, in WorldArgs args, Transform enemiesContainer, in Rect screenRect, IBoosterTriggerFactory boosterTriggerFactory)
+        internal EnemyStorage(IGameData gameData, in WorldArgs args, Transform enemiesContainer, in Rect screenRect)
         {
             _gameData = gameData;
             _worldFactory = args.WorldFactory;
             _enemiesContainer = enemiesContainer;
             _screenRect = screenRect;
-            _boosterTriggerFactory = boosterTriggerFactory;
             _doodlerTransform = args.Doodler.GameObject.transform;
 
             var generatorConfig = args.GeneratorConfig;
@@ -154,7 +152,7 @@ namespace DoodleJump.Game.Worlds
         private IEnemy CreateEnemy<T>(T enemyPrefab) where T : MonoBehaviour, IEnemy
         {
             var enemy = _worldFactory.CreateEnemy(enemyPrefab, _enemiesContainer);
-            enemy.Init(_gameData, _boosterTriggerFactory);
+            enemy.Init(_gameData);
 
             return enemy;
         }

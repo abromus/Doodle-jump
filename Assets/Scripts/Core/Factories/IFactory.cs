@@ -1,4 +1,4 @@
 namespace DoodleJump.Core.Factories
 {
-    public interface IFactory : IDestroyable { }
+    public interface IFactory { }
 }

@@ -35,7 +35,7 @@ namespace DoodleJump.Game.Worlds
             _platformStorage = new PlatformStorage(gameData, in args, platformsContainer, in _screenRect);
             _platformStorage.Collided += OnPlatformCollided;
 
-            _enemyStorage = new EnemyStorage(gameData, in args, enemiesContainer, in _screenRect, boosterTriggerFactory);
+            _enemyStorage = new EnemyStorage(gameData, in args, enemiesContainer, in _screenRect);
             _enemyStorage.Collided += OnEnemyCollided;
             _enemyStorage.BoosterDropped += OnEnemyBoosterDropped;
 

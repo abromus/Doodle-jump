@@ -232,7 +232,7 @@ MonoBehaviour:
     _audioClip: {fileID: 8300000, guid: b2180c2bcf536bc4b8ee05b6567bd90d, type: 3}
   _projectileClipInfos:
   - _clipType: 1
-    _audioClip: {fileID: 8300000, guid: b199048815962f64791abb23e71e530d, type: 3}
+    _audioClip: {fileID: 8300000, guid: a3b7c43de535247459c741097f8fbe0f, type: 3}
   - _clipType: 2
     _audioClip: {fileID: 8300000, guid: a8f135b30bf0fe245a1b88bed6452705, type: 3}
   _boosterClipInfos:

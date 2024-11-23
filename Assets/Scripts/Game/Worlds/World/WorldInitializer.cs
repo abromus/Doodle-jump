@@ -100,7 +100,7 @@ namespace DoodleJump.Game.Worlds
             IDoodler doodler)
         {
             platformTriggerFactory.Init(doodler);
-            enemyTriggerFactory.Init(doodler, worldData);
+            enemyTriggerFactory.Init(worldData);
             boosterTriggerFactory.Init(persistentDataStorage, doodler);
         }
 

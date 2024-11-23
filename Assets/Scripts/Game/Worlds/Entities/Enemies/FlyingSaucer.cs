@@ -19,9 +19,9 @@ namespace DoodleJump.Game.Worlds.Entities
         private float _defaultY;
         private bool _isPaused;
 
-        public override void Init(IGameData gameData, Factories.IBoosterTriggerFactory boosterTriggerFactory)
+        public override void Init(IGameData gameData)
         {
-            base.Init(gameData, boosterTriggerFactory);
+            base.Init(gameData);
 
             _screenRect = gameData.CoreData.ServiceStorage.GetCameraService().GetScreenRect();
         }
